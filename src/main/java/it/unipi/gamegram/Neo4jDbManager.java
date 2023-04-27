@@ -1,4 +1,4 @@
-package com.example.gamegram;
+package it.unipi.gamegram;
 
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;

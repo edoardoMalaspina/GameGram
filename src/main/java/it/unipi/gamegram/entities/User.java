@@ -1,4 +1,4 @@
-package com.example.gamegram;
+package it.unipi.gamegram.entities;
 
 public class User {
 

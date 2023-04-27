@@ -1,4 +1,4 @@
-package com.example.gamegram;
+package it.unipi.gamegram;
 
 import java.io.*;
 import java.util.regex.Matcher;

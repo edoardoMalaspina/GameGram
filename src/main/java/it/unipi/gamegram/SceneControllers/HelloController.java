@@ -1,4 +1,4 @@
-package com.example.gamegram;
+package it.unipi.gamegram.SceneControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,7 +1,6 @@
-package com.example.gamegram;
+package it.unipi.gamegram.entities;
 
 import org.bson.Document;
-
 import java.util.Date;
 
 public class Game {

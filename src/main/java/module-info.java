@@ -5,6 +5,10 @@ module com.example.gamegram {
     requires org.mongodb.bson;
 
 
-    opens com.example.gamegram to javafx.fxml;
-    exports com.example.gamegram;
+    opens it.unipi.gamegram to javafx.fxml;
+    exports it.unipi.gamegram;
+    exports it.unipi.gamegram.entities;
+    opens it.unipi.gamegram.entities to javafx.fxml;
+    exports it.unipi.gamegram.SceneControllers;
+    opens it.unipi.gamegram.SceneControllers to javafx.fxml;
 }
