@@ -43,7 +43,7 @@ public class UserManagerNeo4j {
 
                 session.writeTransaction((TransactionWork<Void>) tx -> {
                     tx.run ("CREATE (" + usrFrom.getUsername() +
-                            ")-[:FOLLOW {date: dataDelFollow}]->" +
+                            ")-[:FOLLOW {date: date()}]->" +
                             "(" + usrTo.getUsername() +")");
                     return null;
                 } );
@@ -70,6 +70,17 @@ public class UserManagerNeo4j {
         }catch(Exception ex){
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    public void addUserNode(User usr){
+        try(Session session= neo4jDBM.getDriver().session()){
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run ("CREATE (" + usr.getUsername() + ":User { firstname:" + usr.getFirstName() + ", lastname:" + usr.getLastName() + "lastname, username:" + usr.getUsername() + "})");
+                return null;
+            } );
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
