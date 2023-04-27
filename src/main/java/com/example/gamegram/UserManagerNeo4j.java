@@ -5,7 +5,6 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class UserManagerNeo4j {
     private final Neo4jDbManager neo4jDBM;

@@ -1,49 +1,63 @@
 package com.example.gamegram;
 
+import org.bson.Document;
+
 import java.util.Date;
 
 public class Game {
     private String name;
-    private Date dateOfPubblication;
     private String developer;
-    private int price;
+    private Date dateOfPublication;
+    private float price;
 
-    public Game(String name, Date dateOfPubblication, String developer, int price){
+    public Game(){
+
+    }
+
+    public Game (String name, String developer, Date dateOfPublication, float price){
+        this.dateOfPublication = dateOfPublication;
         this.name = name;
-        this.dateOfPubblication = dateOfPubblication;
         this.developer = developer;
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    @SuppressWarnings("unchecked")
+    public Game(Document document) {
+        this.dateOfPublication = (document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication");
+        this.name = (document.get("name") == null) ? "" : document.getString("name");
+        this.developer = (document.get("developer") == null) ? "" : document.getString("developer");
+        this.price = (document.get("price") == null) ? null : document.getLong("price");
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Date getDateOfPublication() {
+        return dateOfPublication;
     }
 
-    public Date getDateOfPubblication() {
-        return dateOfPubblication;
-    }
-
-    public void setDateOfPubblication(Date dateOfPubblication) {
-        this.dateOfPubblication = dateOfPubblication;
+    public float getPrice() {
+        return price;
     }
 
     public String getDeveloper() {
         return developer;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setDateOfPublication(Date dateOfPublication) {
+        this.dateOfPublication = dateOfPublication;
+    }
+
     public void setDeveloper(String developer) {
         this.developer = developer;
     }
 
-    public int getPrice() {
-        return price;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

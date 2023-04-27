@@ -1,10 +1,5 @@
 package com.example.gamegram;
 
-import java.util.ArrayList;
-import org.neo4j.driver.Result;
-import org.neo4j.driver.Session;
-import org.neo4j.driver.TransactionWork;
-
 public class User {
 
     private String firstName;

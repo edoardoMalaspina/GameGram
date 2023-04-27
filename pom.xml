@@ -48,6 +48,11 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.7.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>4.7.2</version>
+        </dependency>
     </dependencies>
 
     <build>
