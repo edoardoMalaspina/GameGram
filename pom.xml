@@ -75,7 +75,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.gamegram/it.unipi.gamegram.GameGramApplication</mainClass>
+                            <mainClass>com.example.gamegram/it.unipi.gamegram.SceneControllers.GameGramApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>

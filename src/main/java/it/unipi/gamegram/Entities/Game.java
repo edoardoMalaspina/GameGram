@@ -1,4 +1,4 @@
-package it.unipi.gamegram.entities;
+package it.unipi.gamegram.Entities;
 
 import org.bson.Document;
 import java.util.Date;
