@@ -1,4 +1,4 @@
-package it.unipi.gamegram.SceneControllers;
+package it.unipi.gamegram;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,6 +18,7 @@ public class StartController {
         GameGramApplication.setRoot("login");
     }
 
+    @FXML
     private void signup() throws IOException {
         GameGramApplication.setRoot("signup");
     }

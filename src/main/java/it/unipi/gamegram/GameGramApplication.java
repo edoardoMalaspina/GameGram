@@ -1,4 +1,4 @@
-package it.unipi.gamegram.SceneControllers;
+package it.unipi.gamegram;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

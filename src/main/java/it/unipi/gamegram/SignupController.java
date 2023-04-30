@@ -1,35 +1,40 @@
-package it.unipi.gamegram.SceneControllers;
+package it.unipi.gamegram;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-public class LoginController {
+public class SignupController {
 
     @FXML
     private Button back;
 
     @FXML
-    private Button login;
+    private Button signup;
 
     @FXML
-    private TextField signInEmail;
+    private TextField name;
 
     @FXML
-    private PasswordField signInPassword;
+    private TextField surname;
+
+    @FXML
+    private TextField email;
+
+    @FXML
+    private PasswordField password;
 
     @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("start");
     }
-
-    private void login() throws IOException {
+    @FXML
+    private void signup() throws IOException {
         //if bla bla
-        GameGramApplication.setRoot("home");
+        GameGramApplication.setRoot("start");
     }
 
 }

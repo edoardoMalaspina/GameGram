@@ -9,6 +9,4 @@ module com.example.gamegram {
     exports it.unipi.gamegram;
     exports it.unipi.gamegram.Entities;
     opens it.unipi.gamegram.Entities to javafx.fxml;
-    exports it.unipi.gamegram.SceneControllers;
-    opens it.unipi.gamegram.SceneControllers to javafx.fxml;
 }
