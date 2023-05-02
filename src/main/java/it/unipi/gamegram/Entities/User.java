@@ -1,22 +1,29 @@
 package it.unipi.gamegram.Entities;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import it.unipi.gamegram.*;
+import org.bson.Document;
+import static com.mongodb.client.model.Filters.eq;
+
+import java.security.MessageDigest;
 
 public class User {
 
     private String firstName;
     private String lastName;
-    private String username;
+    private String email;
     private String password;
 
-    public User(String firstName, String lastName, String username, String password){
+    public User(String firstName, String lastName, String email, String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.username = username;
+        this.email = email;
     }
 
-    public boolean signUp(String firstName, String lastName, String username, String Password){
-        User newUser = new User(firstName, lastName, username, password);
-        // controlla che non esista già utente con lo stesso username
+    public boolean signUp(String firstName, String lastName, String email, String Password){
+        User newUser = new User(firstName, lastName, email, password);
+        // controlla che non esista già utente con lo stesso email
         // nella collezione su MongoDB
         // se non esiste:
         // aggiungi alla collezione su MongoDB il nuovo utente
@@ -36,8 +43,8 @@ public class User {
         return lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
@@ -52,8 +59,8 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {
@@ -73,49 +80,49 @@ public class User {
 
 
     /*
-    query neo4j creare nodo user: (da pensare se username ci va anche come proprietà o no)
-    CREATE (username:User { firstname: "firstname", lastname: "lastname", username: "username"})
+    query neo4j creare nodo user: (da pensare se email ci va anche come proprietà o no)
+    CREATE (email:User { firstname: "firstname", lastname: "lastname", email: "email"})
 
     query neo4j creare nodo game:
     CREATE (titoloGioco:Game { name: "name" })
 
     query neo4j linkare user-user con follow:
-    CREATE (usernamePartenza)-[:FOLLOW {date: dataDelFollow}]->(usernameArrivo)
+    CREATE (emailPartenza)-[:FOLLOW {date: dataDelFollow}]->(emailArrivo)
 
     query neo4j linkare user-game con like:
-    CREATE (usernamePartenza)-[:LIKE {date: dataDelLike}]->(titoloGioco)
+    CREATE (emailPartenza)-[:LIKE {date: dataDelLike}]->(titoloGioco)
 
     query neo4j linkare user-game con recensito:
-    CREATE (usernamePartenza)-[:REVIEWED {date: dataDellaReview, title: titoloDellaReview}]->(titoloGioco)
+    CREATE (emailPartenza)-[:REVIEWED {date: dataDellaReview, title: titoloDellaReview}]->(titoloGioco)
 
     query neo4j ottenere tutti gli utenti che un utente segue:
-    MATCH (username:User)-[:FOLLOW]-(followed)
-    WHERE username.firstname = "inserisciNome"
-        AND username.lastname = "inserisciCognome"
-        AND username.username = "inserisciUsername"
+    MATCH (email:User)-[:FOLLOW]-(followed)
+    WHERE email.firstname = "inserisciNome"
+        AND email.lastname = "inserisciCognome"
+        AND email.email = "inserisciemail"
     RETURN followed
 
     query neo4j ottenere tutti i giochi che piacciono ad un utente:
-    MATCH (username:User)-[:LIKE]-(liked)
-    WHERE username.firstname = "inserisciNome"
-        AND username.lastname = "inserisciCognome"
-        AND username.username = "inserisciUsername"
+    MATCH (email:User)-[:LIKE]-(liked)
+    WHERE email.firstname = "inserisciNome"
+        AND email.lastname = "inserisciCognome"
+        AND email.email = "inserisciemail"
     RETURN liked
 
     query neo4j ottenere tutti i giochi che un utente ha recensito:
-    MATCH (username:User)-[:REVIEWED]-(reviewed)
-    WHERE username.firstname = "inserisciNome"
-        AND username.lastname = "inserisciCognome"
-        AND username.username = "inserisciUsername"
+    MATCH (email:User)-[:REVIEWED]-(reviewed)
+    WHERE email.firstname = "inserisciNome"
+        AND email.lastname = "inserisciCognome"
+        AND email.email = "inserisciemail"
     RETURN reviewed
 
     query neo4j per smettere di followare un utente:
-    MATCH (usernamePartenza:User { firstname: "firstname", lastname: "lastname", username: "username"}) -[r:FOLLOW]->
-            (usernameArrivo:User { firstname: "firstname", lastname: "lastname", username: "username"})
+    MATCH (emailPartenza:User { firstname: "firstname", lastname: "lastname", email: "email"}) -[r:FOLLOW]->
+            (emailArrivo:User { firstname: "firstname", lastname: "lastname", email: "email"})
     DELETE r
 
     query neo4j per togliere il like ad un gioco:
-    MATCH (username:User { firstname: "firstname", lastname: "lastname", username: "username"}) -[r:LIKE]->
+    MATCH (email:User { firstname: "firstname", lastname: "lastname", email: "email"}) -[r:LIKE]->
             (titoloGioco:Game { name: "name" })
     DELETE r
      */

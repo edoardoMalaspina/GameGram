@@ -22,6 +22,10 @@ public class LoginController {
     private PasswordField signInPassword;
 
     @FXML
+    private TextField errorMessage;
+    
+
+    @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("start");
     }
