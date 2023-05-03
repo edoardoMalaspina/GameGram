@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoDBDriver {
+
     private static MongoDBDriver driver = null;
     private MongoClient client;
     private MongoDatabase database;
@@ -26,14 +27,14 @@ public class MongoDBDriver {
 
     public MongoCollection<Document> getCollection(String collection) {
         if(driver == null)
-            throw new RuntimeException("Connection doesn't exist.");
+            throw new RuntimeException("No driver instance.");
         else
             return driver.database.getCollection(collection);
     }
 
     public void close() {
         if(driver == null)
-            throw new RuntimeException("Connection doesn't exist.");
+            throw new RuntimeException("No driver instance.");
         else
             driver.client.close();
     }

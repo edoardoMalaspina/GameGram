@@ -3,6 +3,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import it.unipi.gamegram.*;
 import org.bson.Document;
+
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.security.MessageDigest;
@@ -18,6 +20,10 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.email = email;
+    }
+
+    public User(String email){
         this.email = email;
     }
 
@@ -65,6 +71,36 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static boolean checkCredentials (String email, String password) {
+        try {
+            MongoDBDriver md = MongoDBDriver.getInstance();
+            MongoCollection<Document> collection = md.getCollection("users");
+            Document user = collection.find(eq("email", email)).first();
+            if (user == null || !(email.equals(user.getString("email")) || !(password.equals(user.getString("password")))))
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean isAdmin(String email) {
+        MongoDBDriver driver = null;
+        MongoCollection<Document> collection = null;
+
+        try {
+            driver = MongoDBDriver.getInstance();
+            collection = driver.getCollection("users");
+            MongoCursor<Document> cursor = collection.find(and(eq("email", email),eq("isadmin", "Yes"))).iterator();
+
+            return(cursor.hasNext());
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void suggestTrendingNowAmongFollowed(){
