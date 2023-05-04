@@ -21,7 +21,7 @@ public class UserManagerNeo4j {
                 Result result = tx.run("MATCH (username:User)-[:FOLLOW]-(followed) " +
                         "WHERE username.firstname = " + usr.getFirstName() +
                         "AND username.lastname = " + usr.getLastName() +
-                        "AND username.username = " + usr.getUsername() +
+                        "AND username.username = " + usr.getNick() +
                         "RETURN followed");
                 while (result.hasNext()) {
                     Record rec = (Record) result.next();
@@ -42,9 +42,9 @@ public class UserManagerNeo4j {
             try(Session session= neo4jDBM.getDriver().session()){
 
                 session.writeTransaction((TransactionWork<Void>) tx -> {
-                    tx.run ("CREATE (" + usrFrom.getUsername() +
+                    tx.run ("CREATE (" + usrFrom.getNick() +
                             ")-[:FOLLOW {date: date()}]->" +
-                            "(" + usrTo.getUsername() +")");
+                            "(" + usrTo.getNick() +")");
                     return null;
                 } );
             }catch(Exception e){
@@ -59,8 +59,8 @@ public class UserManagerNeo4j {
         try(Session session= neo4jDBM.getDriver().session()){
             Boolean bool;
             bool = session.readTransaction(tx -> {
-                Result result = tx.run("MATCH (" + usrFrom.getUsername() + ":User)" +
-                        " RETURN exists((" + usrFrom.getUsername() + ")-[:FOLLOW]->(" + usrTo.getUsername() + "))");
+                Result result = tx.run("MATCH (" + usrFrom.getNick() + ":User)" +
+                        " RETURN exists((" + usrFrom.getNick() + ")-[:FOLLOW]->(" + usrTo.getNick() + "))");
                 if(result.peek().containsKey("true"))
                     return true;
                 else
@@ -76,7 +76,7 @@ public class UserManagerNeo4j {
     public void addUserNode(User usr){
         try(Session session= neo4jDBM.getDriver().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run ("CREATE (" + usr.getUsername() + ":User { firstname:" + usr.getFirstName() + ", lastname:" + usr.getLastName() + "lastname, username:" + usr.getUsername() + "})");
+                tx.run ("CREATE (" + usr.getNick() + ":User { firstname:" + usr.getFirstName() + ", lastname:" + usr.getLastName() + "lastname, username:" + usr.getNick() + "})");
                 return null;
             } );
         }catch(Exception e){

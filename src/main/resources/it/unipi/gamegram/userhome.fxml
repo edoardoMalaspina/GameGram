@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
-
+<AnchorPane prefHeight="426.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
+   <children>
+      <Button layoutX="90.0" layoutY="341.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested games" />
+      <Button layoutX="90.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested friends" />
+      <Button layoutX="90.0" layoutY="227.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show my reviews" />
+      <Button layoutX="90.0" layoutY="191.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show friends" />
+      <Button layoutX="90.0" layoutY="265.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show liked games" />
+      <TextField layoutX="90.0" layoutY="155.0" prefHeight="26.0" prefWidth="200.0" />
+      <Button layoutX="90.0" layoutY="116.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Find game by name" />
+      <TextField layoutX="90.0" layoutY="80.0" prefHeight="26.0" prefWidth="200.0" />
+      <Button layoutX="90.0" layoutY="44.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Find user by nickname" />
+      <Button layoutX="164.0" layoutY="386.0" mnemonicParsing="false" text="Logout" />
+   </children>
 </AnchorPane>
