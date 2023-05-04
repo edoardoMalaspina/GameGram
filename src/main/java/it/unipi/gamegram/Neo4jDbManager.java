@@ -7,10 +7,10 @@ import org.neo4j.driver.GraphDatabase;
 public class Neo4jDbManager {
 
     public static Driver driver;
-    private final String uri = "neo4j://localhost:7687"; // original database
-   // private final String uri = "bolt://localhost:7687"; // personal new connection to test functions
+   // private final String uri = "neo4j://localhost:7687"; // original database
+    private final String uri = "bolt://localhost:7687"; // personal new connection to test functions
     private final String user = "neo4j";
-    private final String password = "admin";
+    private final String password = "password";
 
     public Neo4jDbManager(){
         try {

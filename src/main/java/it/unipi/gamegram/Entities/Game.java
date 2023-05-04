@@ -8,6 +8,8 @@ public class Game {
     private String developer;
     private Date dateOfPublication;
     private float price;
+    private String shortDescription;
+    private String fullDescription;
 
     public Game(){
 
@@ -18,6 +20,11 @@ public class Game {
         this.name = name;
         this.developer = developer;
         this.price = price;
+    }
+
+    public Game(String name, String shortDescription){
+        this.name = name;
+        this.shortDescription = shortDescription;
     }
 
     @SuppressWarnings("unchecked")
@@ -58,6 +65,10 @@ public class Game {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getShortDescription(){
+        return shortDescription;
     }
 
 
