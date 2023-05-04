@@ -74,16 +74,14 @@ public class UserManagerNeo4j {
     }
 
     public void addUserNode(User usr){
-        System.out.println("print2");
-        try (Session session = neo4jDBM.getDriver().session()) {
+        try(Session session= neo4jDBM.getDriver().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("CREATE (:User { firstname: '" + usr.getFirstName() + "', lastname: '" + usr.getLastName() + "', username: '" + usr.getUsername() + "'})");
+                tx.run ("CREATE (" + usr.getUsername() + ":User { firstname:" + usr.getFirstName() + ", lastname:" + usr.getLastName() + "lastname, username:" + usr.getUsername() + "})");
                 return null;
-            });
-        } catch (Exception e) {
-            System.err.println("Failed to create user node: " + e.getMessage());
+            } );
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
     }
 
 
