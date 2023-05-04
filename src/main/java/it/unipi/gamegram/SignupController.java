@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import it.unipi.gamegram.Entities.User;
 
 import java.io.IOException;
 
@@ -16,16 +17,19 @@ public class SignupController {
     private Button signup;
 
     @FXML
-    private TextField name;
+    private TextField signUpName;
 
     @FXML
-    private TextField surname;
+    private TextField signUpSurname;
 
     @FXML
-    private TextField email;
+    private TextField signUpNick;
 
     @FXML
-    private PasswordField password;
+    private PasswordField signUpPassword;
+
+    @FXML
+    private TextField outcomeMessage;
 
     @FXML
     private void back() throws IOException {
@@ -33,8 +37,30 @@ public class SignupController {
     }
     @FXML
     private void signup() throws IOException {
-        //if bla bla
-        GameGramApplication.setRoot("start");
+        String password;
+        String nick;
+        String name;
+        String surname;
+
+        nick = signUpNick.getText();
+        password = signUpPassword.getText();
+        name = signUpName.getText();
+        surname = signUpSurname.getText();
+
+        if(nick.isEmpty() || password.isEmpty() || name.isEmpty()|| surname.isEmpty()){
+            outcomeMessage.setText("Fill all the fields.");
+            return;
+        }
+
+        if(!User.checkNick(signUpNick.getText())){
+            outcomeMessage.setText("Nick already exists. Choose another one.");
+            return;
+        }
+
+        User.register(nick, password, name, surname);
+        outcomeMessage.setText("Successfully registered, go back to login.");
+        return;
+        //GameGramApplication.setRoot("start");
     }
 
 }

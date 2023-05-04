@@ -1,9 +1,7 @@
 package it.unipi.gamegram;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,7 +20,7 @@ public class LoginController {
     private Button login;
 
     @FXML
-    private TextField signInEmail;
+    private TextField signInNick;
 
     @FXML
     private PasswordField signInPassword;
@@ -43,36 +41,32 @@ public class LoginController {
     private void login() throws IOException {
 
         LoggedUser user;
-        String email = null;
-        String password = null;
+        String nick;
+        String password;
         Parent root;
         Stage stage;
 
-        email = signInEmail.getText();
+        nick = signInNick.getText();
         password = signInPassword.getText();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            errorMessage.setText("Email or Password is missing.");
+        if (nick.isEmpty() || password.isEmpty()) {
+            errorMessage.setText("Nick or Password is missing.");
             errorMessage.setVisible(true);
             return;
-        } else if ((User.checkCredentials(email, password))) {
-            errorMessage.setText("Wrong username or password.");
+        } else if ((User.checkCredentials(nick, password))) {
+            errorMessage.setText("Wrong nickname or password.");
             errorMessage.setVisible(true);
             return;
         }
 
         user = LoggedUser.getInstance();
-        user.setLoggedUser(email);
+        user.setLoggedUser(nick);
 
-        if (User.isAdmin(email)) {
-            root = FXMLLoader.load(getClass().getResource("adminhome.fxml"));
+        if (User.isAdmin(nick)) {
+            GameGramApplication.setRoot("adminhome");
         } else {
-            root = FXMLLoader.load(getClass().getResource("userhome.fxml"));
+            GameGramApplication.setRoot("userhome");
             }
-
-        stage = (Stage) login.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
     }
 }
 

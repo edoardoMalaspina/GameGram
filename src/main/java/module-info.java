@@ -1,4 +1,4 @@
-module com.example.gamegram {
+module it.unipi.gamegram {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.neo4j.driver;

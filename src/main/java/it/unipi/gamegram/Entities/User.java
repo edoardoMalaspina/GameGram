@@ -13,23 +13,23 @@ public class User {
 
     private String firstName;
     private String lastName;
-    private String email;
+    private String nick;
     private String password;
 
-    public User(String firstName, String lastName, String email, String password){
+    public User(String firstName, String lastName, String nick, String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.email = email;
+        this.nick = nick;
     }
 
-    public User(String email){
-        this.email = email;
+    public User(String nick){
+        this.nick = nick;
     }
 
-    public boolean signUp(String firstName, String lastName, String email, String Password){
-        User newUser = new User(firstName, lastName, email, password);
-        // controlla che non esista già utente con lo stesso email
+    public boolean signUp(String firstName, String lastName, String nick, String Password){
+        User newUser = new User(firstName, lastName, nick, password);
+        // controlla che non esista già utente con lo stesso nick
         // nella collezione su MongoDB
         // se non esiste:
         // aggiungi alla collezione su MongoDB il nuovo utente
@@ -49,8 +49,8 @@ public class User {
         return lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNick() {
+        return nick;
     }
 
     public String getPassword() {
@@ -65,20 +65,20 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public static boolean checkCredentials (String email, String password) {
+    public static boolean checkCredentials (String nick, String password) {
         try {
             MongoDBDriver md = MongoDBDriver.getInstance();
             MongoCollection<Document> collection = md.getCollection("users");
-            Document user = collection.find(eq("email", email)).first();
-            if (user == null || !(email.equals(user.getString("email")) || !(password.equals(user.getString("password")))))
+            Document user = collection.find(eq("nick", nick)).first();
+            if (user == null || !(nick.equals(user.getString("nick")) || !(password.equals(user.getString("password")))))
                 return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,14 +86,27 @@ public class User {
         return false;
     }
 
-    public static boolean isAdmin(String email) {
+    public static boolean checkNick (String nick) {
+        try {
+            MongoDBDriver md = MongoDBDriver.getInstance();
+            MongoCollection<Document> collection = md.getCollection("users");
+            Document user = collection.find(eq("nick", nick)).first();
+            if (user == null)
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean isAdmin(String nick) {
         MongoDBDriver driver = null;
         MongoCollection<Document> collection = null;
 
         try {
             driver = MongoDBDriver.getInstance();
             collection = driver.getCollection("users");
-            MongoCursor<Document> cursor = collection.find(and(eq("email", email),eq("isadmin", "Yes"))).iterator();
+            MongoCursor<Document> cursor = collection.find(and(eq("nick", nick),eq("isadmin", "Yes"))).iterator();
 
             return(cursor.hasNext());
 
@@ -101,6 +114,28 @@ public class User {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void register(String nick, String password, String name, String surname) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            Document user;
+
+            user = new Document("nick", nick)
+                    .append("password", password)
+                    .append("name", name)
+                    .append("surname", surname)
+                    .append("isadmin", "No");
+
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("users");
+            collection.insertOne(user);
+
+            //createUserNode(registNick);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void suggestTrendingNowAmongFollowed(){
@@ -116,49 +151,49 @@ public class User {
 
 
     /*
-    query neo4j creare nodo user: (da pensare se email ci va anche come proprietà o no)
-    CREATE (email:User { firstname: "firstname", lastname: "lastname", email: "email"})
+    query neo4j creare nodo user: (da pensare se nick ci va anche come proprietà o no)
+    CREATE (nick:User { firstname: "firstname", lastname: "lastname", nick: "nick"})
 
     query neo4j creare nodo game:
     CREATE (titoloGioco:Game { name: "name" })
 
     query neo4j linkare user-user con follow:
-    CREATE (emailPartenza)-[:FOLLOW {date: dataDelFollow}]->(emailArrivo)
+    CREATE (nickPartenza)-[:FOLLOW {date: dataDelFollow}]->(nickArrivo)
 
     query neo4j linkare user-game con like:
-    CREATE (emailPartenza)-[:LIKE {date: dataDelLike}]->(titoloGioco)
+    CREATE (nickPartenza)-[:LIKE {date: dataDelLike}]->(titoloGioco)
 
     query neo4j linkare user-game con recensito:
-    CREATE (emailPartenza)-[:REVIEWED {date: dataDellaReview, title: titoloDellaReview}]->(titoloGioco)
+    CREATE (nickPartenza)-[:REVIEWED {date: dataDellaReview, title: titoloDellaReview}]->(titoloGioco)
 
     query neo4j ottenere tutti gli utenti che un utente segue:
-    MATCH (email:User)-[:FOLLOW]-(followed)
-    WHERE email.firstname = "inserisciNome"
-        AND email.lastname = "inserisciCognome"
-        AND email.email = "inserisciemail"
+    MATCH (nick:User)-[:FOLLOW]-(followed)
+    WHERE nick.firstname = "inserisciNome"
+        AND nick.lastname = "inserisciCognome"
+        AND nick.nick = "inseriscinick"
     RETURN followed
 
     query neo4j ottenere tutti i giochi che piacciono ad un utente:
-    MATCH (email:User)-[:LIKE]-(liked)
-    WHERE email.firstname = "inserisciNome"
-        AND email.lastname = "inserisciCognome"
-        AND email.email = "inserisciemail"
+    MATCH (nick:User)-[:LIKE]-(liked)
+    WHERE nick.firstname = "inserisciNome"
+        AND nick.lastname = "inserisciCognome"
+        AND nick.nick = "inseriscinick"
     RETURN liked
 
     query neo4j ottenere tutti i giochi che un utente ha recensito:
-    MATCH (email:User)-[:REVIEWED]-(reviewed)
-    WHERE email.firstname = "inserisciNome"
-        AND email.lastname = "inserisciCognome"
-        AND email.email = "inserisciemail"
+    MATCH (nick:User)-[:REVIEWED]-(reviewed)
+    WHERE nick.firstname = "inserisciNome"
+        AND nick.lastname = "inserisciCognome"
+        AND nick.nick = "inseriscinick"
     RETURN reviewed
 
     query neo4j per smettere di followare un utente:
-    MATCH (emailPartenza:User { firstname: "firstname", lastname: "lastname", email: "email"}) -[r:FOLLOW]->
-            (emailArrivo:User { firstname: "firstname", lastname: "lastname", email: "email"})
+    MATCH (nickPartenza:User { firstname: "firstname", lastname: "lastname", nick: "nick"}) -[r:FOLLOW]->
+            (nickArrivo:User { firstname: "firstname", lastname: "lastname", nick: "nick"})
     DELETE r
 
     query neo4j per togliere il like ad un gioco:
-    MATCH (email:User { firstname: "firstname", lastname: "lastname", email: "email"}) -[r:LIKE]->
+    MATCH (nick:User { firstname: "firstname", lastname: "lastname", nick: "nick"}) -[r:LIKE]->
             (titoloGioco:Game { name: "name" })
     DELETE r
      */

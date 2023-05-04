@@ -14,11 +14,11 @@ public class LoggedUser {
         return user;
     }
 
-    public void setLoggedUser(String email) {
+    public void setLoggedUser(String nick) {
         if(user == null) {
             throw new RuntimeException("No user instance.");
         } else {
-            user.logged = new User(email);
+            user.logged = new User(nick);
         }
     }
 
