@@ -27,6 +27,12 @@ public class User {
         this.nick = nick;
     }
 
+    public User(String firstName, String lastName, String nick){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nick = nick;
+    }
+
     public boolean signUp(String firstName, String lastName, String nick, String Password){
         User newUser = new User(firstName, lastName, nick, password);
         // controlla che non esista già utente con lo stesso nick

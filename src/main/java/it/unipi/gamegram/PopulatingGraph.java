@@ -24,8 +24,8 @@ public class PopulatingGraph {
                 // questi sono da mettere nell'oridne giusto
                 String name = usr.split(",")[1];
                 String surname = usr.split(",")[4];
-                String username = usr.split(",")[2];
-                User newUser = new User(name, surname, username);
+                String nick = usr.split(",")[2];
+                User newUser = new User(name, surname, nick);
                 usrManager.addUserNode(newUser);
             }
         } catch (IOException e) {
@@ -60,10 +60,12 @@ public class PopulatingGraph {
     }
 
 
+
+
     // main di prova di Edo
     public static void main(String[] args){
        // PopulatingGraph.addListOfUsers("C:\\Users\\edoar\\Desktop\\users.csv");
-        addListOfGames("C:\\Users\\edoar\\Desktop\\datasetFinale.csv");
+        //addListOfGames("C:\\Users\\edoar\\Desktop\\datasetFinale.csv");
 
     }
 

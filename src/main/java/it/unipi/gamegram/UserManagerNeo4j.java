@@ -39,7 +39,7 @@ public class UserManagerNeo4j {
         if(checkIfFollowed(usrFrom, usrTo)) // you are already following this user
             return false;
         else{
-            try(Session session= neo4jDBM.getDriver().session()){
+            try(Session session= Neo4jDbManager.getDriver().session()){
 
                 session.writeTransaction((TransactionWork<Void>) tx -> {
                     tx.run ("CREATE (" + usrFrom.getNick() +
@@ -56,7 +56,7 @@ public class UserManagerNeo4j {
 
     // questa ci sta sia un porcaio
     public boolean checkIfFollowed(User usrFrom, User usrTo){
-        try(Session session= neo4jDBM.getDriver().session()){
+        try(Session session= Neo4jDbManager.getDriver().session()){
             Boolean bool;
             bool = session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (" + usrFrom.getNick() + ":User)" +
@@ -74,7 +74,7 @@ public class UserManagerNeo4j {
     }
 
     public void addUserNode(User usr){
-        try(Session session= neo4jDBM.getDriver().session()){
+        try(Session session= Neo4jDbManager.getDriver().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run ("CREATE (" + usr.getNick() + ":User { firstname:" + usr.getFirstName() + ", lastname:" + usr.getLastName() + "lastname, username:" + usr.getNick() + "})");
                 return null;
