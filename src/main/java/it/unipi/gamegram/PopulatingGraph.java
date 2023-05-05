@@ -19,14 +19,16 @@ public class PopulatingGraph {
         try{
             reader = new BufferedReader(new FileReader(pathOfList));
             String usr = reader.readLine();
-            while(!usr.isEmpty()){
+            while(usr != null){
                 usr = reader.readLine(); // questo sta all'inizio così al primo giro scartiamo l'header
-                // questi sono da mettere nell'oridne giusto
-                String name = usr.split(",")[1];
-                String surname = usr.split(",")[4];
-                String nick = usr.split(",")[2];
-                User newUser = new User(name, surname, nick);
-                usrManager.addUserNode(newUser);
+                if(usr != null) {
+                    String name = usr.split(",")[1];
+                    String surname = usr.split(",")[4];
+                    String nick = usr.split(",")[2];
+                    User newUser = new User(name, surname, nick);
+                    usrManager.addUserNode(newUser);
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,10 +43,9 @@ public class PopulatingGraph {
         try{
             reader = new BufferedReader(new FileReader(pathOfList));
             String game = reader.readLine();
-            while(!game.isEmpty()){
+            while(game!=null){
                 game = reader.readLine(); // questo sta all'inizio così al primo giro scartiamo l'header
-                // questi sono da mettere nell'oridne giusto
-                if (game.split(",").length>1) {
+                if (game != null && game.split(",").length>1) {
                     String name = game.split(",")[0];
                     String shortDesc = game.split(",")[6];
                     Game newGame = new Game(name, shortDesc);
@@ -64,8 +65,8 @@ public class PopulatingGraph {
 
     // main di prova di Edo
     public static void main(String[] args){
-       // PopulatingGraph.addListOfUsers("C:\\Users\\edoar\\Desktop\\users.csv");
-        //addListOfGames("C:\\Users\\edoar\\Desktop\\datasetFinale.csv");
+        PopulatingGraph.addListOfUsers("C:\\Users\\edoar\\Desktop\\users.csv");
+        addListOfGames("C:\\Users\\edoar\\Desktop\\datasetFinale.csv");
 
     }
 

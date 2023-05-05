@@ -1,16 +1,18 @@
 package it.unipi.gamegram.Entities;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Review {
 
     private String reviewText;
-    private String reviewDate; // valutare se mettera come tipo Date invece di String
+    private LocalDate reviewDate; // valutare se mettera come tipo Date invece di String
     private String author;
     private String gameOfReference; // valutare se mettere come tipo Game invece di String
     private String title;
 
-    public Review(String reviewText, String reviewDate, String author, String gameOfReference, String title){
+    public Review(String reviewText, LocalDate reviewDate, String author, String gameOfReference, String title){
         this.reviewText = reviewText;
         this.reviewDate = reviewDate;
         this.author = author;
@@ -18,7 +20,7 @@ public class Review {
         this.title = title;
     }
 
-    public Review(String reviewDate, String author, String gameOfReference, String title){
+    public Review(LocalDate reviewDate, String author, String gameOfReference, String title){
         this.reviewDate = reviewDate;
         this.author = author;
         this.gameOfReference = gameOfReference;
@@ -29,15 +31,22 @@ public class Review {
         return reviewText;
     }
 
+    public String getReviewDateFormatted(){
+        LocalDate date = getReviewDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
+        String formattedDate = date.format(formatter);
+        return formattedDate;
+    }
+
     public void setReviewText(String reviewText) {
         this.reviewText = reviewText;
     }
 
-    public String getReviewDate() {
+    public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(String reviewDate) {
+    public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 
