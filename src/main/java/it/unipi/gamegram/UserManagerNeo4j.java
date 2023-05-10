@@ -11,8 +11,10 @@ import org.neo4j.driver.Record;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class UserManagerNeo4j {
     private final Neo4jDbManager neo4jDBM;
@@ -40,6 +42,52 @@ public class UserManagerNeo4j {
             e.printStackTrace();
         }
         return listFollowedUsers;
+    }
+
+    public static ArrayList<Game> getListLikedGames(User usr){
+        ArrayList<Game> listLikedGames = new ArrayList<>();
+        try (Session session = Neo4jDbManager.getDriver().session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
+                        "WHERE u.firstname = '" + usr.getFirstName() +
+                        "' AND u.lastname = '" + usr.getLastName() +
+                        "' AND u.username = '" + usr.getNick() +
+                        "' RETURN liked.name");
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    System.out.println(r.get("liked.name").asString());
+                    listLikedGames.add(new Game(r.get("liked.name").asString()));
+                }
+                return listLikedGames;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listLikedGames;
+    }
+
+    public static ArrayList<Like> getLikedGameDated(User usr){
+        ArrayList<Like> listLikes = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        try (Session session = Neo4jDbManager.getDriver().session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
+                        "WHERE u.firstname = '" + usr.getFirstName() +
+                        "' AND u.lastname = '" + usr.getLastName() +
+                        "' AND u.username = '" + usr.getNick() +
+                        "' RETURN liked.name, like.date");
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    LocalDate dateLike = r.get("like.date").asLocalDate();
+                    long dayPassed = ChronoUnit.DAYS.between(today, dateLike);
+                    listLikes.add(new Like(r.get("liked.name").asString(), dayPassed));
+                }
+                return listLikes;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listLikes;
     }
 
     public static void addUserNode(User usr){
@@ -110,7 +158,28 @@ public class UserManagerNeo4j {
                     "RETURN COUNT(*) > 0 as followExists");
             return result.single().get("followExists").asBoolean();
         }
+    }
 
+    public void suggestTrendingNowAmongFollowed(User usr){
+        // prendi dal grafo la lista di amici
+        ArrayList<User> listFollowed = getListFollowedUsers(usr);
+        // creiamo una struttura hashmap con keys: tutti i giochi a cui gli amici hanno messo like
+        HashMap<String, Float> mapScores = new HashMap<>();
+        // vedi qual è il like più vecchio messo e salva di quanti giorni è vecchio (es. int firstLike = 153)
+        // ora scorriamo ogni amico e aggiungiamo i pesi dei giochi a cui lui ha messo like:
+        //      il peso aggiornato sarà: pesoAttuale+nuovoPeso
+        //      dove nuovoPeso = e^[(firstLike-daysLike)/firstLike] (daysLike sarebbe da quanti giorni è stato messo il like che stiamo guardando ora)
+        // finito di aggiornare tutti i pesi ritorni il titolo del gioco con il peso maggiore
+    }
+
+    private static class Like{
+        String nameOfTheGame;
+        long dayPassedSinceLike;
+
+        private Like(String nameOfTheGame, long dayPassedSinceLike){
+            this.nameOfTheGame = nameOfTheGame;
+            this.dayPassedSinceLike = dayPassedSinceLike;
+        }
     }
 
     public static void main(String[] args){
@@ -146,9 +215,19 @@ public class UserManagerNeo4j {
             System.out.println(usr.getFirstName() + " " + usr.getLastName() + " " + usr.getNick());
         }
         */
+        /*
         LocalDate data = LocalDate.now();
         Review review = new Review(data, "niko_pandetta", "among us", "aaaaaaaa");
         addDirectedLinkReviewed(review);
+        */
+        Date data = new Date();
+        Game pippo = new Game("paperino", "developer", data, 50);
+        //GameManagerNeo4j.addGameNode(pippo);
+        //addDirectedLinkLike(usr4, pippo);
+        ArrayList<Game> list = getListLikedGames(usr4);
+        for (Game game:list){
+            System.out.println(game.getName());
+        }
     }
 
 

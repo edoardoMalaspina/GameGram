@@ -130,17 +130,6 @@ public class User {
         }
     }
 
-    public void suggestTrendingNowAmongFollowed(){
-        // prendi dal grafo la lista di amici
-        // creiamo una struttura hashmap con keys: tutti i giochi a cui gli amici hanno messo like
-        // vedi qual è il like più vecchio messo e salva di quanti giorni è vecchio (es. int firstLike = 153)
-        // ora scorriamo ogni amico e aggiungiamo i pesi dei giochi a cui lui ha messo like:
-        //      il peso aggiornato sarà: pesoAttuale+nuovoPeso
-        //      dove nuovoPeso = e^[(firstLike-daysLike)/firstLike] (daysLike sarebbe da quanti giorni è stato messo il like che stiamo guardando ora)
-        // finito di aggiornare tutti i pesi ritorni il titolo del gioco con il peso maggiore
-
-    }
-
 
     /*
     query neo4j creare nodo user: (da pensare se nick ci va anche come proprietà o no)

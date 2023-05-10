@@ -11,8 +11,8 @@ public class Game {
     private String shortDescription;
     private String fullDescription;
 
-    public Game(){
-
+    public Game(String name){
+        this.name = name;
     }
 
     public Game (String name, String developer, Date dateOfPublication, float price){
