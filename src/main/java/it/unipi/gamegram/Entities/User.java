@@ -33,20 +33,6 @@ public class User {
         this.nick = nick;
     }
 
-    public boolean signUp(String firstName, String lastName, String nick, String Password){
-        User newUser = new User(firstName, lastName, nick, password);
-        // controlla che non esista già utente con lo stesso nick
-        // nella collezione su MongoDB
-        // se non esiste:
-        // aggiungi alla collezione su MongoDB il nuovo utente
-        // aggiungi nuovo nodo su Neo4j
-        return true;
-        // se esisteva già utente con lo stesso nome
-       // return false;
-    }
-
-
-
     public String getFirstName() {
         return firstName;
     }

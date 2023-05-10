@@ -1,10 +1,12 @@
 package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Game;
+import it.unipi.gamegram.Entities.Review;
 import it.unipi.gamegram.Entities.User;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;
+import org.neo4j.driver.Record;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,19 +21,18 @@ public class UserManagerNeo4j {
         this.neo4jDBM = dbNeo4J;
     }
 
-    // da testare
-    public ArrayList<String> getListFollowedUsers(User usr) {
-        ArrayList<String> listFollowedUsers = new ArrayList<>();
+    public static ArrayList<User> getListFollowedUsers(User usr) {
+        ArrayList<User> listFollowedUsers = new ArrayList<>();
         try (Session session = Neo4jDbManager.getDriver().session()) {
             session.readTransaction(tx -> {
-                Result result = tx.run("MATCH (username:User)-[:FOLLOW]-(followed) " +
-                        "WHERE username.firstname = " + usr.getFirstName() +
-                        "AND username.lastname = " + usr.getLastName() +
-                        "AND username.username = " + usr.getNick() +
-                        "RETURN followed");
+                Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
+                        "WHERE u.firstname = '" + usr.getFirstName() +
+                        "' AND u.lastname = '" + usr.getLastName() +
+                        "' AND u.username = '" + usr.getNick() +
+                        "' RETURN followed.firstname, followed.lastname, followed.username");
                 while (result.hasNext()) {
-                    Record rec = (Record) result.next();
-                    listFollowedUsers.add(rec.toString());
+                    Record r = result.next();
+                    listFollowedUsers.add(new User( r.get("followed.firstname").asString(), r.get("followed.lastname").asString(), r.get("followed.username").asString()));
                 }
                 return listFollowedUsers;
             });
@@ -64,6 +65,22 @@ public class UserManagerNeo4j {
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+follower.getNick()+"'}), (n2 {username: '"+followed.getNick()+"'})" +
                         "CREATE (n1)-[:FOLLOW {date: '"+ formattedDate +"'}]->(n2)");
+                return null;
+            } );
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void addDirectedLinkReviewed(Review rev){
+        try(Session session= Neo4jDbManager.getDriver().session()){
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
+            String formattedDate = currentDate.format(formatter);
+            // check if already reviewed
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
+                        "CREATE (n1)-[:REVIEWED {date: '"+ formattedDate +"', title: '"+rev.getTitle()+"'}]->(n2)");
                 return null;
             } );
         }catch(Exception e){
@@ -113,12 +130,25 @@ public class UserManagerNeo4j {
         System.out.println(bool1);
         System.out.println(bool2);
         System.out.println(bool3);
-        */
+
 
         User usr4 = new User("g", "h", "niko_pandetta");
         addUserNode(usr4);
 
         addDirectedLinkLike(usr4, new Game("among us", "bello bellissimo"));
+        */
+        User usr4 = new User("g", "h", "niko_pandetta");
+        User usr5 = new User("c", "d", "m_linda3865");
+        //addDirectedLinkFollow(usr5, usr4);
+        /*
+        ArrayList<User> lista = getListFollowedUsers(usr5);
+        for (User usr: lista){
+            System.out.println(usr.getFirstName() + " " + usr.getLastName() + " " + usr.getNick());
+        }
+        */
+        LocalDate data = LocalDate.now();
+        Review review = new Review(data, "niko_pandetta", "among us", "aaaaaaaa");
+        addDirectedLinkReviewed(review);
     }
 
 
