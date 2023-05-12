@@ -31,12 +31,6 @@ public class Review {
         return reviewText;
     }
 
-    public String getReviewDateFormatted(){
-        LocalDate date = getReviewDate();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-        String formattedDate = date.format(formatter);
-        return formattedDate;
-    }
 
     public void setReviewText(String reviewText) {
         this.reviewText = reviewText;

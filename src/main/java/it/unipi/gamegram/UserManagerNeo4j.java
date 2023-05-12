@@ -55,7 +55,6 @@ public class UserManagerNeo4j {
                         "' RETURN liked.name");
                 while (result.hasNext()) {
                     Record r = result.next();
-                    System.out.println(r.get("liked.name").asString());
                     listLikedGames.add(new Game(r.get("liked.name").asString()));
                 }
                 return listLikedGames;
@@ -78,7 +77,9 @@ public class UserManagerNeo4j {
                         "' RETURN liked.name, like.date");
                 while (result.hasNext()) {
                     Record r = result.next();
-                    LocalDate dateLike = r.get("like.date").asLocalDate();
+                    String dateLikeString = r.get("like.date").asString();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate dateLike = LocalDate.parse(dateLikeString, formatter);
                     long dayPassed = ChronoUnit.DAYS.between(today, dateLike);
                     listLikes.add(new Like(r.get("liked.name").asString(), dayPassed));
                 }
@@ -89,6 +90,7 @@ public class UserManagerNeo4j {
         }
         return listLikes;
     }
+
 
     public static void addUserNode(User usr){
         try(Session session= Neo4jDbManager.getDriver().session()){
@@ -104,15 +106,15 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkFollow(User follower, User followed){
         try(Session session= Neo4jDbManager.getDriver().session()){
             LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-            String formattedDate = currentDate.format(formatter);
+           // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
+           // String formattedDate = currentDate.format(formatter);
             if(checkIfAlreadyFollowed(follower, followed)){
                 System.out.println("You are already following this user"); //vedere come sistemare con l'interfaccia grafica
                 return;
             }
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+follower.getNick()+"'}), (n2 {username: '"+followed.getNick()+"'})" +
-                        "CREATE (n1)-[:FOLLOW {date: '"+ formattedDate +"'}]->(n2)");
+                        "CREATE (n1)-[:FOLLOW {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
         }catch(Exception e){
@@ -123,12 +125,12 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkReviewed(Review rev){
         try(Session session= Neo4jDbManager.getDriver().session()){
             LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-            String formattedDate = currentDate.format(formatter);
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
+            //String formattedDate = currentDate.format(formatter);
             // check if already reviewed
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
-                        "CREATE (n1)-[:REVIEWED {date: '"+ formattedDate +"', title: '"+rev.getTitle()+"'}]->(n2)");
+                        "CREATE (n1)-[:REVIEWED {date: '"+ currentDate +"', title: '"+rev.getTitle()+"'}]->(n2)");
                 return null;
             } );
         }catch(Exception e){
@@ -139,11 +141,11 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkLike(User usr, Game game){
         try(Session session= Neo4jDbManager.getDriver().session()){
             LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-            String formattedDate = currentDate.format(formatter);
+           // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
+           // String formattedDate = currentDate.format(formatter);
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+usr.getNick()+"'}), (n2 {name: '"+game.getName()+"'})" +
-                        "CREATE (n1)-[:LIKE {date: '"+ formattedDate +"'}]->(n2)");
+                        "CREATE (n1)-[:LIKE {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
         }catch(Exception e){
@@ -160,16 +162,54 @@ public class UserManagerNeo4j {
         }
     }
 
-    public void suggestTrendingNowAmongFollowed(User usr){
+    // method that taken the list of followed users return the oldest like
+    // da testare
+    private static long getOldestLikeAmongFollowed(User usr){
+        ArrayList<User> listFollowed = getListFollowedUsers(usr);
+        long maximumDayPassed = 0;
+        for (User tmp:listFollowed){
+            ArrayList<Like> listLikes = getLikedGameDated(tmp);
+            for(Like like:listLikes){
+                if (like.dayPassedSinceLike > maximumDayPassed)
+                    maximumDayPassed = like.dayPassedSinceLike;
+            }
+        }
+        return maximumDayPassed;
+    }
+
+    // da testare
+    private static double calculateScoreLike(long maximumDayPassed, long daysSinceLike){
+        return Math.exp((maximumDayPassed - daysSinceLike) / maximumDayPassed);
+    }
+
+    // da testare
+    public String suggestTrendingNowAmongFollowed(User usr){
         // prendi dal grafo la lista di amici
         ArrayList<User> listFollowed = getListFollowedUsers(usr);
         // creiamo una struttura hashmap con keys: tutti i giochi a cui gli amici hanno messo like
-        HashMap<String, Float> mapScores = new HashMap<>();
-        // vedi qual è il like più vecchio messo e salva di quanti giorni è vecchio (es. int firstLike = 153)
-        // ora scorriamo ogni amico e aggiungiamo i pesi dei giochi a cui lui ha messo like:
-        //      il peso aggiornato sarà: pesoAttuale+nuovoPeso
-        //      dove nuovoPeso = e^[(firstLike-daysLike)/firstLike] (daysLike sarebbe da quanti giorni è stato messo il like che stiamo guardando ora)
-        // finito di aggiornare tutti i pesi ritorni il titolo del gioco con il peso maggiore
+        HashMap<String, Double> mapScores = new HashMap<>();
+        long maximumDayPassed = getOldestLikeAmongFollowed(usr);
+        for (User tmp:listFollowed){
+            ArrayList<Like> listLikes = getLikedGameDated(tmp);
+            for (Like like:listLikes){
+                if(!mapScores.containsKey(like.nameOfTheGame))
+                    mapScores.put(like.nameOfTheGame, calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
+                else{
+                    double oldScore = mapScores.get(like.nameOfTheGame);
+                    mapScores.put(like.nameOfTheGame, oldScore + calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
+                }
+            }
+        }
+        // ora vediamo qual è il gioco con lo score più alto
+        String bestTitle = " ";
+        double bestScore = 0;
+        for (String key:mapScores.keySet()){
+            if(mapScores.get(key) > bestScore){
+                bestScore = mapScores.get(key);
+                bestTitle = key;
+            }
+        }
+        return bestTitle;
     }
 
     private static class Like{
@@ -185,49 +225,41 @@ public class UserManagerNeo4j {
     public static void main(String[] args){
 
         Neo4jDbManager dbManager = new Neo4jDbManager();
-        /*
+
         User usr1 = new User("a", "b", "d_rowe2583");
         User usr2 = new User("c", "d","m_linda3865");
         User usr3 = new User("e", "f","pluto");
+        User usr4 = new User("g", "h", "niko_pandetta");
+
         addUserNode(usr1);
         addUserNode(usr2);
         addUserNode(usr3);
-        addDirectedLinkFollow(usr2, usr1);
-        boolean bool1 = checkIfAlreadyFollowed(usr2, usr1);
-        boolean bool2 = checkIfAlreadyFollowed(usr1, usr2);
-        boolean bool3 = checkIfAlreadyFollowed(usr1, usr3);
-        System.out.println(bool1);
-        System.out.println(bool2);
-        System.out.println(bool3);
-
-
-        User usr4 = new User("g", "h", "niko_pandetta");
         addUserNode(usr4);
 
-        addDirectedLinkLike(usr4, new Game("among us", "bello bellissimo"));
-        */
-        User usr4 = new User("g", "h", "niko_pandetta");
-        User usr5 = new User("c", "d", "m_linda3865");
-        //addDirectedLinkFollow(usr5, usr4);
-        /*
-        ArrayList<User> lista = getListFollowedUsers(usr5);
-        for (User usr: lista){
-            System.out.println(usr.getFirstName() + " " + usr.getLastName() + " " + usr.getNick());
-        }
-        */
-        /*
         LocalDate data = LocalDate.now();
-        Review review = new Review(data, "niko_pandetta", "among us", "aaaaaaaa");
+
+        LocalDate dataa = LocalDate.now();
+        Game pippo = new Game("paperino", "developer", dataa, 50);
+
+        GameManagerNeo4j.addGameNode(pippo);
+        addDirectedLinkLike(usr4, pippo);
+
+        Review review = new Review(dataa, "niko_pandetta", "paperino", "aaaaaaaa");
         addDirectedLinkReviewed(review);
-        */
-        Date data = new Date();
-        Game pippo = new Game("paperino", "developer", data, 50);
-        //GameManagerNeo4j.addGameNode(pippo);
-        //addDirectedLinkLike(usr4, pippo);
+
+        addDirectedLinkFollow(usr4, usr3);
+
         ArrayList<Game> list = getListLikedGames(usr4);
         for (Game game:list){
             System.out.println(game.getName());
         }
+
+        ArrayList<Like> lista = getLikedGameDated(usr4);
+        for (Like like:lista){
+            System.out.println(like.nameOfTheGame + " " + like.dayPassedSinceLike);
+        }
+
+
     }
 
 

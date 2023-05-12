@@ -1,12 +1,14 @@
 package it.unipi.gamegram.Entities;
 
 import org.bson.Document;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Game {
     private String name;
     private String developer;
-    private Date dateOfPublication;
+    private LocalDate dateOfPublication;
     private float price;
     private String shortDescription;
     private String fullDescription;
@@ -15,7 +17,7 @@ public class Game {
         this.name = name;
     }
 
-    public Game (String name, String developer, Date dateOfPublication, float price){
+    public Game (String name, String developer, LocalDate dateOfPublication, float price){
         this.dateOfPublication = dateOfPublication;
         this.name = name;
         this.developer = developer;
@@ -29,13 +31,13 @@ public class Game {
 
     @SuppressWarnings("unchecked")
     public Game(Document document) {
-        this.dateOfPublication = (document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication");
+       // this.dateOfPublication = (document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication");
         this.name = (document.get("name") == null) ? "" : document.getString("name");
         this.developer = (document.get("developer") == null) ? "" : document.getString("developer");
         this.price = (document.get("price") == null) ? null : document.getLong("price");
     }
 
-    public Date getDateOfPublication() {
+    public LocalDate getDateOfPublication() {
         return dateOfPublication;
     }
 
@@ -51,7 +53,7 @@ public class Game {
         return name;
     }
 
-    public void setDateOfPublication(Date dateOfPublication) {
+    public void setDateOfPublication(LocalDate dateOfPublication) {
         this.dateOfPublication = dateOfPublication;
     }
 
