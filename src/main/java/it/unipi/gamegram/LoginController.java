@@ -3,6 +3,7 @@ package it.unipi.gamegram;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -26,7 +27,7 @@ public class LoginController {
     private PasswordField signInPassword;
 
     @FXML
-    private TextField errorMessage;
+    private Label errorMessage;
 
     public void initialize() {
         LoggedUser user = LoggedUser.getInstance();
