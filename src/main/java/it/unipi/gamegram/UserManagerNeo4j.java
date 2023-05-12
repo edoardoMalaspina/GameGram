@@ -159,6 +159,88 @@ public class UserManagerNeo4j {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
             return result.single().get("followExists").asBoolean();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // da testare
+    public static boolean checkIfAlreadyLiked(User usr, Game game){
+        try (Session session =  Neo4jDbManager.getDriver().session()) {
+            Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
+                    "RETURN COUNT(*) > 0 as likeExists");
+            return result.single().get("likeExists").asBoolean();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // da testare
+    public static boolean checkIfAlreadyReviewed(User usr, Game game){
+        try (Session session =  Neo4jDbManager.getDriver().session()) {
+            Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
+                    "RETURN COUNT(*) > 0 as reviewExists");
+            return result.single().get("reviewExists").asBoolean();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    // da testare
+    public static boolean unfollow(User follower, User followed){
+        if ( checkIfAlreadyFollowed(follower, followed) ){
+            System.out.println( "You are not following this user" );
+            return false;
+        }
+        else {
+            try (Session session =  Neo4jDbManager.getDriver().session()) {
+                Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[follow:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
+                        "DELETE follow");
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    // da testare
+    public static boolean unlike(User usr, Game game){
+        if ( checkIfAlreadyLiked(usr, game) ){
+            System.out.println( "You are not liking this game" );
+            return false;
+        }
+        else {
+            try (Session session = Neo4jDbManager.getDriver().session()) {
+                Result result = session.run("MATCH (n1 {username: '" + usr.getNick() + "'})-[like:LIKE]->(n2 {name: '" + game.getName() + "'})" +
+                        "DELETE like");
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    // da testare
+    public static boolean cancelReview(User usr, Game game){
+        if( checkIfAlreadyReviewed(usr, game) ){
+            System.out.println( "You have not written a review for this game" );
+            return false;
+        }
+        else{
+            try (Session session =  Neo4jDbManager.getDriver().session()) {
+                Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[review:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
+                        "DELETE review");
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
