@@ -63,6 +63,7 @@
             <artifactId>javafx-controls</artifactId>
             <version>19</version>
         </dependency>
+
     </dependencies>
 
     <build>

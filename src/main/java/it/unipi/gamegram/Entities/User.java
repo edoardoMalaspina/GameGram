@@ -27,19 +27,11 @@ public class User {
         this.nick = nick;
     }
 
-    public boolean signUp(String firstName, String lastName, String nick, String Password){
-        User newUser = new User(firstName, lastName, nick, password);
-        // controlla che non esista già utente con lo stesso nick
-        // nella collezione su MongoDB
-        // se non esiste:
-        // aggiungi alla collezione su MongoDB il nuovo utente
-        // aggiungi nuovo nodo su Neo4j
-        return true;
-        // se esisteva già utente con lo stesso nome
-       // return false;
+    public User(String firstName, String lastName, String nick){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nick = nick;
     }
-
-
 
     public String getFirstName() {
         return firstName;
@@ -136,17 +128,6 @@ public class User {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void suggestTrendingNowAmongFollowed(){
-        // prendi dal grafo la lista di amici
-        // creiamo una struttura hashmap con keys: tutti i giochi a cui gli amici hanno messo like
-        // vedi qual è il like più vecchio messo e salva di quanti giorni è vecchio (es. int firstLike = 153)
-        // ora scorriamo ogni amico e aggiungiamo i pesi dei giochi a cui lui ha messo like:
-        //      il peso aggiornato sarà: pesoAttuale+nuovoPeso
-        //      dove nuovoPeso = e^[(firstLike-daysLike)/firstLike] (daysLike sarebbe da quanti giorni è stato messo il like che stiamo guardando ora)
-        // finito di aggiornare tutti i pesi ritorni il titolo del gioco con il peso maggiore
-
     }
 
 
