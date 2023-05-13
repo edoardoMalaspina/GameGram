@@ -2,6 +2,7 @@ package it.unipi.gamegram;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import it.unipi.gamegram.Entities.User;
@@ -29,7 +30,7 @@ public class SignupController {
     private PasswordField signUpPassword;
 
     @FXML
-    private TextField outcomeMessage;
+    private Label outcomeMessage;
 
     @FXML
     private void back() throws IOException {
