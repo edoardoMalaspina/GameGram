@@ -190,9 +190,8 @@ public class UserManagerNeo4j {
     }
 
 
-    // da testare
     public static boolean unfollow(User follower, User followed){
-        if ( checkIfAlreadyFollowed(follower, followed) ){
+        if ( !checkIfAlreadyFollowed(follower, followed) ){
             System.out.println( "You are not following this user" );
             return false;
         }
@@ -208,9 +207,8 @@ public class UserManagerNeo4j {
         }
     }
 
-    // da testare
     public static boolean unlike(User usr, Game game){
-        if ( checkIfAlreadyLiked(usr, game) ){
+        if ( !checkIfAlreadyLiked(usr, game) ){
             System.out.println( "You are not liking this game" );
             return false;
         }
@@ -226,9 +224,8 @@ public class UserManagerNeo4j {
         }
     }
 
-    // da testare
     public static boolean cancelReview(User usr, Game game){
-        if( checkIfAlreadyReviewed(usr, game) ){
+        if( !checkIfAlreadyReviewed(usr, game) ){
             System.out.println( "You have not written a review for this game" );
             return false;
         }
@@ -242,6 +239,36 @@ public class UserManagerNeo4j {
                 return false;
             }
         }
+    }
+
+    public static User suggestFriend(User usr){
+        // prendi la lista di tuoi amici
+        ArrayList<User> listFollowed = getListFollowedUsers(usr);
+        // crea hashmap<Utente Integer>
+        HashMap<User, Integer> mapSuggestedFriends = new HashMap<>();
+        // scorri la lista di amici dei tuoi amici e aggiungi tutti gli utenti all'ashmap
+        for (User user:listFollowed){
+            ArrayList<User> listFollowedOfFriend = getListFollowedUsers(user);
+            for (User tmp:listFollowedOfFriend){
+                if (!mapSuggestedFriends.containsKey(tmp))
+                    mapSuggestedFriends.put(tmp, 1);
+                else{
+                    // se un utente è già presente aggiungi 1 al suo value
+                    int oldValue = mapSuggestedFriends.get(tmp);
+                    mapSuggestedFriends.replace(tmp, oldValue, oldValue+1);
+                }
+            }
+        }
+        // ritorna l'user con il value più alto
+        int maximumValue = 0;
+        User maximumKey = null;
+        for (User key:mapSuggestedFriends.keySet()){
+            if (mapSuggestedFriends.get(key) > maximumValue){
+                maximumValue = mapSuggestedFriends.get(key);
+                maximumKey = key;
+            }
+        }
+        return maximumKey;
     }
 
     // method that taken the list of followed users return the oldest like
@@ -278,7 +305,7 @@ public class UserManagerNeo4j {
                     mapScores.put(like.nameOfTheGame, calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
                 else{
                     double oldScore = mapScores.get(like.nameOfTheGame);
-                    mapScores.put(like.nameOfTheGame, oldScore + calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
+                    mapScores.replace(like.nameOfTheGame, oldScore, oldScore + calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
                 }
             }
         }
@@ -312,11 +339,14 @@ public class UserManagerNeo4j {
         User usr2 = new User("c", "d","m_linda3865");
         User usr3 = new User("e", "f","pluto");
         User usr4 = new User("g", "h", "niko_pandetta");
+        User usr5 = new User("i", "l", "gennaro");
+
 
         addUserNode(usr1);
         addUserNode(usr2);
         addUserNode(usr3);
         addUserNode(usr4);
+        addUserNode(usr5);
 
         LocalDate data = LocalDate.now();
 
@@ -330,7 +360,20 @@ public class UserManagerNeo4j {
         addDirectedLinkReviewed(review);
 
         addDirectedLinkFollow(usr4, usr3);
+        addDirectedLinkFollow(usr4, usr1);
+        addDirectedLinkFollow(usr2, usr1);
+        addDirectedLinkFollow(usr5, usr2);
+        addDirectedLinkFollow(usr5, usr4);
 
+        /*
+        User suggested = suggestFriend(usr5);
+        System.out.println(suggested.getNick());
+         */
+        /*
+        cancelReview(usr4, pippo);
+        unfollow(usr4, usr3);
+        */
+        /*
         ArrayList<Game> list = getListLikedGames(usr4);
         for (Game game:list){
             System.out.println(game.getName());
@@ -340,6 +383,8 @@ public class UserManagerNeo4j {
         for (Like like:lista){
             System.out.println(like.nameOfTheGame + " " + like.dayPassedSinceLike);
         }
+        */
+        unlike(usr4, pippo);
 
 
     }
