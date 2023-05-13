@@ -7,12 +7,12 @@
 <AnchorPane prefHeight="493.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
    <children>
       <Button layoutX="90.0" layoutY="341.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested games" />
-      <Button layoutX="90.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested friends" />
+      <Button layoutX="90.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested follows" />
       <Button layoutX="90.0" layoutY="227.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show my reviews" />
-      <Button layoutX="90.0" layoutY="191.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show friends" />
+      <Button layoutX="90.0" layoutY="191.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show followed users" />
       <Button layoutX="90.0" layoutY="265.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show liked games" />
-      <TextField layoutX="90.0" layoutY="155.0" prefHeight="26.0" prefWidth="200.0" />
-      <Button layoutX="90.0" layoutY="116.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Find game by name" />
+      <TextField fx:id="gameName" layoutX="90.0" layoutY="155.0" prefHeight="26.0" prefWidth="200.0" />
+      <Button fx:id="findGame" layoutX="90.0" layoutY="116.0" mnemonicParsing="false" onAction="#findGame" prefHeight="26.0" prefWidth="200.0" text="Find game by name" />
       <TextField fx:id="userNick" layoutX="90.0" layoutY="80.0" prefHeight="26.0" prefWidth="200.0" />
       <Button fx:id="findUser" layoutX="90.0" layoutY="44.0" mnemonicParsing="false" onAction="#findUser" prefHeight="26.0" prefWidth="200.0" text="Find user by nickname" />
       <Button layoutX="164.0" layoutY="386.0" mnemonicParsing="false" text="Logout" />

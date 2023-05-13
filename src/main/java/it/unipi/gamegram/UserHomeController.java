@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import it.unipi.gamegram.Entities.User;
+import it.unipi.gamegram.Entities.*;
 
 import java.io.IOException;
 
@@ -13,7 +13,13 @@ public class UserHomeController {
     private Button findUser;
 
     @FXML
+    private Button findGame;
+
+    @FXML
     private TextField userNick;
+
+    @FXML
+    private TextField gameName;
 
     @FXML
     private Label errorMessage;
@@ -24,6 +30,8 @@ public class UserHomeController {
 
     @FXML
     private void findUser() throws IOException {
+
+        UserSingleton.setNull();
         String nick = userNick.getText();
 
         if (nick.isEmpty()) {
@@ -38,5 +46,25 @@ public class UserHomeController {
         }
         UserSingleton user = UserSingleton.getInstance(nick);
         GameGramApplication.setRoot("userpage");
+    }
+
+    @FXML
+    private void findGame() throws IOException {
+
+        GameSingleton.setNull();
+        String name = gameName.getText();
+
+        if (name.isEmpty()) {
+            errorMessage.setText("Name is missing.");
+            errorMessage.setVisible(true);
+            return;
+        }
+        if(Game.checkName(name)){
+            errorMessage.setText("No such game.");
+            errorMessage.setVisible(true);
+            return;
+        }
+        GameSingleton game = GameSingleton.getInstance(name);
+        GameGramApplication.setRoot("gamepage");
     }
 }

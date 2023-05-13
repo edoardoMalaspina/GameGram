@@ -11,5 +11,10 @@
             <Font size="48.0" />
          </font>
       </Label>
+      <Button layoutX="280.0" layoutY="132.0" mnemonicParsing="false" text="Follow" />
+      <Button layoutX="274.0" layoutY="174.0" mnemonicParsing="false" text="Unfollow" />
+      <Button layoutX="248.0" layoutY="219.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Show liked games" />
+      <Button layoutX="248.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Show reviews" />
+      <Button layoutX="248.0" layoutY="335.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Back" />
    </children>
 </AnchorPane>

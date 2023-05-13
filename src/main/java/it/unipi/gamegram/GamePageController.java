@@ -3,22 +3,23 @@ package it.unipi.gamegram;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class UserPageController {
+public class GamePageController {
 
     @FXML
     private Label title;
 
     @FXML
-    private Button follow;
+    private Label info;
 
     @FXML
-    private Button unfollow;
+    private Button like;
 
     @FXML
-    private Button showFollows;
+    private Button unlike;
 
     @FXML
     private Button showReviews;
@@ -26,14 +27,16 @@ public class UserPageController {
     @FXML
     private Button back;
 
+
     public void initialize() {
-        String nick = UserSingleton.getNick();
-        title.setText(nick + "'s User Page");
+        String name = GameSingleton.getName();
+        title.setText(name + "'s Game Page");
     }
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("userhome");
-    }
+        GameGramApplication.setRoot("userhome");}
+
+
 
 }
