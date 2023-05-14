@@ -1,9 +1,9 @@
 package it.unipi.gamegram;
 
+import it.unipi.gamegram.Entities.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
@@ -31,6 +31,10 @@ public class GamePageController {
     public void initialize() {
         String name = GameSingleton.getName();
         title.setText(name + "'s Game Page");
+        Game game = new Game(Game.findByName(name));
+        info.setText("date of publication: " + game.getStringDateOfPublication() + ","
+                    + "developer: " + game.getDeveloper() + "," + "publisher: " + game.getPublisher() + "," + "price: "
+                    + game.getPrice() + "," + "short description: " + game.getShortDescription() + ".");
     }
 
     @FXML

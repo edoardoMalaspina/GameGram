@@ -8,7 +8,7 @@ public class GameSingleton {
     private GameSingleton(String name){
         this.name  = name;
     }
-    public static GameSingleton getInstance(String nick){
+    public static GameSingleton getInstance(String name){
         if(game == null) {
             game = new GameSingleton(name);
         }
