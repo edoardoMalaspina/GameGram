@@ -13,7 +13,19 @@ public class GamePageController {
     private Label title;
 
     @FXML
-    private Label info;
+    private Label dateOfPublication;
+
+    @FXML
+    private Label developer;
+
+    @FXML
+    private Label publisher;
+
+    @FXML
+    private Label price;
+
+    @FXML
+    private Label shortDescription;
 
     @FXML
     private Button like;
@@ -30,11 +42,13 @@ public class GamePageController {
 
     public void initialize() {
         String name = GameSingleton.getName();
-        title.setText(name + "'s Game Page");
+        title.setText(name + "'s game page");
         Game game = new Game(Game.findByName(name));
-        info.setText("date of publication: " + game.getStringDateOfPublication() + ","
-                    + "developer: " + game.getDeveloper() + "," + "publisher: " + game.getPublisher() + "," + "price: "
-                    + game.getPrice() + "," + "short description: " + game.getShortDescription() + ".");
+        dateOfPublication.setText("Date of publication: " + game.getStringDateOfPublication());
+        developer.setText("Developer: " + game.getDeveloper());
+        publisher.setText("Publisher: " + game.getPublisher());
+        price.setText("Price: " + game.getPrice());
+        shortDescription.setText("Short description: " + game.getShortDescription());
     }
 
     @FXML

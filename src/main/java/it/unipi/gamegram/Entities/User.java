@@ -6,6 +6,7 @@ import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static it.unipi.gamegram.Entities.Game.convertToLocalDate;
 
 import java.security.MessageDigest;
 
@@ -15,6 +16,7 @@ public class User {
     private String lastName;
     private String nick;
     private String password;
+    private String isAdmin;
 
     public User(String firstName, String lastName, String nick, String password){
         this.firstName = firstName;
@@ -31,6 +33,12 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nick = nick;
+    }
+
+    public User(Document document) {
+        this.nick = (document.get("nick") == null) ? "" : document.getString("nick");
+        this.firstName = (document.get("name") == null) ? "" : document.getString("name");
+        this.isAdmin = (document.get("isadmin") == null) ? "" : document.getString("isadmin");
     }
 
     public String getFirstName() {
@@ -89,6 +97,24 @@ public class User {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public static Document findByNick (String nick) {
+        MongoDBDriver driver = null;
+        MongoCollection<Document> collection = null;
+        try {
+            driver = MongoDBDriver.getInstance();
+            collection = driver.getCollection("users");
+            Document user = collection.find(eq("nick", nick)).first();
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static boolean isAdmin(String nick) {

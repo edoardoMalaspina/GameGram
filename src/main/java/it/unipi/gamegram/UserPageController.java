@@ -1,5 +1,6 @@
 package it.unipi.gamegram;
 
+import it.unipi.gamegram.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,6 +11,15 @@ public class UserPageController {
 
     @FXML
     private Label title;
+
+    @FXML
+    private Label nick;
+
+    @FXML
+    private Label name;
+
+    @FXML
+    private Label isadmin;
 
     @FXML
     private Button follow;
@@ -27,8 +37,12 @@ public class UserPageController {
     private Button back;
 
     public void initialize() {
-        String nick = UserSingleton.getNick();
-        title.setText(nick + "'s User Page");
+        String nickTitle = UserSingleton.getNick();
+        User user = new User(User.findByNick(nickTitle));
+        title.setText(nickTitle + "'s user page");
+        nick.setText("Nick: " + nickTitle);
+        name.setText("Name: " + user.getFirstName());
+        isadmin.setText(("Admin: " + user.getIsAdmin()));
     }
 
     @FXML
