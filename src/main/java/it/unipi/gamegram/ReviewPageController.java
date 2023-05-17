@@ -23,7 +23,7 @@ public class ReviewPageController {
     private Label date;
 
     @FXML
-    private Label review;
+    private Label reviewText;
 
     @FXML
     private Button upvote;
@@ -41,7 +41,7 @@ public class ReviewPageController {
         game.setText("Game: " + review.getGameOfReference());
         author.setText("Author: " + review.getAuthor());
         date.setText("Date: " + review.getReviewDate());
-        date.setText(titleFront + ": " + review.getReviewText());
+        reviewText.setText(titleFront + ": " + review.getReviewText());
     }
 
     @FXML

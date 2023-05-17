@@ -11,7 +11,7 @@ public class ReviewSingleton {
         this.review = review;
     }
     public static ReviewSingleton getInstance(Review review){
-        if(review == null) {
+        if(ReviewSingleton.review == null) {
             reviewS = new ReviewSingleton(review);
         }
         return reviewS;
