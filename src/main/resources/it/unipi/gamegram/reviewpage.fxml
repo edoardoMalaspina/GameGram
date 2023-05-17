@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ReviewPageController">
+   <children>
+      <Label fx:id="title" alignment="CENTER" layoutX="31.0" layoutY="5.0" prefHeight="67.0" prefWidth="535.0" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <Button fx:id="upvote" layoutX="21.0" layoutY="352.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Vote useful" />
+      <Button fx:id="unvote" layoutX="241.0" layoutY="352.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Unvote" />
+      <Button fx:id="back" layoutX="463.0" layoutY="352.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="116.0" text="Back" />
+      <ListView layoutX="21.0" layoutY="85.0" prefHeight="243.0" prefWidth="558.0" />
+      <Label fx:id="game" layoutX="31.0" layoutY="90.0" prefHeight="38.0" prefWidth="551.0" />
+      <Label fx:id="author" layoutX="31.0" layoutY="123.0" prefHeight="38.0" prefWidth="551.0" />
+      <Label fx:id="date" layoutX="31.0" layoutY="142.0" prefHeight="38.0" prefWidth="551.0" />
+      <Label fx:id="review" layoutX="19.0" layoutY="173.0" prefHeight="148.0" prefWidth="566.0" wrapText="true" />
+   </children>
+</AnchorPane>

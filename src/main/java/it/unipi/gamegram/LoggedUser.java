@@ -22,11 +22,19 @@ public class LoggedUser {
         }
     }
 
-    public User getLoggedUser() {
+    public static User getLoggedUser() {
         if(user == null) {
             throw new RuntimeException("No user instance.");
         } else {
             return user.logged;
+        }
+    }
+
+    public static void logOut() {
+        if(user == null) {
+            throw new RuntimeException("No user instance.");
+        } else {
+            user = null;
         }
     }
 

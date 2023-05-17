@@ -1,9 +1,14 @@
 package it.unipi.gamegram.Entities;
 
+import com.mongodb.client.MongoCollection;
+import it.unipi.gamegram.MongoDBDriver;
 import org.bson.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import static com.mongodb.client.model.Filters.eq;
 import static it.unipi.gamegram.Entities.Game.convertToLocalDate;
 
 public class Review {
@@ -76,5 +81,22 @@ public class Review {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public static List<Document> findByAuthor(String author) {
+        MongoDBDriver driver = null;
+        MongoCollection<Document> collection = null;
+        List<Document> reviews = new ArrayList<Document>();
+        try {
+            driver = MongoDBDriver.getInstance();
+            collection = driver.getCollection("reviews");
+            for (Document d:collection.find(eq("author", author))) {
+                reviews.add(d);
+            }
+            return reviews;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -8,14 +8,14 @@
    <children>
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="341.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested games" textAlignment="CENTER" />
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Suggested follows" textAlignment="CENTER" />
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="227.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show my reviews" textAlignment="CENTER" />
+      <Button fx:id="showReviews" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="227.0" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="200.0" text="Show my reviews" textAlignment="CENTER" />
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="191.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show followed users" textAlignment="CENTER" />
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="265.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Show liked games" textAlignment="CENTER" />
       <TextField fx:id="gameName" alignment="CENTER" layoutX="90.0" layoutY="155.0" prefHeight="26.0" prefWidth="200.0" />
       <Button fx:id="findGame" contentDisplay="CENTER" layoutX="90.0" layoutY="116.0" mnemonicParsing="false" onAction="#findGame" prefHeight="26.0" prefWidth="200.0" text="Find game by name" textAlignment="CENTER" />
       <TextField fx:id="userNick" alignment="CENTER" layoutX="90.0" layoutY="80.0" prefHeight="26.0" prefWidth="200.0" />
       <Button fx:id="findUser" layoutX="90.0" layoutY="44.0" mnemonicParsing="false" onAction="#findUser" prefHeight="26.0" prefWidth="200.0" text="Find user by nickname" textAlignment="CENTER" />
-      <Button layoutX="164.0" layoutY="386.0" mnemonicParsing="false" text="Logout" />
+      <Button fx:id="logout" layoutX="164.0" layoutY="386.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
       <Label fx:id="errorMessage" layoutX="92.0" layoutY="443.0" prefHeight="26.0" prefWidth="200.0">
          <font>
             <Font size="18.0" />

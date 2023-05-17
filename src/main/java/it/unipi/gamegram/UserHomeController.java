@@ -16,6 +16,12 @@ public class UserHomeController {
     private Button findGame;
 
     @FXML
+    private Button logout;
+
+    @FXML
+    private Button showReviews;
+
+    @FXML
     private TextField userNick;
 
     @FXML
@@ -67,4 +73,18 @@ public class UserHomeController {
         GameSingleton game = GameSingleton.getInstance(name);
         GameGramApplication.setRoot("gamepage");
     }
+
+    @FXML
+    private void showReviews() throws IOException {
+        UserSingleton.setNull();
+        UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
+        GameGramApplication.setRoot("showreviews");
+    }
+
+    @FXML
+    private void logout() throws IOException {
+        LoggedUser.logOut();
+        GameGramApplication.setRoot("start");
+    }
+
 }
