@@ -66,6 +66,6 @@ public class ShowUserReviewsController {
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("userhome");
+        GameGramApplication.setRoot("userpage");
     }
 }

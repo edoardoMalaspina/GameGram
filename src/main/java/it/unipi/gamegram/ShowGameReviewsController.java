@@ -59,7 +59,6 @@ public class ShowGameReviewsController {
 
     @FXML
     public void showReview() throws IOException{
-        ReviewSingleton.setNull();
         ReviewSingleton.getInstance(reviewTable.getSelectionModel().getSelectedItem());
         GameGramApplication.setRoot("reviewpage");
     }
