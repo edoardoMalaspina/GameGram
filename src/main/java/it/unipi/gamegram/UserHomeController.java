@@ -78,7 +78,7 @@ public class UserHomeController {
     private void showReviews() throws IOException {
         UserSingleton.setNull();
         UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
-        GameGramApplication.setRoot("showreviews");
+        GameGramApplication.setRoot("showuserreviews");
     }
 
     @FXML

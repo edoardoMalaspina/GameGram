@@ -46,7 +46,7 @@ public class ReviewPageController {
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("showreviews");
+        GameGramApplication.setRoot("showgamereviews");
     }
 
 }

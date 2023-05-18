@@ -99,4 +99,21 @@ public class Review {
         }
         return null;
     }
+
+    public static List<Document> findByGame(String name) {
+        MongoDBDriver driver = null;
+        MongoCollection<Document> collection = null;
+        List<Document> reviews = new ArrayList<Document>();
+        try {
+            driver = MongoDBDriver.getInstance();
+            collection = driver.getCollection("reviews");
+            for (Document d:collection.find(eq("game", name))) {
+                reviews.add(d);
+            }
+            return reviews;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

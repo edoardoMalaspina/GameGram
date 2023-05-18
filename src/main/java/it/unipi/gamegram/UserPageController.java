@@ -46,6 +46,13 @@ public class UserPageController {
     }
 
     @FXML
+    private void showReviews() throws IOException {
+        UserSingleton.setNull();
+        UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
+        GameGramApplication.setRoot("showuserreviews");
+    }
+
+    @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("userhome");
     }

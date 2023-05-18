@@ -52,6 +52,11 @@ public class GamePageController {
     }
 
     @FXML
+    private void showReviews() throws IOException {
+        GameSingleton.getInstance(GameSingleton.getName());
+        GameGramApplication.setRoot("showgamereviews");
+    }
+    @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("userhome");}
 

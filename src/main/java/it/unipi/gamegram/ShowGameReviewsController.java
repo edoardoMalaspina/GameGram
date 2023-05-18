@@ -9,10 +9,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.bson.Document;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ShowReviewsController {
+public class ShowGameReviewsController {
     @FXML
     TableView <Review> reviewTable = new TableView< >();
 
@@ -32,11 +31,11 @@ public class ShowReviewsController {
 
     @FXML
     public void initialize() {
-        String nickTitle = UserSingleton.getNick();
-        title.setText(nickTitle + "'s reviews");
+        String gameTitle = GameSingleton.getName();
+        title.setText(gameTitle + "'s reviews");
 
-        TableColumn gameCol = new TableColumn("game");
-        gameCol.setCellValueFactory(new PropertyValueFactory< >("gameOfReference"));
+        TableColumn authorCol = new TableColumn("author");
+        authorCol.setCellValueFactory(new PropertyValueFactory< >("author"));
 
         TableColumn dateCol = new TableColumn("date");
         dateCol.setCellValueFactory(new PropertyValueFactory < > ("reviewDate"));
@@ -44,13 +43,13 @@ public class ShowReviewsController {
         TableColumn titleCol = new TableColumn("title");
         titleCol.setCellValueFactory(new PropertyValueFactory < > ("title"));
 
-        reviewTable.getColumns().addAll(gameCol, dateCol, titleCol);
+        reviewTable.getColumns().addAll(authorCol, dateCol, titleCol);
 
         olReviews = FXCollections.observableArrayList();
 
         reviewTable.setItems(olReviews);
 
-        List<Document> reviews = Review.findByAuthor(nickTitle);
+        List<Document> reviews = Review.findByGame(gameTitle);
 
         for(Document d:reviews){
             Review r = new Review(d);
@@ -67,6 +66,6 @@ public class ShowReviewsController {
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("userhome");
+        GameGramApplication.setRoot("gamepage");
     }
 }
