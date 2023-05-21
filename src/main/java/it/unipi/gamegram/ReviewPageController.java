@@ -62,7 +62,10 @@ public class ReviewPageController {
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("showgamereviews");
+        if(ReviewSingleton.getFlag())
+            GameGramApplication.setRoot("showgamereviews");
+        else
+            GameGramApplication.setRoot("showuserreviews");
     }
 
 }

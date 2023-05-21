@@ -6,6 +6,7 @@ public class ReviewSingleton {
 
     private static ReviewSingleton reviewS = null;
     private static Review review;
+    private static Boolean flag;
 
     private ReviewSingleton(Review review){
         this.review = review;
@@ -24,4 +25,11 @@ public class ReviewSingleton {
     public static void setNull(){
         reviewS = null;
     }
+    public static Boolean getFlag(){
+        return flag;
+    }
+    public static void setFlag(Boolean b){
+        flag = b;
+    }
+
 }

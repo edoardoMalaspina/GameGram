@@ -56,7 +56,10 @@ public class InsertGameController {
         dateOfPublication = gameDateOfPublication.getValue();
         developer = gameDeveloper.getText();
         publisher = gamePublisher.getText();
-        price = Double.parseDouble(gamePrice.getText());
+        if(gamePrice.getText().isEmpty())
+            price = 0;
+        else
+            price = Double.parseDouble(gamePrice.getText());
         shortDescription = gameShortDescription.getText();
 
         if(name.isEmpty()){

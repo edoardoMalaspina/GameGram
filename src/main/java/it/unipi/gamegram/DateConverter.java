@@ -13,6 +13,9 @@ public class DateConverter {
     }
 
     public static Date convertLocalDateToDate(LocalDate localDate) {
+        if(localDate == null){
+            return null;
+        }
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }
