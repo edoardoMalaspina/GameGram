@@ -1,15 +1,17 @@
 package it.unipi.gamegram.Entities;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import it.unipi.gamegram.DateConverter;
 import it.unipi.gamegram.MongoDBDriver;
 import org.bson.Document;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
-import static it.unipi.gamegram.Entities.Game.convertToLocalDate;
 
 public class Review {
 
@@ -32,7 +34,7 @@ public class Review {
         this.author = (document.get("author") == null) ? "" : document.getString("author");
         this.gameOfReference = (document.get("game") == null) ? "" : document.getString("game");
         this.title = (document.get("review_title") == null) ? "" : document.getString("review_title");
-        this.reviewDate = convertToLocalDate((document.get("review_date") == null) ? null : document.getDate("review_date"));
+        this.reviewDate = DateConverter.convertToLocalDate((document.get("review_date") == null) ? null : document.getDate("review_date"));
     }
 
     public Review(LocalDate reviewDate, String author, String gameOfReference, String title){
@@ -98,6 +100,64 @@ public class Review {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void delete(String game, String author) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("reviews");
+            Document filter = new Document();
+            filter.append("author", author);
+            filter.append("game", game);
+            collection.deleteOne(Filters.and(filter));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insert(String author, LocalDate localDate, String title, String text,
+                              String game) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            Document review;
+            Date date;
+
+            date = DateConverter.convertLocalDateToDate(localDate);
+
+            review = new Document("author", author)
+                    .append("review_date", date)
+                    .append("review_title", title)
+                    .append("review_text", text)
+                    .append("game", game);
+
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("reviews");
+            collection.insertOne(review);
+            //createUserNode(registNick);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Boolean findByGameAndAuthor(String game, String author) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("reviews");
+            Document filter = new Document();
+            filter.append("author", author);
+            filter.append("game", game);
+            Document d = collection.find(Filters.and(filter)).first();
+            if(d == null)
+                return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public static List<Document> findByGame(String name) {

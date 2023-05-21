@@ -6,7 +6,6 @@ import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static it.unipi.gamegram.Entities.Game.convertToLocalDate;
 
 import java.security.MessageDigest;
 
@@ -132,6 +131,18 @@ public class User {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void delete(String nick) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("users");
+            collection.deleteOne(eq("nick", nick));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void register(String nick, String password, String name, String surname) {

@@ -1,5 +1,7 @@
 package it.unipi.gamegram;
 
+import it.unipi.gamegram.Entities.User;
+
 public class UserSingleton {
 
     private static UserSingleton user = null;

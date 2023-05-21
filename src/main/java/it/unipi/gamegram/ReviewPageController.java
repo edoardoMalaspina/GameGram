@@ -1,5 +1,6 @@
 package it.unipi.gamegram;
 
+import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.Review;
 import it.unipi.gamegram.Entities.User;
 import javafx.fxml.FXML;
@@ -34,7 +35,16 @@ public class ReviewPageController {
     @FXML
     private Button back;
 
+    @FXML
+    private Button delete;
+
     public void initialize() {
+        delete.setVisible(false);
+        delete.setDisable(true);
+        if(LoggedUser.getIsAdmin()) {
+            delete.setVisible(true);
+            delete.setDisable(false);
+        }
         Review review = ReviewSingleton.getReview();
         String titleFront = review.getTitle();
         title.setText(titleFront);
@@ -45,8 +55,14 @@ public class ReviewPageController {
     }
 
     @FXML
+    private void delete() throws IOException {
+        Review.delete(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
+        ReviewSingleton.setNull();
+        GameGramApplication.setRoot("gamepage");}
+
+    @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("showuserreviews");
+        GameGramApplication.setRoot("showgamereviews");
     }
 
 }

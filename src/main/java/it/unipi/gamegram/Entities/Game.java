@@ -1,6 +1,7 @@
 package it.unipi.gamegram.Entities;
 
 import com.mongodb.client.MongoCollection;
+import it.unipi.gamegram.DateConverter;
 import it.unipi.gamegram.MongoDBDriver;
 import org.bson.Document;
 
@@ -12,26 +13,12 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class Game {
     private String name;
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public String getFullDescription() {
-        return fullDescription;
-    }
-
     private String categories;
     private String developer;
     private String publisher;
     private LocalDate dateOfPublication;
     private double price;
     private String shortDescription;
-    private String fullDescription;
 
     public Game(String name){
         this.name = name;
@@ -48,14 +35,6 @@ public class Game {
         this.name = name;
         this.shortDescription = shortDescription;
     }
-
-    public static LocalDate convertToLocalDate(Date date) {
-        if(date == null){
-            return null;
-        }
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
-
     public Game(Document document) {
         this.name = (document.get("name") == null) ? "" : document.getString("name");
         this.developer = (document.get("developer") == null) ? "" : document.getString("developer");
@@ -63,8 +42,7 @@ public class Game {
         this.categories = (document.get("categories") == null) ? "" : document.getString("categories");
         this.publisher = (document.get("publisher") == null) ? "" : document.getString("publisher");
         this.shortDescription = (document.get("shortDescription") == null) ? "" : document.getString("shortDescription");
-        this.fullDescription = (document.get("fullDescription") == null) ? "" : document.getString("fullDescription");
-        this.dateOfPublication = convertToLocalDate((document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication"));
+        this.dateOfPublication = DateConverter.convertToLocalDate((document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication"));
     }
 
     public static Document findByName (String name) {
@@ -81,6 +59,44 @@ public class Game {
         return null;
     }
 
+    public static void delete(String name) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("games");
+            collection.deleteOne(eq("name", name));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insert(String name, LocalDate dateOfPublication, String developer, String publisher,
+                              double price, String shortDescription) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            Document game;
+            Date date;
+
+            date = DateConverter.convertLocalDateToDate(dateOfPublication);
+
+            game = new Document("name", name)
+                    .append("dateOfPublication", date)
+                    .append("developer", developer)
+                    .append("publisher", publisher)
+                    .append("price", price)
+                    .append("shortDescription", shortDescription);
+
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("games");
+            collection.insertOne(game);
+
+            //createUserNode(registNick);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static boolean checkName (String name) {
         try {
             MongoDBDriver md = MongoDBDriver.getInstance();
@@ -103,6 +119,10 @@ public class Game {
 
     public Double getPrice() {
         return price;
+    }
+
+    public String getPublisher() {
+        return publisher;
     }
 
     public String getDeveloper() {

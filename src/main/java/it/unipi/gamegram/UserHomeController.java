@@ -22,6 +22,9 @@ public class UserHomeController {
     private Button showReviews;
 
     @FXML
+    private Button insert;
+
+    @FXML
     private TextField userNick;
 
     @FXML
@@ -31,6 +34,12 @@ public class UserHomeController {
     private Label errorMessage;
 
     public void initialize() {
+        insert.setVisible(false);
+        insert.setDisable(true);
+        if(LoggedUser.getIsAdmin()) {
+            insert.setVisible(true);
+            insert.setDisable(false);
+        }
         errorMessage.setVisible(false);
     }
 
@@ -79,6 +88,11 @@ public class UserHomeController {
         UserSingleton.setNull();
         UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
         GameGramApplication.setRoot("showuserreviews");
+    }
+
+    @FXML
+    private void insertGame() throws IOException {
+        GameGramApplication.setRoot("insertgame");
     }
 
     @FXML

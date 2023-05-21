@@ -62,12 +62,8 @@ public class LoginController {
 
         user = LoggedUser.getInstance();
         user.setLoggedUser(nick);
+        GameGramApplication.setRoot("userhome");
 
-        if (User.isAdmin(nick)) {
-            GameGramApplication.setRoot("adminhome");
-        } else {
-            GameGramApplication.setRoot("userhome");
-            }
     }
 }
 

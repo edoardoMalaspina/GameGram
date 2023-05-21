@@ -1,6 +1,7 @@
 package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Game;
+import it.unipi.gamegram.Entities.Review;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,6 +29,9 @@ public class GamePageController {
     private Label shortDescription;
 
     @FXML
+    private Label outcomeMessage;
+
+    @FXML
     private Button like;
 
     @FXML
@@ -37,10 +41,21 @@ public class GamePageController {
     private Button showReviews;
 
     @FXML
+    private Button writeReview;
+
+    @FXML
     private Button back;
 
-
+    @FXML
+    private Button delete;
+    
     public void initialize() {
+        delete.setVisible(false);
+        delete.setDisable(true);
+        if(LoggedUser.getIsAdmin()) {
+            delete.setVisible(true);
+            delete.setDisable(false);
+        }
         String name = GameSingleton.getName();
         title.setText(name + "'s game page");
         Game game = new Game(Game.findByName(name));
@@ -53,13 +68,24 @@ public class GamePageController {
 
     @FXML
     private void showReviews() throws IOException {
-        GameSingleton.getInstance(GameSingleton.getName());
         GameGramApplication.setRoot("showgamereviews");
+    }
+
+    @FXML
+    private void writeReview() throws IOException {
+        if(Review.findByGameAndAuthor(GameSingleton.getName(), LoggedUser.getLoggedUser().getNick())){
+            outcomeMessage.setText("You already wrote a review for this game.");
+        }
+        GameGramApplication.setRoot("writereview");
     }
     @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("userhome");}
 
-
+    @FXML
+    private void delete() throws IOException {
+        Game.delete(GameSingleton.getName());
+        GameSingleton.setNull();
+        GameGramApplication.setRoot("userhome");}
 
 }

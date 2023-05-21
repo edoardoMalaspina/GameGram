@@ -18,7 +18,7 @@ public class LoggedUser {
         if(user == null) {
             throw new RuntimeException("No user instance.");
         } else {
-            user.logged = new User(nick);
+            user.logged = new User(User.findByNick(nick));
         }
     }
 
@@ -27,6 +27,17 @@ public class LoggedUser {
             throw new RuntimeException("No user instance.");
         } else {
             return user.logged;
+        }
+    }
+
+    public static Boolean getIsAdmin() {
+        Boolean isAdmin = false;
+        if(user == null) {
+            throw new RuntimeException("No user instance.");
+        } else {
+            if(user.logged.getIsAdmin().equals("Yes"))
+                isAdmin = true;
+            return isAdmin;
         }
     }
 
