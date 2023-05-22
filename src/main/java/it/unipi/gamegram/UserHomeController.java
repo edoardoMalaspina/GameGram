@@ -13,6 +13,9 @@ public class UserHomeController {
     private Button findUser;
 
     @FXML
+    private Button showFollowed;
+
+    @FXML
     private Button findGame;
 
     @FXML
@@ -89,6 +92,11 @@ public class UserHomeController {
         UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
         GameGramApplication.setRoot("showuserreviews");
     }
+    @FXML
+    private void ShowFollowed() throws IOException {
+        GameGramApplication.setRoot("showfollowed");
+    }
+
 
     @FXML
     private void insertGame() throws IOException {

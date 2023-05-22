@@ -58,7 +58,11 @@ public class ReviewPageController {
     private void delete() throws IOException {
         Review.delete(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
         ReviewSingleton.setNull();
-        GameGramApplication.setRoot("gamepage");}
+        if (ReviewSingleton.getFlag())
+            GameGramApplication.setRoot("showgamereviews");
+        else
+            GameGramApplication.setRoot("showuserreviews");
+    }
 
     @FXML
     private void back() throws IOException {
