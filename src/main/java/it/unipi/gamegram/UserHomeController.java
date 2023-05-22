@@ -25,6 +25,9 @@ public class UserHomeController {
     private Button showReviews;
 
     @FXML
+    private Button showLikes;
+
+    @FXML
     private Button insert;
 
     @FXML

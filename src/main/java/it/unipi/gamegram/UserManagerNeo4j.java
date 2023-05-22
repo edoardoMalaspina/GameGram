@@ -47,12 +47,14 @@ public class UserManagerNeo4j {
     }
 
     public static ArrayList<Game> getListLikedGames(User usr){
+        // DA TOGLIERE
+        Neo4jDbManager TMP = new Neo4jDbManager();
         ArrayList<Game> listLikedGames = new ArrayList<>();
         try (Session session = Neo4jDbManager.getDriver().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
                         "WHERE u.firstname = '" + usr.getFirstName() +
-                        "' AND u.lastname = '" + usr.getLastName() +
+                      //  "' AND u.lastname = '" + usr.getLastName() +
                         "' AND u.username = '" + usr.getNick() +
                         "' RETURN liked.name");
                 while (result.hasNext()) {
@@ -389,9 +391,16 @@ public class UserManagerNeo4j {
 
         User usr1 = new User("edoardo", "edoardo", "edoardo");
         User usr2 = new User("i", "l","gennaro");
+        Game pippo = new Game("pippo");
+        Game pluto = new Game("pluto");
 
         addUserNode(usr1);
         addUserNode(usr2);
+        GameManagerNeo4j.addGameNode(pippo);
+        GameManagerNeo4j.addGameNode(pluto);
+
+        addDirectedLinkLike(usr2, pippo);
+        addDirectedLinkLike(usr2, pluto);
 
         addDirectedLinkFollow(usr2, usr1);
 
