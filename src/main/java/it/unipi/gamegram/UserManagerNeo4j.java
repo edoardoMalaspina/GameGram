@@ -25,11 +25,13 @@ public class UserManagerNeo4j {
 
     public static ArrayList<User> getListFollowedUsers(User usr) {
         ArrayList<User> listFollowedUsers = new ArrayList<>();
+        // DA TOGLIERE
+        Neo4jDbManager TMP = new Neo4jDbManager();
         try (Session session = Neo4jDbManager.getDriver().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
                         "WHERE u.firstname = '" + usr.getFirstName() +
-                        "' AND u.lastname = '" + usr.getLastName() +
+                       // "' AND u.lastname = '" + usr.getLastName() +
                         "' AND u.username = '" + usr.getNick() +
                         "' RETURN followed.firstname, followed.lastname, followed.username");
                 while (result.hasNext()) {
@@ -65,7 +67,7 @@ public class UserManagerNeo4j {
         return listLikedGames;
     }
 
-    public static ArrayList<Like> getLikedGameDated(User usr){
+    private static ArrayList<Like> getLikedGameDated(User usr){
         ArrayList<Like> listLikes = new ArrayList<>();
         LocalDate today = LocalDate.now();
         try (Session session = Neo4jDbManager.getDriver().session()) {
@@ -154,7 +156,7 @@ public class UserManagerNeo4j {
 
     }
 
-    public static boolean checkIfAlreadyFollowed(User follower, User followed){
+    private static boolean checkIfAlreadyFollowed(User follower, User followed){
         try (Session session =  Neo4jDbManager.getDriver().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
@@ -165,8 +167,7 @@ public class UserManagerNeo4j {
         }
     }
 
-    // da testare
-    public static boolean checkIfAlreadyLiked(User usr, Game game){
+    private static boolean checkIfAlreadyLiked(User usr, Game game){
         try (Session session =  Neo4jDbManager.getDriver().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as likeExists");
@@ -177,8 +178,7 @@ public class UserManagerNeo4j {
         }
     }
 
-    // da testare
-    public static boolean checkIfAlreadyReviewed(User usr, Game game){
+    private static boolean checkIfAlreadyReviewed(User usr, Game game){
         try (Session session =  Neo4jDbManager.getDriver().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as reviewExists");
@@ -334,7 +334,7 @@ public class UserManagerNeo4j {
     public static void main(String[] args){
 
         Neo4jDbManager dbManager = new Neo4jDbManager();
-
+/*
         User usr1 = new User("a", "b", "d_rowe2583");
         User usr2 = new User("c", "d","m_linda3865");
         User usr3 = new User("e", "f","pluto");
@@ -383,8 +383,17 @@ public class UserManagerNeo4j {
         for (Like like:lista){
             System.out.println(like.nameOfTheGame + " " + like.dayPassedSinceLike);
         }
-        */
+
         unlike(usr4, pippo);
+        */
+
+        User usr1 = new User("edoardo", "edoardo", "edoardo");
+        User usr2 = new User("i", "l","gennaro");
+
+        addUserNode(usr1);
+        addUserNode(usr2);
+
+        addDirectedLinkFollow(usr2, usr1);
 
 
     }

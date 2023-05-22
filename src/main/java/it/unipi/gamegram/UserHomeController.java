@@ -93,7 +93,7 @@ public class UserHomeController {
         GameGramApplication.setRoot("showuserreviews");
     }
     @FXML
-    private void ShowFollowed() throws IOException {
+    private void showFollowed() throws IOException {
         GameGramApplication.setRoot("showfollowed");
     }
 

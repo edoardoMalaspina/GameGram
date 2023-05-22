@@ -50,6 +50,7 @@ public class ShowFollowedController {
 
         userTable.setItems(olUsers);
 
+
         List<User> users = UserManagerNeo4j.getListFollowedUsers(user);
 
         for(User d:users){
