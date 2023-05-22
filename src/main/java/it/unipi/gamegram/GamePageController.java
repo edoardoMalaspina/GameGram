@@ -75,6 +75,7 @@ public class GamePageController {
     private void writeReview() throws IOException {
         if(Review.findByGameAndAuthor(GameSingleton.getName(), LoggedUser.getLoggedUser().getNick())){
             outcomeMessage.setText("You already wrote a review for this game.");
+            return;
         }
         GameGramApplication.setRoot("writereview");
     }
