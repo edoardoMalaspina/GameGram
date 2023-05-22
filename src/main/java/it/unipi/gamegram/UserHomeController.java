@@ -97,6 +97,11 @@ public class UserHomeController {
         GameGramApplication.setRoot("showfollowed");
     }
 
+    @FXML
+    private void showLiked() throws IOException {
+        GameGramApplication.setRoot("showliked");
+    }
+
 
     @FXML
     private void insertGame() throws IOException {

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ShowFollowedController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ShowLikedController">
    <children>
       <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="108.0" prefWidth="580.0" textAlignment="CENTER">
          <font>
@@ -16,11 +16,11 @@
          </font>
       </Label>
       <Button fx:id="back" layoutX="244.0" layoutY="346.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="111.0" text="Back" />
-      <TableView fx:id="userTable" layoutX="200.0" layoutY="122.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="gameTable" layoutX="200.0" layoutY="122.0" prefHeight="200.0" prefWidth="200.0">
          <contextMenu>
             <ContextMenu fx:id="cm">
               <items>
-                <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#showReview" text="show review" />
+                <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#showUserPage" text="show review" />
               </items>
             </ContextMenu>
          </contextMenu>
