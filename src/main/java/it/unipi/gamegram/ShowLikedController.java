@@ -31,7 +31,7 @@ public class ShowLikedController {
 
     @FXML
     public void initialize() {
-        User user = LoggedUser.getLoggedUser();
+        User user = new User(UserSingleton.getNick());
         title.setText(user.getNick() + "'s liked games");
 
         TableColumn nameCol = new TableColumn("name");
@@ -59,6 +59,9 @@ public class ShowLikedController {
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("userhome");
+        if(UserSingleton.getFlag())
+            GameGramApplication.setRoot("userhome");
+        else
+            GameGramApplication.setRoot("userpage");
     }
 }

@@ -10,7 +10,7 @@ public class Neo4jDbManager {
    // private final String uri = "neo4j://localhost:7687"; // original database
     private final String uri = "bolt://localhost:7687"; // personal new connection to test functions
     private final String user = "neo4j";
-    private final String password = "password";
+    private final String password = "romeo123";
 
     public Neo4jDbManager(){
         try {
