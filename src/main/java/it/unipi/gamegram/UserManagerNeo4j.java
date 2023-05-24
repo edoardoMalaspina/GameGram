@@ -7,8 +7,6 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;
 import org.neo4j.driver.Record;
-
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -21,9 +19,7 @@ public class UserManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
-                        "WHERE u.firstname = '" + usr.getFirstName() +
-                       // "' AND u.lastname = '" + usr.getLastName() +
-                        "' AND u.username = '" + usr.getNick() +
+                        "WHERE u.username = '" + usr.getNick() +
                         "' RETURN followed.firstname, followed.lastname, followed.username");
                 while (result.hasNext()) {
                     Record r = result.next();
@@ -42,9 +38,7 @@ public class UserManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
-                        "WHERE u.firstname = '" + usr.getFirstName() +
-                      //  "' AND u.lastname = '" + usr.getLastName() +
-                        "' AND u.username = '" + usr.getNick() +
+                        "WHERE AND u.username = '" + usr.getNick() +
                         "' RETURN liked.name");
                 while (result.hasNext()) {
                     Record r = result.next();
@@ -64,9 +58,7 @@ public class UserManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
-                        "WHERE u.firstname = '" + usr.getFirstName() +
-                        "' AND u.lastname = '" + usr.getLastName() +
-                        "' AND u.username = '" + usr.getNick() +
+                        "WHERE u.username = '" + usr.getNick() +
                         "' RETURN liked.name, like.date");
                 while (result.hasNext()) {
                     Record r = result.next();
@@ -234,11 +226,9 @@ public class UserManagerNeo4j {
         // per ogni utente della lista che seguo metto in una lista gli utenti che segue
         for(User tmp : listFollowed)
             totalFollowedByFollowed.addAll(getListFollowedUsers(tmp));
-
         // togliamo dalla lista totale gli utenti che seguo già e me stesso
-        for(User alreadyFollowed : listFollowed){
+        for(User alreadyFollowed : listFollowed)
             totalFollowedByFollowed.remove(alreadyFollowed);
-        }
         totalFollowedByFollowed.remove(usr);
         // metto in un'hashmap tutti questi candidati e alzo il punteggio di uno ogni volta che si ripetono
         for (User tmp : totalFollowedByFollowed){
@@ -252,20 +242,16 @@ public class UserManagerNeo4j {
                 mapUsers.put(tmp.getNick(), oldValue);
             }
         }
-
         // Sort the entries by value in descending order
         ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<>(mapUsers.entrySet());
         entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
         // Retrieve the keys corresponding to the highest values
         ArrayList<String> keys = new ArrayList<>();
         for (int i = 0; i < Math.min(5, entries.size()); i++) {
             keys.add(entries.get(0).getKey());
             entries.remove(0);
         }
-
         return keys;
-
     }
 
 
@@ -290,7 +276,7 @@ public class UserManagerNeo4j {
     }
 
     // da testare
-    public String suggestTrendingNowAmongFollowed(User usr){
+    public ArrayList<String> suggestTrendingNowAmongFollowed(User usr){
         // prendi dal grafo la lista di amici
         ArrayList<User> listFollowed = getListFollowedUsers(usr);
         // creiamo una struttura hashmap con keys: tutti i giochi a cui gli amici hanno messo like
@@ -307,16 +293,16 @@ public class UserManagerNeo4j {
                 }
             }
         }
-        // ora vediamo qual è il gioco con lo score più alto
-        String bestTitle = " ";
-        double bestScore = 0;
-        for (String key:mapScores.keySet()){
-            if(mapScores.get(key) > bestScore){
-                bestScore = mapScores.get(key);
-                bestTitle = key;
-            }
+        // ora vediamo quali sono i top 5 giochi con score più alto
+        ArrayList<Map.Entry<String, Double>> entries = new ArrayList<>(mapScores.entrySet());
+        entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        // Retrieve the keys corresponding to the highest values
+        ArrayList<String> top5 = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, entries.size()); i++) {
+            top5.add(entries.get(0).getKey());
+            entries.remove(0);
         }
-        return bestTitle;
+        return top5;
     }
 
     private static class Like{
