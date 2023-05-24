@@ -13,16 +13,7 @@ public class Neo4jDriver{
     private String user;
     private String password;
 
-    /*
-    public Neo4jDriver(int toglielo){
-        try {
-            driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password)); //authentication without encryption
-        }catch (Exception e){
-            System.out.println("Error occurred opening Neo4j connection");
-            e.printStackTrace();
-        }
-    }
-    */
+
 
     private Neo4jDriver(){
         uri = "bolt://localhost:7687";
@@ -38,24 +29,14 @@ public class Neo4jDriver{
         return driver;
     }
 
-
-
-
-
-    public void closeNeo4J() throws Exception {
+    public static void closeNeo4J() throws Exception {
         try{
             driver.close();
+
         }catch (Exception e){
             System.out.println("Error occurred opening Neo4j connection");
             e.printStackTrace();
         }
     }
-
-    /*
-    public static Driver getDriver() {
-        return driver;
-    }
-    */
-
 
 }

@@ -20,6 +20,7 @@ public class GameManagerNeo4j {
                 tx.run("CREATE (:Game { name: '" + game.getName() + "', short_description: '" + game.getShortDescription() + "'})");
                 return null;
             });
+            Neo4jDriver.closeNeo4J();
         } catch (Exception e) {
             System.err.println("Failed to create game node: " + e.getMessage());
             e.printStackTrace();
