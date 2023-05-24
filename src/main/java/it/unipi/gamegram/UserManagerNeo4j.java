@@ -40,7 +40,6 @@ public class UserManagerNeo4j {
                 }
                 return listFollowedUsers;
             });
-            Neo4jDriver.closeNeo4J();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +89,6 @@ public class UserManagerNeo4j {
                 }
                 return listLikes;
             });
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,7 +102,6 @@ public class UserManagerNeo4j {
                 tx.run ("CREATE (:User { username:'" + usr.getNick() + "', lastname:'" + usr.getLastName() + "', firstname:'" + usr.getFirstName() + "'})");
                 return null;
             } );
-
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -155,7 +152,6 @@ public class UserManagerNeo4j {
                         "CREATE (n1)-[:LIKE {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
-
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -166,7 +162,6 @@ public class UserManagerNeo4j {
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
-            Neo4jDriver.closeNeo4J();
             return result.single().get("followExists").asBoolean();
         } catch (Exception e){
             e.printStackTrace();
@@ -178,7 +173,6 @@ public class UserManagerNeo4j {
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as likeExists");
-
             return result.single().get("likeExists").asBoolean();
         } catch (Exception e){
             e.printStackTrace();
@@ -190,7 +184,6 @@ public class UserManagerNeo4j {
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as reviewExists");
-
             return result.single().get("reviewExists").asBoolean();
         } catch (Exception e){
             e.printStackTrace();
@@ -208,7 +201,6 @@ public class UserManagerNeo4j {
             try (Session session =  Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[follow:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                         "DELETE follow");
-
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
@@ -226,7 +218,6 @@ public class UserManagerNeo4j {
             try (Session session = Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '" + usr.getNick() + "'})-[like:LIKE]->(n2 {name: '" + game.getName() + "'})" +
                         "DELETE like");
-
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -244,7 +235,6 @@ public class UserManagerNeo4j {
             try (Session session =  Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[review:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                         "DELETE review");
-
                 return true;
             } catch (Exception e){
                 e.printStackTrace();

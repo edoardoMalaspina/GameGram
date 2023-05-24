@@ -21,7 +21,6 @@ public class ReviewManagerNeo4j {
                 tx.run ("CREATE (" + rev.getAuthor() + ")-[:REVIEWED {date: " + rev.getReviewDate() + ", title: " + rev.getTitle() + "}]->(" + rev.getGameOfReference() + ")");
                 return null;
             } );
-            Neo4jDriver.closeNeo4J();
         }catch(Exception e){
             e.printStackTrace();
         }
