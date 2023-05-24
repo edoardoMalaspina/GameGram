@@ -8,25 +8,16 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;
 import org.neo4j.driver.Record;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class UserManagerNeo4j {
-   // private final Neo4jDriver neo4jDBM;
-
-    /*
-    public UserManagerNeo4j(Neo4jDriver dbNeo4J) {
-        this.neo4jDBM = dbNeo4J;
-    }
-     */
 
     public static ArrayList<User> getListFollowedUsers(User usr) {
         ArrayList<User> listFollowedUsers = new ArrayList<>();
-        // DA TOGLIERE
-        //Neo4jDriver TMP = new Neo4jDriver();
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
@@ -47,8 +38,6 @@ public class UserManagerNeo4j {
     }
 
     public static ArrayList<Game> getListLikedGames(User usr){
-        // DA TOGLIERE
-        //Neo4jDriver TMP = new Neo4jDriver();
         ArrayList<Game> listLikedGames = new ArrayList<>();
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
@@ -110,8 +99,6 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkFollow(User follower, User followed){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
-           // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-           // String formattedDate = currentDate.format(formatter);
             if(checkIfAlreadyFollowed(follower, followed)){
                 System.out.println("You are already following this user"); //vedere come sistemare con l'interfaccia grafica
                 return;
@@ -129,8 +116,6 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkReviewed(Review rev){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
-            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-            //String formattedDate = currentDate.format(formatter);
             // check if already reviewed
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
@@ -145,8 +130,6 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkLike(User usr, Game game){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
-           // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
-           // String formattedDate = currentDate.format(formatter);
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+usr.getNick()+"'}), (n2 {name: '"+game.getName()+"'})" +
                         "CREATE (n1)-[:LIKE {date: '"+ currentDate +"'}]->(n2)");
@@ -243,44 +226,48 @@ public class UserManagerNeo4j {
         }
     }
 
-    // aggiungi controllo sul fatto che non sia un utente che segui già quello suggerito
-    public static ArrayList<User> suggestFriend(User usr){
-        // prendi la lista di tuoi amici
+    public static ArrayList<String> suggestWhoToFollow(User usr){
+        // prendo la lista di persone che seguo
         ArrayList<User> listFollowed = getListFollowedUsers(usr);
-        // crea hashmap<Utente Integer>
-        HashMap<User, Integer> mapSuggestedFriends = new HashMap<>();
-        // scorri la lista di amici dei tuoi amici e aggiungi tutti gli utenti all'ashmap
-        for (User user:listFollowed){
-            ArrayList<User> listFollowedOfFriend = getListFollowedUsers(user);
-            for (User tmp:listFollowedOfFriend){
-                if (!mapSuggestedFriends.containsKey(tmp))
-                    mapSuggestedFriends.put(tmp, 1);
-                else{
-                    // se un utente è già presente aggiungi 1 al suo value
-                    int oldValue = mapSuggestedFriends.get(tmp);
-                    mapSuggestedFriends.replace(tmp, oldValue, oldValue+1);
-                }
-            }
-        }
-        // ritorna i 5 users con il punteggio più alto
-        ArrayList<User> result = new ArrayList<>();
+        ArrayList<User> totalFollowedByFollowed = new ArrayList<>();
+        HashMap<String, Integer> mapUsers = new HashMap<>();
+        // per ogni utente della lista che seguo metto in una lista gli utenti che segue
+        for(User tmp : listFollowed)
+            totalFollowedByFollowed.addAll(getListFollowedUsers(tmp));
 
-        // DA FARE MEGLIO INDIVIDUANDO SENZA FARLA O(N^2)
-        for (int i=0; i<5; i++) {
-            User maximumKey = null;
-            int maximumValue = 0;
-            for (User key : mapSuggestedFriends.keySet()) {
-                if (mapSuggestedFriends.get(key) > maximumValue) {
-                    maximumValue = mapSuggestedFriends.get(key);
-                    maximumKey = key;
-                }
-            }
-            mapSuggestedFriends.remove(maximumKey);
-            result.add(maximumKey);
+        // togliamo dalla lista totale gli utenti che seguo già e me stesso
+        for(User alreadyFollowed : listFollowed){
+            totalFollowedByFollowed.remove(alreadyFollowed);
         }
-        return result;
+        totalFollowedByFollowed.remove(usr);
+        // metto in un'hashmap tutti questi candidati e alzo il punteggio di uno ogni volta che si ripetono
+        for (User tmp : totalFollowedByFollowed){
+            if(!mapUsers.containsKey(tmp.getNick())){
+                mapUsers.put(tmp.getNick(), 1);
+            }
+            else{
+                int oldValue = mapUsers.get(tmp.getNick());
+                oldValue++;
+                mapUsers.remove(tmp.getNick());
+                mapUsers.put(tmp.getNick(), oldValue);
+            }
+        }
+
+        // Sort the entries by value in descending order
+        ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<>(mapUsers.entrySet());
+        entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        // Retrieve the keys corresponding to the highest values
+        ArrayList<String> keys = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, entries.size()); i++) {
+            keys.add(entries.get(0).getKey());
+            entries.remove(0);
+        }
+
+        return keys;
 
     }
+
 
     // method that taken the list of followed users return the oldest like
     // da testare
@@ -452,12 +439,6 @@ public class UserManagerNeo4j {
         addDirectedLinkFollow(usr3, usr10);
         addDirectedLinkFollow(usr2, usr11);
         addDirectedLinkFollow(usr2, usr12);
-
-        ArrayList<User> suggested = suggestFriend(usr1);
-        for (User tmp :suggested){
-            System.out.println(tmp.getNick());
-        }
-
 
     }
 
