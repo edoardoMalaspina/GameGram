@@ -81,7 +81,6 @@ public class UserPageController {
             outcomeMessage.setText("User already followed.");
             return;
         }
-        System.out.println(user.getNick() + user.getFirstName());
         UserManagerNeo4j.addDirectedLinkFollow(LoggedUser.getLoggedUser(), user);
         outcomeMessage.setText("User successfully followed.");
     }

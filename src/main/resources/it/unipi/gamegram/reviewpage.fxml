@@ -6,21 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="453.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ReviewPageController">
+<AnchorPane prefHeight="480.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ReviewPageController">
    <children>
-      <Label fx:id="title" alignment="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="70.0" prefWidth="616.0" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="title" alignment="CENTER" layoutX="13.0" layoutY="13.0" prefHeight="71.0" prefWidth="616.0" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <Button fx:id="upvote" layoutX="14.0" layoutY="412.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Vote useful" />
-      <Button fx:id="unvote" layoutX="153.0" layoutY="412.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Unvote" />
-      <Button fx:id="back" layoutX="508.0" layoutY="412.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="116.0" text="Back" />
-      <ListView layoutX="11.0" layoutY="95.0" prefHeight="304.0" prefWidth="616.0" />
+      <Button fx:id="back" layoutX="274.0" layoutY="439.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="116.0" text="Back" />
+      <ListView layoutX="11.0" layoutY="88.0" prefHeight="304.0" prefWidth="616.0" />
       <Label fx:id="game" layoutX="27.0" layoutY="109.0" prefHeight="38.0" prefWidth="584.0" />
       <Label fx:id="author" layoutX="27.0" layoutY="147.0" prefHeight="38.0" prefWidth="584.0" />
       <Label fx:id="date" layoutX="27.0" layoutY="185.0" prefHeight="38.0" prefWidth="584.0" />
       <Label fx:id="reviewText" layoutX="29.0" layoutY="204.0" prefHeight="178.0" prefWidth="584.0" wrapText="true" />
-      <Button fx:id="delete" layoutX="374.0" layoutY="412.0" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="116.0" text="Delete Review" />
+      <Button fx:id="delete" layoutX="274.0" layoutY="409.0" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="116.0" text="Delete Review" />
    </children>
 </AnchorPane>

@@ -27,7 +27,7 @@ public class Neo4jDriver{
     private Neo4jDriver(){
         uri = "bolt://localhost:7687";
         user = "neo4j";
-        password = "password";
+        password = "romeo123";
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
 
