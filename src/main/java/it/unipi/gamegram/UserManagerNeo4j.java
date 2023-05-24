@@ -64,7 +64,6 @@ public class UserManagerNeo4j {
                 }
                 return listLikedGames;
             });
-            Neo4jDriver.closeNeo4J();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +90,7 @@ public class UserManagerNeo4j {
                 }
                 return listLikes;
             });
-            Neo4jDriver.closeNeo4J();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,7 +104,7 @@ public class UserManagerNeo4j {
                 tx.run ("CREATE (:User { username:'" + usr.getNick() + "', lastname:'" + usr.getLastName() + "', firstname:'" + usr.getFirstName() + "'})");
                 return null;
             } );
-            Neo4jDriver.closeNeo4J();
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -125,7 +124,6 @@ public class UserManagerNeo4j {
                         "CREATE (n1)-[:FOLLOW {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
-            Neo4jDriver.closeNeo4J();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -142,7 +140,6 @@ public class UserManagerNeo4j {
                         "CREATE (n1)-[:REVIEWED {date: '"+ currentDate +"', title: '"+rev.getTitle()+"'}]->(n2)");
                 return null;
             } );
-            Neo4jDriver.closeNeo4J();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -158,7 +155,7 @@ public class UserManagerNeo4j {
                         "CREATE (n1)-[:LIKE {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
-            Neo4jDriver.closeNeo4J();
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -181,7 +178,7 @@ public class UserManagerNeo4j {
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as likeExists");
-            Neo4jDriver.closeNeo4J();
+
             return result.single().get("likeExists").asBoolean();
         } catch (Exception e){
             e.printStackTrace();
@@ -193,7 +190,7 @@ public class UserManagerNeo4j {
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as reviewExists");
-            Neo4jDriver.closeNeo4J();
+
             return result.single().get("reviewExists").asBoolean();
         } catch (Exception e){
             e.printStackTrace();
@@ -211,7 +208,7 @@ public class UserManagerNeo4j {
             try (Session session =  Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[follow:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                         "DELETE follow");
-                Neo4jDriver.closeNeo4J();
+
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
@@ -229,7 +226,7 @@ public class UserManagerNeo4j {
             try (Session session = Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '" + usr.getNick() + "'})-[like:LIKE]->(n2 {name: '" + game.getName() + "'})" +
                         "DELETE like");
-                Neo4jDriver.closeNeo4J();
+
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -247,7 +244,7 @@ public class UserManagerNeo4j {
             try (Session session =  Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[review:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                         "DELETE review");
-                Neo4jDriver.closeNeo4J();
+
                 return true;
             } catch (Exception e){
                 e.printStackTrace();
