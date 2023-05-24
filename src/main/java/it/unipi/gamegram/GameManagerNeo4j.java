@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class GameManagerNeo4j {
 
     public static int countLikes(String game) {
-
         try (Session session = Neo4jDriver.getInstance().session()) {
             return session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (:User)-[:LIKE]->(game:Game) " +
@@ -20,6 +19,22 @@ public class GameManagerNeo4j {
                         Values.parameters("gameName", game));
                 Record record = result.next();
                 return record.get("likeCount").asInt();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int countReviews(String game) {
+        try (Session session = Neo4jDriver.getInstance().session()) {
+            return session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (:User)-[:REVIEWED]->(game:Game) " +
+                                "WHERE game.name = $gameName " +
+                                "RETURN COUNT(*) AS reviewCount",
+                        Values.parameters("gameName", game));
+                Record record = result.next();
+                return record.get("reviewCount").asInt();
             });
         } catch (Exception e) {
             e.printStackTrace();
