@@ -133,7 +133,7 @@ public class UserManagerNeo4j {
 
     }
 
-    private static boolean checkIfAlreadyFollowed(User follower, User followed){
+    public static boolean checkIfAlreadyFollowed(User follower, User followed){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
@@ -144,7 +144,7 @@ public class UserManagerNeo4j {
         }
     }
 
-    private static boolean checkIfAlreadyLiked(User usr, Game game){
+    public static boolean checkIfAlreadyLiked(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as likeExists");
