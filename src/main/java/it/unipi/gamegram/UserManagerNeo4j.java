@@ -518,11 +518,13 @@ public class UserManagerNeo4j {
         addDirectedLinkLikeWithDateByHand(usr10, i, d9);
         addDirectedLinkLikeWithDateByHand(usr11, a, d10);
 
-        ArrayList<String> listSuggestedGames = suggestTrendingNowAmongFollowed(usr1);
-        for(String str:listSuggestedGames)
-            System.out.println(str);
+       // String reviewText, LocalDate reviewDate, String author, String gameOfReference, String title;
 
-        System.out.println("aaaaaaaaaaaaaa" + GameManagerNeo4j.countLikes(a.getName()));
+
+        Review rev = new Review("aaaaa", LocalDate.parse("2022-11-11"), "a", "a", "agg");
+        ReviewManagerNeo4j.addReviewDirectedEdge(rev);
+
+        System.out.println(GameManagerNeo4j.countReviews("a"));
 
 
 

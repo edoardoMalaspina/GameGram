@@ -18,7 +18,8 @@ public class ReviewManagerNeo4j {
     public static void addReviewDirectedEdge(Review rev){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run ("CREATE (" + rev.getAuthor() + ")-[:REVIEWED {date: " + rev.getReviewDate() + ", title: " + rev.getTitle() + "}]->(" + rev.getGameOfReference() + ")");
+                tx.run ("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
+                        "CREATE (n1)-[:REVIEWED {date: '"+ rev.getReviewDate() +"'}]->(n2)");
                 return null;
             } );
         }catch(Exception e){
