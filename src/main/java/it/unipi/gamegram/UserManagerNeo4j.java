@@ -466,6 +466,7 @@ public class UserManagerNeo4j {
 
 
 
+
         Game a = new Game("a");
         Game b = new Game("b");
         Game c = new Game("c");
@@ -489,6 +490,9 @@ public class UserManagerNeo4j {
         GameManagerNeo4j.addGameNode(i);
         GameManagerNeo4j.addGameNode(j);
         GameManagerNeo4j.addGameNode(k);
+
+        addDirectedLinkLike(usr1, a);
+        addDirectedLinkLike(usr2, a);
 
 
 
@@ -517,6 +521,8 @@ public class UserManagerNeo4j {
         ArrayList<String> listSuggestedGames = suggestTrendingNowAmongFollowed(usr1);
         for(String str:listSuggestedGames)
             System.out.println(str);
+
+        System.out.println(GameManagerNeo4j.countLikes(a.getName()));
 
 
 

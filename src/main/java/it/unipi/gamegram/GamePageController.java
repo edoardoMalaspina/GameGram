@@ -68,7 +68,7 @@ public class GamePageController {
         publisher.setText("Publisher: " + game.getPublisher());
         price.setText("Price: " + game.getPrice());
         shortDescription.setText("Short description: " + game.getShortDescription());
-        numberOfLikes.setText("Number of likes: " + UserManagerNeo4j.countLikes(GameSingleton.getName()));
+        numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
     }
 
     @FXML
