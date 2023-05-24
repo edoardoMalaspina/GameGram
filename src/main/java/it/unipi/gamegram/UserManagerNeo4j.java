@@ -38,7 +38,7 @@ public class UserManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
-                        "WHERE AND u.username = '" + usr.getNick() +
+                        "WHERE u.username = '" + usr.getNick() +
                         "' RETURN liked.name");
                 while (result.hasNext()) {
                     Record r = result.next();

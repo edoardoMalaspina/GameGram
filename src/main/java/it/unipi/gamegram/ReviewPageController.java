@@ -23,14 +23,10 @@ public class ReviewPageController {
     @FXML
     private Label date;
 
+
+
     @FXML
     private Label reviewText;
-
-    @FXML
-    private Button upvote;
-
-    @FXML
-    private Button unvote;
 
     @FXML
     private Button back;
@@ -52,6 +48,7 @@ public class ReviewPageController {
         author.setText("Author: " + review.getAuthor());
         date.setText("Date: " + review.getReviewDate());
         reviewText.setText(titleFront + ": " + review.getReviewText());
+
     }
 
     @FXML

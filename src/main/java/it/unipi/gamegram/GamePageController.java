@@ -2,6 +2,7 @@ package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.Review;
+import it.unipi.gamegram.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,6 +48,9 @@ public class GamePageController {
     private Button back;
 
     @FXML
+    private Label numberOfLikes;
+
+    @FXML
     private Button delete;
     
     public void initialize() {
@@ -64,6 +68,7 @@ public class GamePageController {
         publisher.setText("Publisher: " + game.getPublisher());
         price.setText("Price: " + game.getPrice());
         shortDescription.setText("Short description: " + game.getShortDescription());
+        numberOfLikes.setText("Number of likes: " + UserManagerNeo4j.countLikes(GameSingleton.getName()));
     }
 
     @FXML
@@ -78,6 +83,28 @@ public class GamePageController {
             return;
         }
         GameGramApplication.setRoot("writereview");
+    }
+
+    @FXML
+    private void like() throws IOException {
+        Game game = new Game(GameSingleton.getName());
+        if(UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)){
+            outcomeMessage.setText("Game already liked.");
+            return;
+        }
+        UserManagerNeo4j.addDirectedLinkLike(LoggedUser.getLoggedUser(), game);
+        outcomeMessage.setText("Game successfully liked.");
+    }
+
+    @FXML
+    private void unlike() throws IOException {
+        Game game = new Game(GameSingleton.getName());
+        if(!UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)){
+            outcomeMessage.setText("Game not liked yet.");
+            return;
+        }
+        UserManagerNeo4j.unlike(LoggedUser.getLoggedUser(), game);
+        outcomeMessage.setText("Game successfully unliked.");
     }
     @FXML
     private void back() throws IOException {
