@@ -1,18 +1,32 @@
 package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Game;
+import it.unipi.gamegram.Entities.User;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;
 
+import java.util.ArrayList;
+
 
 public class GameManagerNeo4j {
-    //private final Neo4jDriver neo4jDBD;
 
-    /*
-    public GameManagerNeo4j() {
-        this.neo4jDBD = Neo4jDriver.getInstance();
+    public static int countLikes(Game game) {
+
+        try (Session session = Neo4jDriver.getInstance().session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (:User)-[:LIKE]->(game:Game) " +
+                        "WHERE game.name = '" + game.getName() +
+                        "' RETURN COUNT(*) AS likeCount");
+                return result.single().get("likeCount").asInt();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
-     */
+
 
     public static void addGameNode(Game game){
         try (Session session = Neo4jDriver.getInstance().session()) {
