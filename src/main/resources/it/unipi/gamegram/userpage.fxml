@@ -15,7 +15,7 @@
       </Label>
       <Button layoutX="420.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Follow" />
       <Button layoutX="420.0" layoutY="171.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Unfollow" />
-      <Button layoutX="420.0" layoutY="209.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Show liked games" />
+      <Button fx:id="showLiked" layoutX="420.0" layoutY="209.0" mnemonicParsing="false" onAction="#showLiked" prefHeight="26.0" prefWidth="116.0" text="Show liked games" />
       <Button fx:id="showReviews" layoutX="420.0" layoutY="247.0" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="116.0" text="Show reviews" />
       <Button fx:id="back" layoutX="420.0" layoutY="328.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="116.0" text="Back" />
       <ListView layoutX="29.0" layoutY="128.0" prefHeight="227.0" prefWidth="371.0" />

@@ -29,7 +29,7 @@ public class UserPageController {
     private Button unfollow;
 
     @FXML
-    private Button showFollows;
+    private Button showLiked;
 
     @FXML
     private Button showReviews;
@@ -57,7 +57,14 @@ public class UserPageController {
 
     @FXML
     private void showReviews() throws IOException {
+        UserSingleton.setFlag(false);
         GameGramApplication.setRoot("showuserreviews");
+    }
+
+    @FXML
+    private void showLiked() throws IOException {
+        UserSingleton.setFlag(false);
+        GameGramApplication.setRoot("showliked");
     }
 
     @FXML

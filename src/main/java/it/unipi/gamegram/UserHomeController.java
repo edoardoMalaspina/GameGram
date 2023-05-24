@@ -93,6 +93,7 @@ public class UserHomeController {
     private void showReviews() throws IOException {
         UserSingleton.setNull();
         UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
+        UserSingleton.setFlag(true);
         GameGramApplication.setRoot("showuserreviews");
     }
     @FXML
@@ -102,6 +103,9 @@ public class UserHomeController {
 
     @FXML
     private void showLiked() throws IOException {
+        UserSingleton.setNull();
+        UserSingleton.getInstance(LoggedUser.getLoggedUser().getNick());
+        UserSingleton.setFlag(true);
         GameGramApplication.setRoot("showliked");
     }
 
