@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserPageController">
+<AnchorPane prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserPageController">
    <children>
       <Label fx:id="title" alignment="CENTER" layoutX="31.0" layoutY="5.0" prefHeight="102.0" prefWidth="535.0" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <Button layoutX="420.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Follow" />
-      <Button layoutX="420.0" layoutY="171.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="116.0" text="Unfollow" />
+      <Button fx:id="follow" layoutX="420.0" layoutY="129.0" mnemonicParsing="false" onAction="#follow" prefHeight="26.0" prefWidth="116.0" text="Follow" />
+      <Button fx:id="unfollow" layoutX="420.0" layoutY="171.0" mnemonicParsing="false" onAction="#unfollow" prefHeight="26.0" prefWidth="116.0" text="Unfollow" />
       <Button fx:id="showLiked" layoutX="420.0" layoutY="209.0" mnemonicParsing="false" onAction="#showLiked" prefHeight="26.0" prefWidth="116.0" text="Show liked games" />
       <Button fx:id="showReviews" layoutX="420.0" layoutY="247.0" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="116.0" text="Show reviews" />
       <Button fx:id="back" layoutX="420.0" layoutY="328.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="116.0" text="Back" />
@@ -24,5 +24,6 @@
       <Label fx:id="isadmin" layoutX="44.0" layoutY="222.0" prefHeight="38.0" prefWidth="334.0" />
       <Label layoutX="44.0" layoutY="271.0" prefHeight="38.0" prefWidth="334.0" />
       <Button fx:id="delete" layoutX="420.0" layoutY="290.0" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="116.0" text="Delete User" />
+      <Label fx:id="outcomeMessage" layoutX="29.0" layoutY="368.0" prefHeight="50.0" prefWidth="371.0" />
    </children>
 </AnchorPane>
