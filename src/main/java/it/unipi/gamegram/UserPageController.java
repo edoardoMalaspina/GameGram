@@ -23,6 +23,9 @@ public class UserPageController {
     private Label isadmin;
 
     @FXML
+    private Label outcomeMessage;
+
+    @FXML
     private Button follow;
 
     @FXML
@@ -65,6 +68,37 @@ public class UserPageController {
     private void showLiked() throws IOException {
         UserSingleton.setFlag(false);
         GameGramApplication.setRoot("showliked");
+    }
+
+    @FXML
+    private void follow() throws IOException {
+        if(LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())){
+            outcomeMessage.setText("You can't follow yourself.");
+            return;
+        }
+        User user = new User(UserSingleton.getNick());
+        if(UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
+            outcomeMessage.setText("User already followed.");
+            return;
+        }
+        System.out.println(user.getNick() + user.getFirstName());
+        UserManagerNeo4j.addDirectedLinkFollow(LoggedUser.getLoggedUser(), user);
+        outcomeMessage.setText("User successfully followed.");
+    }
+
+    @FXML
+    private void unfollow() throws IOException {
+        if(LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())){
+            outcomeMessage.setText("You can't unfollow yourself.");
+            return;
+        }
+        User user = new User(UserSingleton.getNick());
+        if(!UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
+            outcomeMessage.setText("You don't follow this user yet.");
+        return;
+        }
+        UserManagerNeo4j.unfollow(LoggedUser.getLoggedUser(), user);
+        outcomeMessage.setText("User successfully unfollowed.");
     }
 
     @FXML

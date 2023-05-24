@@ -158,7 +158,7 @@ public class UserManagerNeo4j {
 
     }
 
-    private static boolean checkIfAlreadyFollowed(User follower, User followed){
+    public static boolean checkIfAlreadyFollowed(User follower, User followed){
         try (Session session =  Neo4jDbManager.getDriver().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
