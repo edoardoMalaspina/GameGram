@@ -14,9 +14,9 @@ public class GameManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             return session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (:User)-[:LIKE]->(game:Game) " +
-                                "WHERE game.name = $gameName " +
-                                "RETURN COUNT(*) AS likeCount",
-                        Values.parameters("gameName", game));
+                                "WHERE game.name = '"+game+"' " +
+                                "RETURN COUNT(*) AS likeCount");
+                        //Values.parameters("gameName", game));
                 Record record = result.next();
                 return record.get("likeCount").asInt();
             });
