@@ -2,11 +2,8 @@ package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.User;
-import it.unipi.gamegram.Neo4jDbManager;
-import it.unipi.gamegram.UserManagerNeo4j;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -14,8 +11,8 @@ public class PopulatingGraph {
 
     public static void addListOfUsers(String pathOfList){
         BufferedReader reader;
-        Neo4jDbManager dbManager = new Neo4jDbManager();
-        UserManagerNeo4j usrManager = new UserManagerNeo4j(dbManager);
+       // Neo4jDriver dbManager = new Neo4jDriver();
+        //UserManagerNeo4j usrManager = new UserManagerNeo4j(dbManager);
         try{
             reader = new BufferedReader(new FileReader(pathOfList));
             String usr = reader.readLine();
@@ -26,7 +23,7 @@ public class PopulatingGraph {
                     String surname = usr.split(",")[4];
                     String nick = usr.split(",")[2];
                     User newUser = new User(name, surname, nick);
-                    usrManager.addUserNode(newUser);
+                    UserManagerNeo4j.addUserNode(newUser);
                 }
 
             }
@@ -37,8 +34,8 @@ public class PopulatingGraph {
 
     public static void addListOfGames(String pathOfList){
         BufferedReader reader;
-        Neo4jDbManager dbManager = new Neo4jDbManager();
-        GameManagerNeo4j gameManager = new GameManagerNeo4j(dbManager);
+       // Neo4jDriver dbManager = new Neo4jDriver();
+        GameManagerNeo4j gameManager = new GameManagerNeo4j();
         int count = 0;
         try{
             reader = new BufferedReader(new FileReader(pathOfList));

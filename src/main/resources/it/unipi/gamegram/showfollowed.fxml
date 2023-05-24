@@ -20,7 +20,7 @@
          <contextMenu>
             <ContextMenu fx:id="cm">
               <items>
-                <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#showReview" text="show review" />
+                <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#showUserPage" text="show user's page" />
               </items>
             </ContextMenu>
          </contextMenu>

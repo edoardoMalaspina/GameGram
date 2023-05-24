@@ -8,26 +8,26 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;
 import org.neo4j.driver.Record;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class UserManagerNeo4j {
-    private final Neo4jDbManager neo4jDBM;
+   // private final Neo4jDriver neo4jDBM;
 
-    public UserManagerNeo4j(Neo4jDbManager dbNeo4J) {
+    /*
+    public UserManagerNeo4j(Neo4jDriver dbNeo4J) {
         this.neo4jDBM = dbNeo4J;
     }
+     */
 
     public static ArrayList<User> getListFollowedUsers(User usr) {
         ArrayList<User> listFollowedUsers = new ArrayList<>();
         // DA TOGLIERE
-        Neo4jDbManager TMP = new Neo4jDbManager();
-        try (Session session = Neo4jDbManager.getDriver().session()) {
+        //Neo4jDriver TMP = new Neo4jDriver();
+        try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
                         "WHERE u.firstname = '" + usr.getFirstName() +
@@ -48,9 +48,9 @@ public class UserManagerNeo4j {
 
     public static ArrayList<Game> getListLikedGames(User usr){
         // DA TOGLIERE
-        Neo4jDbManager TMP = new Neo4jDbManager();
+        //Neo4jDriver TMP = new Neo4jDriver();
         ArrayList<Game> listLikedGames = new ArrayList<>();
-        try (Session session = Neo4jDbManager.getDriver().session()) {
+        try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
                         "WHERE u.firstname = '" + usr.getFirstName() +
@@ -72,7 +72,7 @@ public class UserManagerNeo4j {
     private static ArrayList<Like> getLikedGameDated(User usr){
         ArrayList<Like> listLikes = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        try (Session session = Neo4jDbManager.getDriver().session()) {
+        try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
                         "WHERE u.firstname = '" + usr.getFirstName() +
@@ -97,7 +97,7 @@ public class UserManagerNeo4j {
 
 
     public static void addUserNode(User usr){
-        try(Session session= Neo4jDbManager.getDriver().session()){
+        try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run ("CREATE (:User { username:'" + usr.getNick() + "', lastname:'" + usr.getLastName() + "', firstname:'" + usr.getFirstName() + "'})");
                 return null;
@@ -108,7 +108,7 @@ public class UserManagerNeo4j {
     }
 
     public static void addDirectedLinkFollow(User follower, User followed){
-        try(Session session= Neo4jDbManager.getDriver().session()){
+        try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
            // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
            // String formattedDate = currentDate.format(formatter);
@@ -127,7 +127,7 @@ public class UserManagerNeo4j {
     }
 
     public static void addDirectedLinkReviewed(Review rev){
-        try(Session session= Neo4jDbManager.getDriver().session()){
+        try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
             //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
             //String formattedDate = currentDate.format(formatter);
@@ -143,7 +143,7 @@ public class UserManagerNeo4j {
     }
 
     public static void addDirectedLinkLike(User usr, Game game){
-        try(Session session= Neo4jDbManager.getDriver().session()){
+        try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
            // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M d yyyy");
            // String formattedDate = currentDate.format(formatter);
@@ -159,7 +159,7 @@ public class UserManagerNeo4j {
     }
 
     private static boolean checkIfAlreadyFollowed(User follower, User followed){
-        try (Session session =  Neo4jDbManager.getDriver().session()) {
+        try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
             return result.single().get("followExists").asBoolean();
@@ -170,7 +170,7 @@ public class UserManagerNeo4j {
     }
 
     private static boolean checkIfAlreadyLiked(User usr, Game game){
-        try (Session session =  Neo4jDbManager.getDriver().session()) {
+        try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as likeExists");
             return result.single().get("likeExists").asBoolean();
@@ -181,7 +181,7 @@ public class UserManagerNeo4j {
     }
 
     private static boolean checkIfAlreadyReviewed(User usr, Game game){
-        try (Session session =  Neo4jDbManager.getDriver().session()) {
+        try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as reviewExists");
             return result.single().get("reviewExists").asBoolean();
@@ -198,7 +198,7 @@ public class UserManagerNeo4j {
             return false;
         }
         else {
-            try (Session session =  Neo4jDbManager.getDriver().session()) {
+            try (Session session =  Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[follow:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
                         "DELETE follow");
                 return true;
@@ -215,7 +215,7 @@ public class UserManagerNeo4j {
             return false;
         }
         else {
-            try (Session session = Neo4jDbManager.getDriver().session()) {
+            try (Session session = Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '" + usr.getNick() + "'})-[like:LIKE]->(n2 {name: '" + game.getName() + "'})" +
                         "DELETE like");
                 return true;
@@ -232,7 +232,7 @@ public class UserManagerNeo4j {
             return false;
         }
         else{
-            try (Session session =  Neo4jDbManager.getDriver().session()) {
+            try (Session session =  Neo4jDriver.getInstance().session()) {
                 Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[review:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                         "DELETE review");
                 return true;
@@ -243,7 +243,8 @@ public class UserManagerNeo4j {
         }
     }
 
-    public static User suggestFriend(User usr){
+    // aggiungi controllo sul fatto che non sia un utente che segui già quello suggerito
+    public static ArrayList<User> suggestFriend(User usr){
         // prendi la lista di tuoi amici
         ArrayList<User> listFollowed = getListFollowedUsers(usr);
         // crea hashmap<Utente Integer>
@@ -261,16 +262,24 @@ public class UserManagerNeo4j {
                 }
             }
         }
-        // ritorna l'user con il value più alto
-        int maximumValue = 0;
-        User maximumKey = null;
-        for (User key:mapSuggestedFriends.keySet()){
-            if (mapSuggestedFriends.get(key) > maximumValue){
-                maximumValue = mapSuggestedFriends.get(key);
-                maximumKey = key;
+        // ritorna i 5 users con il punteggio più alto
+        ArrayList<User> result = new ArrayList<>();
+
+        // DA FARE MEGLIO INDIVIDUANDO SENZA FARLA O(N^2)
+        for (int i=0; i<5; i++) {
+            User maximumKey = null;
+            int maximumValue = 0;
+            for (User key : mapSuggestedFriends.keySet()) {
+                if (mapSuggestedFriends.get(key) > maximumValue) {
+                    maximumValue = mapSuggestedFriends.get(key);
+                    maximumKey = key;
+                }
             }
+            mapSuggestedFriends.remove(maximumKey);
+            result.add(maximumKey);
         }
-        return maximumKey;
+        return result;
+
     }
 
     // method that taken the list of followed users return the oldest like
@@ -335,7 +344,7 @@ public class UserManagerNeo4j {
 
     public static void main(String[] args){
 
-        Neo4jDbManager dbManager = new Neo4jDbManager();
+       // Neo4jDriver dbManager = new Neo4jDriver();
 /*
         User usr1 = new User("a", "b", "d_rowe2583");
         User usr2 = new User("c", "d","m_linda3865");
@@ -387,12 +396,10 @@ public class UserManagerNeo4j {
         }
 
         unlike(usr4, pippo);
-        */
+
 
         User usr1 = new User("edoardo", "edoardo", "edoardo");
         User usr2 = new User("i", "l","gennaro");
-        Game pippo = new Game("pippo");
-        Game pluto = new Game("pluto");
 
         addUserNode(usr1);
         addUserNode(usr2);
@@ -403,6 +410,53 @@ public class UserManagerNeo4j {
         addDirectedLinkLike(usr2, pluto);
 
         addDirectedLinkFollow(usr2, usr1);
+        */
+
+        User usr1 = new User("a", "a", "a");
+        User usr2 = new User("b", "b","b");
+        User usr3 = new User("c", "c","c");
+        User usr4 = new User("d", "d", "d");
+        User usr5 = new User("e", "e", "e");
+        User usr6 = new User("f", "f", "f");
+        User usr7 = new User("g", "g", "g");
+        User usr8 = new User("h", "h", "h");
+        User usr9 = new User("i", "i", "i");
+        User usr10 = new User("l", "l", "l");
+        User usr11 = new User("m", "m", "m");
+        User usr12 = new User("n", "n", "n");
+
+        addUserNode(usr1);
+        addUserNode(usr2);
+        addUserNode(usr3);
+        addUserNode(usr4);
+        addUserNode(usr5);
+        addUserNode(usr6);
+        addUserNode(usr7);
+        addUserNode(usr8);
+        addUserNode(usr9);
+        addUserNode(usr10);
+        addUserNode(usr11);
+        addUserNode(usr12);
+
+        addDirectedLinkFollow(usr1, usr2);
+        addDirectedLinkFollow(usr1, usr3);
+        addDirectedLinkFollow(usr1, usr4);
+        addDirectedLinkFollow(usr2, usr5);
+        addDirectedLinkFollow(usr2, usr6);
+        addDirectedLinkFollow(usr2,usr7);
+        addDirectedLinkFollow(usr3, usr8);
+        addDirectedLinkFollow(usr4, usr3);
+        addDirectedLinkFollow(usr4, usr9);
+        addDirectedLinkFollow(usr4, usr10);
+        addDirectedLinkFollow(usr2, usr10);
+        addDirectedLinkFollow(usr3, usr10);
+        addDirectedLinkFollow(usr2, usr11);
+        addDirectedLinkFollow(usr2, usr12);
+
+        ArrayList<User> suggested = suggestFriend(usr1);
+        for (User tmp :suggested){
+            System.out.println(tmp.getNick());
+        }
 
 
     }
