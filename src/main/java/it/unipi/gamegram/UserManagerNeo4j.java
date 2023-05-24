@@ -304,12 +304,9 @@ public class UserManagerNeo4j {
             listLikes.addAll(getLikedGameDated(tmp));
         }
 
-        System.out.println("////////////////////////");
-        for (Like like:listLikes){
-            System.out.println(like.nameOfTheGame + " " + like.dayPassedSinceLike);
-        }
 
-        System.out.println("////////////////////////");
+
+
 
 
 
