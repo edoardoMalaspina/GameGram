@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class GameManagerNeo4j {
 
+    // method to count exploiting neo4j the number of likes a game received
     public static int countLikes(String game) {
         try (Session session = Neo4jDriver.getInstance().session()) {
             return session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (:User)-[:LIKE]->(game:Game) " +
-                                "WHERE game.name = '"+game+"' " +
+                                "WHERE game.name = '" + game + "' " +
                                 "RETURN COUNT(*) AS likeCount");
-                        //Values.parameters("gameName", game));
                 Record record = result.next();
                 return record.get("likeCount").asInt();
             });
@@ -26,6 +26,7 @@ public class GameManagerNeo4j {
         return 0;
     }
 
+    // method to count exploiting neo4j the number of reviews a game received
     public static int countReviews(String game) {
         try (Session session = Neo4jDriver.getInstance().session()) {
             return session.readTransaction(tx -> {
@@ -42,6 +43,7 @@ public class GameManagerNeo4j {
     }
 
 
+    // method to add in the neo4j graph a node corresponding to a game
     public static void addGameNode(Game game){
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.writeTransaction((TransactionWork<Void>) tx -> {

@@ -6,15 +6,7 @@ import org.neo4j.driver.TransactionWork;
 
 public class ReviewManagerNeo4j {
 
-    //private final Neo4jDriver neo4jDBM;
-
-    /*
-    public ReviewManagerNeo4j(Neo4jDriver neo4jDBM) {
-        this.neo4jDBM = neo4jDBM;
-    }
-     */
-
-    // da testare
+    // method to add Reviewed relationship in neo4j
     public static void addReviewDirectedEdge(Review rev){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
