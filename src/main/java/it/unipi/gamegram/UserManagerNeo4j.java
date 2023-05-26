@@ -16,6 +16,7 @@ import java.util.*;
 
 public class UserManagerNeo4j {
 
+    // method to retrieve from neo4j the list of users followed by usr
     public static ArrayList<User> getListFollowedUsers(User usr) {
         ArrayList<User> listFollowedUsers = new ArrayList<>();
         try (Session session = Neo4jDriver.getInstance().session()) {
@@ -23,6 +24,7 @@ public class UserManagerNeo4j {
                 Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
                         "WHERE u.username = '" + usr.getNick() +
                         "' RETURN followed.firstname, followed.lastname, followed.username");
+                // add to the list to return all the record in the result set of the query
                 while (result.hasNext()) {
                     Record r = result.next();
                     listFollowedUsers.add(new User( r.get("followed.firstname").asString(), r.get("followed.lastname").asString(), r.get("followed.username").asString()));
@@ -35,6 +37,7 @@ public class UserManagerNeo4j {
         return listFollowedUsers;
     }
 
+    // method to retrieve the list of games liked by usr
     public static ArrayList<Game> getListLikedGames(User usr){
         ArrayList<Game> listLikedGames = new ArrayList<>();
         try (Session session = Neo4jDriver.getInstance().session()) {
@@ -42,6 +45,7 @@ public class UserManagerNeo4j {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
                         "WHERE u.username = '" + usr.getNick() +
                         "' RETURN liked.name");
+                // add to the list to return all the record in the result set of the query
                 while (result.hasNext()) {
                     Record r = result.next();
                     listLikedGames.add(new Game(r.get("liked.name").asString()));
@@ -54,6 +58,7 @@ public class UserManagerNeo4j {
         return listLikedGames;
     }
 
+    // auxiliary method used to retrieve the name of a liked game and the date of the like
     private static ArrayList<Like> getLikedGameDated(User usr){
         ArrayList<Like> listLikes = new ArrayList<>();
         LocalDate today = LocalDate.now();
@@ -67,8 +72,8 @@ public class UserManagerNeo4j {
                     String dateLikeString = r.get("like.date").asString();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     LocalDate dateLike = LocalDate.parse(dateLikeString, formatter);
+                    // convert the date of the like in a long representing the day passed since the like
                     long dayPassed = ChronoUnit.DAYS.between(dateLike, today);
-                    System.out.println("AAAAAAAAAAAAAAAAA" + dayPassed);
                     listLikes.add(new Like(r.get("liked.name").asString(), dayPassed));
                 }
                 return listLikes;
@@ -80,6 +85,7 @@ public class UserManagerNeo4j {
     }
 
 
+    // method to create a user node in neo4j
     public static void addUserNode(User usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
@@ -91,6 +97,7 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to create a Follow relationship between follower and followed in neo4j
     public static void addDirectedLinkFollow(User follower, User followed){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
@@ -108,10 +115,11 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to create a Reviewed relationship in neo4j
     public static void addDirectedLinkReviewed(Review rev){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
-            // check if already reviewed
+            // both name of the author and game of reference are taken from the Review fields
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
                         "CREATE (n1)-[:REVIEWED {date: '"+ currentDate +"', title: '"+rev.getTitle()+"'}]->(n2)");
@@ -122,6 +130,7 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to create a Like relationship between usr and game
     public static void addDirectedLinkLike(User usr, Game game){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
@@ -149,6 +158,7 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to chech if an user is already following another user
     public static boolean checkIfAlreadyFollowed(User follower, User followed){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
@@ -160,6 +170,7 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to check if an user already likes a game
     public static boolean checkIfAlreadyLiked(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
@@ -171,6 +182,7 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to check if an user already wrote a review for a game
     private static boolean checkIfAlreadyReviewed(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
@@ -183,6 +195,7 @@ public class UserManagerNeo4j {
     }
 
 
+    // method to delete Follow relationship in neo4j between two users
     public static boolean unfollow(User follower, User followed){
         if ( !checkIfAlreadyFollowed(follower, followed) ){
             System.out.println( "You are not following this user" );
@@ -200,8 +213,8 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to delete Like relationship in neo4j between an user and a game
     public static boolean unlike(User usr, Game game){
-
         if ( !checkIfAlreadyLiked(usr, game) ){
             System.out.println( "You are not liking this game" );
             return false;
@@ -243,10 +256,6 @@ public class UserManagerNeo4j {
         // per ogni utente della lista che seguo metto in una lista gli utenti che segue
         for(User tmp : listFollowed)
             totalFollowedByFollowed.addAll(getListFollowedUsers(tmp));
-        // togliamo dalla lista totale gli utenti che seguo già e me stesso
-        for(User alreadyFollowed : listFollowed)
-            totalFollowedByFollowed.remove(alreadyFollowed);
-        totalFollowedByFollowed.remove(usr);
         // metto in un'hashmap tutti questi candidati e alzo il punteggio di uno ogni volta che si ripetono
         for (User tmp : totalFollowedByFollowed){
             if(!mapUsers.containsKey(tmp.getNick())){
@@ -259,6 +268,10 @@ public class UserManagerNeo4j {
                 mapUsers.put(tmp.getNick(), oldValue);
             }
         }
+        // togliamo dalla lista totale gli utenti che seguo già e me stesso
+        for(User alreadyFollowed : listFollowed)
+            mapUsers.remove(alreadyFollowed.getNick());
+        mapUsers.remove(usr.getNick());
         // Sort the entries by value in descending order
         ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<>(mapUsers.entrySet());
         entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
@@ -303,15 +316,6 @@ public class UserManagerNeo4j {
         for (User tmp:listFollowed){
             listLikes.addAll(getLikedGameDated(tmp));
         }
-
-
-
-
-
-
-
-
-
         for (Like like:listLikes){
             if(!mapScores.containsKey(like.nameOfTheGame))
                 mapScores.put(like.nameOfTheGame, calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
