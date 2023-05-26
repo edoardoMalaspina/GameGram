@@ -1,18 +1,17 @@
 package it.unipi.gamegram;
 
-import it.unipi.gamegram.Entities.Review;
+import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ShowFollowedController {
+public class ShowSuggestedFollowController {
     @FXML
     TableView <User> userTable = new TableView< >();
 
@@ -33,28 +32,22 @@ public class ShowFollowedController {
     @FXML
     public void initialize() {
         User user = LoggedUser.getLoggedUser();
-        title.setText(user.getNick() + "'s followed users");
+        title.setText("Users you might know");
 
         TableColumn nickCol = new TableColumn("nick");
         nickCol.setCellValueFactory(new PropertyValueFactory< >("nick"));
 
-        TableColumn firstNameCol = new TableColumn("first name");
-        firstNameCol.setCellValueFactory(new PropertyValueFactory < > ("firstName"));
-
-        TableColumn lastNameCol = new TableColumn("last name");
-        lastNameCol.setCellValueFactory(new PropertyValueFactory < > ("lastName"));
-
-        userTable.getColumns().addAll(nickCol, firstNameCol, lastNameCol);
+        userTable.getColumns().addAll(nickCol);
 
         olUsers = FXCollections.observableArrayList();
 
         userTable.setItems(olUsers);
 
 
-        List<User> users = UserManagerNeo4j.getListFollowedUsers(user);
+        List<String> users = UserManagerNeo4j.suggestWhoToFollow(user);
 
-        for(User d:users){
-            olUsers.add(d);
+        for(String n:users){
+            olUsers.add(new User(n));
         }
     }
 
@@ -67,6 +60,6 @@ public class ShowFollowedController {
 
     @FXML
     private void back() throws IOException {
-        GameGramApplication.setRoot("userhome");
+        GameGramApplication.setRoot("trends");
     }
 }

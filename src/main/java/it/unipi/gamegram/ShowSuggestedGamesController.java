@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowLikedController {
+public class ShowSuggestedGamesController {
     @FXML
     TableView <Game> gameTable = new TableView< >();
 
@@ -31,8 +31,8 @@ public class ShowLikedController {
 
     @FXML
     public void initialize() {
-        User user = new User(UserSingleton.getNick());
-        title.setText(user.getNick() + "'s liked games");
+        User user = LoggedUser.getLoggedUser();
+        title.setText("Games you might like");
 
         TableColumn nameCol = new TableColumn("name");
         nameCol.setCellValueFactory(new PropertyValueFactory< >("name"));
@@ -44,10 +44,11 @@ public class ShowLikedController {
         gameTable.setItems(olGames);
 
 
-        List<Game> games = UserManagerNeo4j.getListLikedGames(user);
+        List<String> games = UserManagerNeo4j.suggestTrendingNowAmongFollowed(user);
 
-        for(Game g:games){
-            olGames.add(g);
+        for(String g:games){
+            olGames.add(new Game(g));
+            System.out.println(olGames.get(0).getName());
         }
     }
 
@@ -60,9 +61,6 @@ public class ShowLikedController {
 
     @FXML
     private void back() throws IOException {
-        if(UserSingleton.getFlag())
-            GameGramApplication.setRoot("userhome");
-        else
-            GameGramApplication.setRoot("userpage");
+        GameGramApplication.setRoot("trends");
     }
 }

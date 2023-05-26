@@ -28,6 +28,9 @@ public class UserHomeController {
     private Button showLikes;
 
     @FXML
+    private Button trends;
+
+    @FXML
     private Button insert;
 
     @FXML
@@ -113,6 +116,11 @@ public class UserHomeController {
     @FXML
     private void insertGame() throws IOException {
         GameGramApplication.setRoot("insertgame");
+    }
+
+    @FXML
+    private void trends() throws IOException {
+        GameGramApplication.setRoot("trends");
     }
 
     @FXML

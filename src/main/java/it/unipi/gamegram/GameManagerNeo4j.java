@@ -42,8 +42,6 @@ public class GameManagerNeo4j {
     }
 
 
-
-
     public static void addGameNode(Game game){
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.writeTransaction((TransactionWork<Void>) tx -> {

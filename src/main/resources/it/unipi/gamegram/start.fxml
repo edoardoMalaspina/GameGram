@@ -11,7 +11,7 @@
       <Button fx:id="signup" layoutX="153.0" layoutY="305.0" mnemonicParsing="false" onAction="#signup" prefHeight="26.0" prefWidth="293.0" text="Signup" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="222.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="C:\Users\edoar\Documents\Università\Large scale and Multistructured database\GameGram\src\main\resources\images\instagram-png-instagram-logo-2-png-8-de-abril-de-2017-927-kb-3500-3393-3500-413x400.png" />
+            <Image url="C:\Users\pietr\IdeaProjects\GameGram\src\main\resources\images\instagram-png-instagram-logo-2-png-8-de-abril-de-2017-927-kb-3500-3393-3500-413x400.png" />
          </image>
       </ImageView>
    </children>

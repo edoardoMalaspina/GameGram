@@ -51,6 +51,9 @@ public class GamePageController {
     private Label numberOfLikes;
 
     @FXML
+    private Label numberOfReviews;
+
+    @FXML
     private Button delete;
     
     public void initialize() {
@@ -69,6 +72,7 @@ public class GamePageController {
         price.setText("Price: " + game.getPrice());
         shortDescription.setText("Short description: " + game.getShortDescription());
         numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
+        numberOfReviews.setText("Number of reviews: " + GameManagerNeo4j.countReviews(GameSingleton.getName()));
     }
 
     @FXML
@@ -93,6 +97,7 @@ public class GamePageController {
             return;
         }
         UserManagerNeo4j.addDirectedLinkLike(LoggedUser.getLoggedUser(), game);
+        numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
         outcomeMessage.setText("Game successfully liked.");
     }
 
@@ -104,6 +109,7 @@ public class GamePageController {
             return;
         }
         UserManagerNeo4j.unlike(LoggedUser.getLoggedUser(), game);
+        numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
         outcomeMessage.setText("Game successfully unliked.");
     }
     @FXML
