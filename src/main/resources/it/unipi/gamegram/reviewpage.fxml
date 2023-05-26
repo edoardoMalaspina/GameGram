@@ -41,7 +41,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="5.0" left="15.0" right="15.0" top="10.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
       <Button fx:id="back" contentDisplay="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="136.0" text="Back">
@@ -49,7 +49,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="5.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
    </children>

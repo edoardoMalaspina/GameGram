@@ -15,12 +15,12 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="15.0" right="15.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="signUpName" prefHeight="26.0" prefWidth="270.0">
          <VBox.margin>
-            <Insets left="100.0" right="100.0" />
+            <Insets bottom="10.0" left="110.0" right="110.0" />
          </VBox.margin>
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="110.0" text="Surname" textAlignment="CENTER">
@@ -28,12 +28,12 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="15.0" right="15.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="10.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="signUpSurname" prefHeight="26.0" prefWidth="270.0">
          <VBox.margin>
-            <Insets left="100.0" right="100.0" />
+            <Insets bottom="10.0" left="110.0" right="110.0" />
          </VBox.margin>
       </TextField>
       <Label fx:id="nick" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="110.0" text="Nick">
@@ -41,12 +41,12 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="15.0" right="15.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="10.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="signUpNick" prefHeight="26.0" prefWidth="270.0">
          <VBox.margin>
-            <Insets left="100.0" right="100.0" />
+            <Insets bottom="10.0" left="110.0" right="110.0" />
          </VBox.margin>
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="110.0" text="Password">
@@ -54,12 +54,12 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="15.0" right="15.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="10.0" />
          </VBox.margin>
       </Label>
       <PasswordField fx:id="signUpPassword" prefHeight="26.0" prefWidth="270.0">
          <VBox.margin>
-            <Insets left="100.0" right="100.0" />
+            <Insets bottom="10.0" left="110.0" right="110.0" />
          </VBox.margin>
       </PasswordField>
       <Button fx:id="signup" alignment="CENTER" mnemonicParsing="false" onAction="#signup" prefHeight="46.0" prefWidth="122.0" text="Signup">
@@ -67,7 +67,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets top="5.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
       <Button fx:id="back" alignment="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="46.0" prefWidth="122.0" text="Back">
@@ -75,7 +75,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets top="5.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
       <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="24.0" prefWidth="270.0">
@@ -86,7 +86,7 @@
             <Insets bottom="2.0" top="2.0" />
          </padding>
          <VBox.margin>
-            <Insets bottom="2.0" top="2.0" />
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
       </Label>
    </children>

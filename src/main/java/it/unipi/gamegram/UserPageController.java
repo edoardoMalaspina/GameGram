@@ -106,9 +106,15 @@ public class UserPageController {
 
     @FXML
     private void delete() throws IOException {
+        if(UserSingleton.getNick().equals(LoggedUser.getLoggedUser().getNick())){
+            User.delete(UserSingleton.getNick());
+            UserSingleton.setNull();
+            LoggedUser.logOut();
+            GameGramApplication.setRoot("start");}
         User.delete(UserSingleton.getNick());
         UserSingleton.setNull();
-        GameGramApplication.setRoot("userhome");}
+        GameGramApplication.setRoot("userhome");
+    }
 
     @FXML
     private void back() throws IOException {

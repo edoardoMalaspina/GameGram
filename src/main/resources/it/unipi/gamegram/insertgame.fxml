@@ -15,7 +15,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="gameName" prefHeight="26.0" prefWidth="179.0">
@@ -28,7 +28,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
       <DatePicker fx:id="gameDateOfPublication" prefHeight="26.0" prefWidth="262.0">
@@ -41,7 +41,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="gameDeveloper" prefHeight="26.0" prefWidth="270.0">
@@ -54,7 +54,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="gamePublisher" prefHeight="26.0" prefWidth="270.0">
@@ -67,7 +67,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="gamePrice" prefHeight="26.0" prefWidth="270.0">
@@ -80,7 +80,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
       <TextField fx:id="gameShortDescription" prefHeight="26.0" prefWidth="270.0">
@@ -88,20 +88,20 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insert" text="Insert" textAlignment="CENTER">
+      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="94.0" text="Insert" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="5.0" />
+            <Insets bottom="4.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="69.0" text="Back">
+      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="95.0" text="Back">
          <font>
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="80.0" right="80.0" top="2.0" />
+            <Insets left="15.0" right="15.0" top="4.0" />
          </VBox.margin>
       </Button>
       <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="35.0" prefWidth="269.0">
@@ -109,7 +109,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="5.0" left="40.0" right="40.0" top="2.0" />
+            <Insets bottom="5.0" left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
    </children>

@@ -23,7 +23,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="100.0" right="100.0" top="2.0" />
+            <Insets left="80.0" right="80.0" top="2.0" />
          </VBox.margin>
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="110.0" text="Text" textAlignment="CENTER">
@@ -34,9 +34,9 @@
             <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
-      <TextArea fx:id="reviewText" prefHeight="200.0" prefWidth="513.0">
+      <TextArea fx:id="reviewText" prefHeight="198.0" prefWidth="374.0">
          <VBox.margin>
-            <Insets left="100.0" right="100.0" top="2.0" />
+            <Insets left="80.0" right="80.0" top="2.0" />
          </VBox.margin>
          <font>
             <Font size="18.0" />
@@ -47,7 +47,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="15.0" right="15.0" top="5.0" />
+            <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
          </VBox.margin>
       </Button>
       <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="46.0" prefWidth="122.0" text="Back">
