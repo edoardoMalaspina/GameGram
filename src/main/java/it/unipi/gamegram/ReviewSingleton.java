@@ -23,6 +23,7 @@ public class ReviewSingleton {
     }
 
     public static void setNull(){
+        review = null;
         reviewS = null;
     }
     public static Boolean getFlag(){
