@@ -1,27 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="493.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
    <children>
-      <Button fx:id="trends" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="303.0" mnemonicParsing="false" onAction="#trends" prefHeight="26.0" prefWidth="200.0" text="Trends" textAlignment="CENTER" />
-      <Button fx:id="showReviews" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="227.0" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="200.0" text="Show my reviews" textAlignment="CENTER" />
-      <Button fx:id="showFollowed" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="191.0" mnemonicParsing="false" onAction="#showFollowed" prefHeight="26.0" prefWidth="200.0" text="Show followed users" textAlignment="CENTER" />
-      <Button fx:id="showLiked" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="265.0" mnemonicParsing="false" onAction="#showLiked" prefHeight="26.0" prefWidth="200.0" text="Show liked games" textAlignment="CENTER" />
-      <TextField fx:id="gameName" layoutX="90.0" layoutY="155.0" prefHeight="26.0" prefWidth="200.0" />
-      <Button fx:id="findGame" contentDisplay="CENTER" layoutX="90.0" layoutY="116.0" mnemonicParsing="false" onAction="#findGame" prefHeight="26.0" prefWidth="200.0" text="Find game by name" textAlignment="CENTER" />
-      <TextField fx:id="userNick" layoutX="90.0" layoutY="80.0" prefHeight="26.0" prefWidth="200.0" />
-      <Button fx:id="findUser" layoutX="90.0" layoutY="44.0" mnemonicParsing="false" onAction="#findUser" prefHeight="26.0" prefWidth="200.0" text="Find user by nickname" textAlignment="CENTER" />
-      <Button fx:id="logout" layoutX="163.0" layoutY="417.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-      <Label fx:id="errorMessage" layoutX="92.0" layoutY="443.0" prefHeight="26.0" prefWidth="200.0">
+      <HBox alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="findUser" alignment="CENTER" mnemonicParsing="false" onAction="#findUser" prefHeight="26.0" prefWidth="206.0" text="Find user by nickname" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <TextField fx:id="userNick" prefHeight="26.0" prefWidth="206.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button fx:id="findGame" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#findGame" prefHeight="26.0" prefWidth="206.0" text="Find game by name" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <TextField fx:id="gameName" prefHeight="26.0" prefWidth="206.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button fx:id="showFollowed" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showFollowed" prefHeight="26.0" prefWidth="206.0" text="Show followed users" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="showReviews" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="206.0" text="Show my reviews" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="showLiked" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showLiked" prefHeight="26.0" prefWidth="206.0" text="Show liked games" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="trends" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#trends" prefHeight="26.0" prefWidth="206.0" text="Trends" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertGame" prefHeight="26.0" prefWidth="206.0" text="Insert game" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logout" text="Logout">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label fx:id="errorMessage" alignment="CENTER" prefHeight="26.0" prefWidth="206.0">
          <font>
             <Font size="18.0" />
          </font>
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
       </Label>
-      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="382.0" mnemonicParsing="false" onAction="#insertGame" prefHeight="26.0" prefWidth="200.0" text="Insert game" textAlignment="CENTER" />
    </children>
-</AnchorPane>
+</VBox>

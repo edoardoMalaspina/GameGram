@@ -20,6 +20,9 @@ public class UserPageController {
     private Label name;
 
     @FXML
+    private Label lastName;
+
+    @FXML
     private Label isadmin;
 
     @FXML
@@ -55,6 +58,7 @@ public class UserPageController {
         title.setText(nickTitle + "'s user page");
         nick.setText("Nick: " + nickTitle);
         name.setText("Name: " + user.getFirstName());
+        lastName.setText("Last name: " + user.getLastName());
         isadmin.setText(("Admin: " + user.getIsAdmin()));
     }
 
