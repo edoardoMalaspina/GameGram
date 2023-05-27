@@ -215,20 +215,20 @@ public class UserManagerNeo4j {
         return top5;
     }
 
-    // DA TESTARE
+    // method to find the top 5 active users among the followed.
+    // return the five users that have liked or reviewed more games
     public static ArrayList<String> findMostActiveFollowed(User usr){
         ArrayList<String> top5 = new ArrayList<>();
         try (Session session =  Neo4jDriver.getInstance().session()) {
             String query = "MATCH (u:User {username: '" + usr.getNick() + "'})-[:FOLLOW]->(followed:User) " +
-                    "WITH followed, size((followed)-[]->()) AS outgoingEdges " +
-                    "ORDER BY outgoingEdges DESC " +
+                    "MATCH (followed)-[:LIKE|REVIEWED]->(game:Game) " +
+                    "WITH followed, count(*) as totalEdges " +
+                    "ORDER BY totalEdges DESC " +
                     "LIMIT 5 " +
-                    "RETURN followed";
+                    "RETURN followed.username";
             Result result = session.run(query);
-
-            while (result.hasNext()) {
-                Record record = result.next();
-                String recommendedUser = record.get("followed").asString();
+            for(Record r : result.list()){
+                String recommendedUser = r.get("followed.username").asString();
                 top5.add(recommendedUser);
             }
         }
@@ -246,7 +246,7 @@ public class UserManagerNeo4j {
                     "WITH g, l.date AS likeDate, u " +
                     "ORDER BY likeDate DESC " +
                     "WITH g, COLLECT(u) AS likedBy, COLLECT(likeDate) AS likeDates " +
-                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score + round((toFloat(datetime().epochSeconds - datetime(likeDates[i]).epochSeconds) / (3600 * 24))^2 * 100) / 100) AS partialScore " +
+                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score+round((toFloat(datetime().epochSeconds-datetime(likeDates[i]).epochSeconds)/(3600 * 24))^2 * 100)/100) AS partialScore " +
                     "RETURN g.name, SUM(partialScore) AS totalScore " +
                     "ORDER BY totalScore ASC " +
                     "LIMIT 5";
@@ -362,17 +362,13 @@ public class UserManagerNeo4j {
         addDirectedLinkFollow(usr1, usr3);
         addDirectedLinkFollow(usr1, usr4);
         addDirectedLinkFollow(usr1, usr5);
-        addDirectedLinkFollow(usr5, usr6);
-        addDirectedLinkFollow(usr5,usr7);
-        addDirectedLinkFollow(usr5, usr8);
-        addDirectedLinkFollow(usr4, usr8);
-        addDirectedLinkFollow(usr4, usr9);
-        addDirectedLinkFollow(usr4, usr10);
-        addDirectedLinkFollow(usr4, usr11);
+        addDirectedLinkFollow(usr1, usr6);
+        addDirectedLinkFollow(usr1,usr7);
+        addDirectedLinkFollow(usr1, usr8);
+        addDirectedLinkFollow(usr1, usr9);
+        addDirectedLinkFollow(usr1, usr10);
+        addDirectedLinkFollow(usr1, usr11);
         addDirectedLinkFollow(usr1, usr12);
-        addDirectedLinkFollow(usr1, usr12);
-        addDirectedLinkFollow(usr2, usr4);
-        addDirectedLinkFollow(usr2, usr9);
 
 
 
@@ -402,6 +398,12 @@ public class UserManagerNeo4j {
         GameManagerNeo4j.addGameNode(k);
 
         addDirectedLinkLike(usr5, a);
+        addDirectedLinkLike(usr2, a);
+        addDirectedLinkLike(usr6, a);
+        addDirectedLinkLike(usr7, a);
+        addDirectedLinkLike(usr8, a);
+        addDirectedLinkLike(usr9, a);
+        addDirectedLinkLike(usr10, a);
         addDirectedLinkLike(usr2, a);
 
 
@@ -434,8 +436,11 @@ public class UserManagerNeo4j {
         Review rev = new Review("aaaaa", LocalDate.parse("2022-11-11"), "a", "a", "agg");
         ReviewManagerNeo4j.addReviewDirectedEdge(rev);
 
-        System.out.println(GameManagerNeo4j.countReviews("a"));
-
+        ArrayList<String> lst = findMostActiveFollowed(usr1);
+        System.out.println(lst.size());
+        for(String str:lst){
+            System.out.println(str);
+        }
 
 
 
