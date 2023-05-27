@@ -3,9 +3,7 @@ package it.unipi.gamegram;
 import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.Review;
 import it.unipi.gamegram.Entities.User;
-import org.neo4j.driver.Result;
-import org.neo4j.driver.Session;
-import org.neo4j.driver.TransactionWork;
+import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 
 import java.lang.reflect.Array;
@@ -227,8 +225,9 @@ public class UserManagerNeo4j {
         }
     }
 
+    /*
     // method to suggest to a user a new person to follow based on user already followed
-    public static ArrayList<String> suggestWhoToFollow(User usr){
+    public static ArrayList<String> suggestWhoToFollowOld(User usr){
         // take the list of already followed users
         ArrayList<User> listFollowed = getListFollowedUsers(usr);
         // larger list that will contain all the users followed by all the users that usr is following
@@ -270,6 +269,27 @@ public class UserManagerNeo4j {
 
         return top5;
     }
+     */
+
+
+    public static ArrayList<String> suggestWhoToFollow(User usr){
+        ArrayList<String> top5 = new ArrayList<>();
+        try (Session session =  Neo4jDriver.getInstance().session()) {
+            String query = "MATCH (u1:User {username: '"+ usr.getNick() +"'})-[:FOLLOW]->(:User)-[:FOLLOW]->(u2:User) " +
+                    "WHERE NOT EXISTS((u1)-[:FOLLOW]->(u2)) " +
+                    "RETURN u2.username AS RecommendedUser, COUNT(*) AS Followers " +
+                    "ORDER BY Followers DESC " +
+                    "LIMIT 5";
+            Result result = session.run(query);
+
+            while (result.hasNext()) {
+                Record record = result.next();
+                String recommendedUser = record.get("RecommendedUser").asString();
+                top5.add(recommendedUser);
+            }
+        }
+        return top5;
+    }
 
 
     // auxiliary method that taken the list of followed users return the oldest like
@@ -297,10 +317,11 @@ public class UserManagerNeo4j {
         return Math.pow(2,(maximumDayPassed - daysSinceLike)/1000 );
     }
 
+    /*
     // method to suggest a game that an user should like based on likes of people the user follows.
     // this method assigns different score based on how many users followed liked a game and on how
     // old those likes are. The score tends to reward games that are receiving a lot of likes in last days.
-    public static ArrayList<String> suggestTrendingNowAmongFollowed(User usr){
+    public static ArrayList<String> suggestTrendingNowAmongFollowedOld(User usr){
         // get the list of followed users
         ArrayList<User> listFollowed = getListFollowedUsers(usr);
         // create an hashmap with:
@@ -345,6 +366,47 @@ public class UserManagerNeo4j {
         // return the list of the top 5 games
         return top5;
     }
+     */
+
+    // method to suggest a game that a user should like based on likes of people the user follows.
+    // this method assigns different score based on how many users followed liked a game and on how
+    // old those likes are. The score tends to reward games that are receiving a lot of likes in last days.
+    public static ArrayList<String> suggestTrendingNowAmongFollowed(User usr){
+        ArrayList<String> top5 = new ArrayList<>();
+        try (Session session =  Neo4jDriver.getInstance().session()) {
+            String query = "MATCH (p:User {username: '"+usr.getNick()+"'})-[:FOLLOW]->(u:User)-[l:LIKE]->(g:Game) " +
+                    "WHERE NOT EXISTS((p)-[:LIKE]->(g)) " +
+                    "WITH g, l.date AS likeDate, u " +
+                    "ORDER BY likeDate DESC " +
+                    "WITH g, COLLECT(u) AS likedBy, COLLECT(likeDate) AS likeDates " +
+                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score + round((toFloat(datetime().epochSeconds - datetime(likeDates[i]).epochSeconds) / (3600 * 24))^2 * 100) / 100) AS partialScore " +
+                    "RETURN g.name, SUM(partialScore) AS totalScore " +
+                    "ORDER BY totalScore ASC " +
+                    "LIMIT 5";
+            Result result = session.run(query);
+
+            while (result.hasNext()) {
+                Record record = result.next();
+                String recommendedGame= record.get("g.name").asString();
+                top5.add(recommendedGame);
+            }
+        }
+        return top5;
+    }
+
+
+
+    /* QUESTA FUNZIONA
+    String query = "MATCH (p:User {username: '"+usr.getNick()+"'})-[:FOLLOW]->(u:User)-[l:LIKE]->(g:Game) " +
+                    "WHERE NOT EXISTS((p)-[:LIKE]->(g)) " +
+                    "WITH g, l.date AS likeDate, u " +
+                    "ORDER BY likeDate DESC " +
+                    "WITH g, COLLECT(u) AS likedBy, COLLECT(likeDate) AS likeDates " +
+                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score + round((toFloat(datetime().epochSeconds - datetime(likeDates[i]).epochSeconds) / (3600 * 24))^2 * 100) / 100) AS partialScore " +
+                    "RETURN g.name, SUM(partialScore) AS totalScore " +
+                    "ORDER BY totalScore ASC " +
+                    "LIMIT 5";
+     */
 
     // auxialiary class exploited in suggestTrendingNowAmongFollowed method
     private static class Like{
@@ -458,14 +520,17 @@ public class UserManagerNeo4j {
         addDirectedLinkFollow(usr1, usr3);
         addDirectedLinkFollow(usr1, usr4);
         addDirectedLinkFollow(usr1, usr5);
-        addDirectedLinkFollow(usr1, usr6);
-        addDirectedLinkFollow(usr1,usr7);
-        addDirectedLinkFollow(usr1, usr8);
-        addDirectedLinkFollow(usr1, usr3);
-        addDirectedLinkFollow(usr1, usr9);
-        addDirectedLinkFollow(usr1, usr10);
-        addDirectedLinkFollow(usr1, usr11);
+        addDirectedLinkFollow(usr5, usr6);
+        addDirectedLinkFollow(usr5,usr7);
+        addDirectedLinkFollow(usr5, usr8);
+        addDirectedLinkFollow(usr4, usr8);
+        addDirectedLinkFollow(usr4, usr9);
+        addDirectedLinkFollow(usr4, usr10);
+        addDirectedLinkFollow(usr4, usr11);
         addDirectedLinkFollow(usr1, usr12);
+        addDirectedLinkFollow(usr1, usr12);
+        addDirectedLinkFollow(usr2, usr4);
+        addDirectedLinkFollow(usr2, usr9);
 
 
 
