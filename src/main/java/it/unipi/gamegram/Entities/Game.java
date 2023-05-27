@@ -6,14 +6,12 @@ import it.unipi.gamegram.MongoDBDriver;
 import org.bson.Document;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class Game {
     private String name;
-    private String categories;
     private String developer;
     private String publisher;
     private LocalDate dateOfPublication;
@@ -39,7 +37,6 @@ public class Game {
         this.name = (document.get("name") == null) ? "" : document.getString("name");
         this.developer = (document.get("developer") == null) ? "" : document.getString("developer");
         this.price = (document.get("price") == null) ? 0 : document.getDouble("price");
-        this.categories = (document.get("categories") == null) ? "" : document.getString("categories");
         this.publisher = (document.get("publisher") == null) ? "" : document.getString("publisher");
         this.shortDescription = (document.get("shortDescription") == null) ? "" : document.getString("shortDescription");
         this.dateOfPublication = DateConverter.convertToLocalDate((document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication"));

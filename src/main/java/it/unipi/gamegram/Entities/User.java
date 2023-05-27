@@ -7,8 +7,6 @@ import org.bson.Document;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
-import java.security.MessageDigest;
-
 public class User {
 
     private String firstName;
@@ -37,6 +35,7 @@ public class User {
     public User(Document document) {
         this.nick = (document.get("nick") == null) ? "" : document.getString("nick");
         this.firstName = (document.get("name") == null) ? "" : document.getString("name");
+        this.lastName = (document.get("lastname") == null) ? "" : document.getString("lastname");
         this.isAdmin = (document.get("isadmin") == null) ? "" : document.getString("isadmin");
     }
 
@@ -77,7 +76,7 @@ public class User {
             MongoDBDriver md = MongoDBDriver.getInstance();
             MongoCollection<Document> collection = md.getCollection("users");
             Document user = collection.find(eq("nick", nick)).first();
-            if (user == null || !(nick.equals(user.getString("nick")) || !(password.equals(user.getString("password")))))
+            if (user == null || !(password.equals(user.getString("password"))))
                 return true;
         } catch (Exception e) {
             e.printStackTrace();

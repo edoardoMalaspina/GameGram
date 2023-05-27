@@ -54,7 +54,7 @@ public class LoginController {
             errorMessage.setText("Nick or Password is missing.");
             errorMessage.setVisible(true);
             return;
-        } else if ((User.checkCredentials(nick, password))) {
+        } else if (User.checkCredentials(nick, password)) {
             errorMessage.setText("Wrong nickname or password.");
             errorMessage.setVisible(true);
             return;

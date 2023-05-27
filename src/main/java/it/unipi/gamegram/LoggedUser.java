@@ -4,7 +4,7 @@ import it.unipi.gamegram.Entities.User;
 public class LoggedUser {
 
     private static LoggedUser user = null;
-    private User logged = null;
+    private static User logged = null;
     private LoggedUser(){};
 
     public static LoggedUser getInstance(){
@@ -45,6 +45,7 @@ public class LoggedUser {
         if(user == null) {
             throw new RuntimeException("No user instance.");
         } else {
+            logged = null;
             user = null;
         }
     }
