@@ -4,6 +4,8 @@ import com.mongodb.client.MongoCursor;
 import it.unipi.gamegram.*;
 import org.bson.Document;
 
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
@@ -14,6 +16,7 @@ public class User {
     private String nick;
     private String password;
     private String isAdmin;
+    private List<Document> reviews;
 
     public User(String firstName, String lastName, String nick, String password){
         this.firstName = firstName;
@@ -37,6 +40,7 @@ public class User {
         this.firstName = (document.get("name") == null) ? "" : document.getString("name");
         this.lastName = (document.get("lastname") == null) ? "" : document.getString("lastname");
         this.isAdmin = (document.get("isadmin") == null) ? "" : document.getString("isadmin");
+        this.reviews = (document.get("reviews") == null) ? null : document.getList("reviews", Document.class);
     }
 
     public String getFirstName() {
@@ -49,6 +53,10 @@ public class User {
 
     public String getNick() {
         return nick;
+    }
+
+    public List<Document> getReviews() {
+        return reviews;
     }
 
     public String getPassword() {

@@ -44,6 +44,26 @@ public class Review {
         this.title = title;
     }
 
+    public static Boolean findByGameAndAuthor(String game, String author) {
+        try {
+            MongoDBDriver md;
+            MongoCollection<Document> collection;
+            md = MongoDBDriver.getInstance();
+            collection = md.getCollection("users");
+            Document userDoc = collection.find(eq("nick", author)).first();
+            List <Document> reviews = userDoc.getList("reviews", Document.class);
+            for(Document review: reviews){
+                if(review.getString("game").equals(game)){
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public String getReviewText() {
         return reviewText;
     }
@@ -88,13 +108,11 @@ public class Review {
     public static List<Document> findByAuthor(String author) {
         MongoDBDriver driver = null;
         MongoCollection<Document> collection = null;
-        List<Document> reviews = new ArrayList<Document>();
         try {
             driver = MongoDBDriver.getInstance();
-            collection = driver.getCollection("reviews");
-            for (Document d:collection.find(eq("author", author))) {
-                reviews.add(d);
-            }
+            collection = driver.getCollection("users");
+            Document user = collection.find(eq("nick", author)).first();
+            List<Document> reviews = user.getList("reviews", Document.class);
             return reviews;
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,16 +120,37 @@ public class Review {
         return null;
     }
 
-    public static void delete(String game, String author) {
+    public static List<Document> deleteUserReview(String name, String author) {
+        User user = new User(User.findByNick(author));
+        List <Document> reviews = user.getReviews();
+        for(Document reviewDoc: reviews) {
+            if (reviewDoc.getString("game").equals(name))
+                reviews.remove(reviewDoc);
+        }
+        return reviews;
+    }
+
+    public static List<Document> deleteGameReview(String name, String author) {
+        Game game = new Game(Game.findByName(name));
+        List <Document> reviews = game.getReviews();
+            for(Document reviewDoc: reviews) {
+                if (reviewDoc.getString("author").equals(author)){
+                    reviews.remove(reviewDoc);
+                }
+            }
+        return reviews;
+    }
+    public static void delete(String name, String author) {
         try {
             MongoDBDriver md;
             MongoCollection<Document> collection;
             md = MongoDBDriver.getInstance();
-            collection = md.getCollection("reviews");
-            Document filter = new Document();
-            filter.append("author", author);
-            filter.append("game", game);
-            collection.deleteOne(Filters.and(filter));
+            collection = md.getCollection("users");
+            Document userDoc = collection.find(eq("nick", author)).first();
+            collection.updateOne(userDoc,deleteUserReview(name, author));
+            collection = md.getCollection("games");
+            Document gameDoc = collection.find(eq("name", name)).first();
+            collection.updateOne(gameDoc,deleteGameReview(name, author));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,42 +173,30 @@ public class Review {
                     .append("game", game);
 
             md = MongoDBDriver.getInstance();
-            collection = md.getCollection("reviews");
-            collection.insertOne(review);
-            //createUserNode(registNick);
+            collection = md.getCollection("users");
+            Document userDoc = collection.find(eq("nick", author)).first();
+            List <Document> reviewsUser = userDoc.getList("reviews", Document.class);
+            reviewsUser.add(review);
+            collection.updateOne(userDoc,reviewsUser);
+            collection = md.getCollection("games");
+            Document gameDoc = collection.find(eq("name", game)).first();
+            List <Document> reviewsGame = userDoc.getList("reviews", Document.class);
+            reviewsGame.add(review);
+            collection.updateOne(userDoc,reviewsGame);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Boolean findByGameAndAuthor(String game, String author) {
-        try {
-            MongoDBDriver md;
-            MongoCollection<Document> collection;
-            md = MongoDBDriver.getInstance();
-            collection = md.getCollection("reviews");
-            Document filter = new Document();
-            filter.append("author", author);
-            filter.append("game", game);
-            Document d = collection.find(Filters.and(filter)).first();
-            if(d == null)
-                return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
 
     public static List<Document> findByGame(String name) {
         MongoDBDriver driver = null;
         MongoCollection<Document> collection = null;
-        List<Document> reviews = new ArrayList<Document>();
         try {
             driver = MongoDBDriver.getInstance();
-            collection = driver.getCollection("reviews");
-            for (Document d:collection.find(eq("game", name))) {
-                reviews.add(d);
-            }
+            collection = driver.getCollection("games");
+            Document game = collection.find(eq("name", name)).first();
+            List<Document> reviews = game.getList("reviews", Document.class);
             return reviews;
         } catch (Exception e) {
             e.printStackTrace();

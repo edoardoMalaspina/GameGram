@@ -7,6 +7,7 @@ import org.bson.Document;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -17,6 +18,7 @@ public class Game {
     private LocalDate dateOfPublication;
     private double price;
     private String shortDescription;
+    private List<Document> reviews;
 
     public Game(String name){
         this.name = name;
@@ -39,7 +41,9 @@ public class Game {
         this.price = (document.get("price") == null) ? 0 : document.getDouble("price");
         this.publisher = (document.get("publisher") == null) ? "" : document.getString("publisher");
         this.shortDescription = (document.get("shortDescription") == null) ? "" : document.getString("shortDescription");
-        this.dateOfPublication = DateConverter.convertToLocalDate((document.get("dateOfPublication") == null) ? null : document.getDate("dateOfPublication"));
+        this.dateOfPublication = DateConverter.convertToLocalDate((document.get("dateOfPublication") == null) ? null :
+                document.getDate("dateOfPublication"));
+        this.reviews = (document.get("reviews") == null) ? null : document.getList("reviews", Document.class);
     }
 
     public static Document findByName (String name) {
@@ -56,12 +60,20 @@ public class Game {
         return null;
     }
 
+    public List<Document> getReviews() {
+        return reviews;
+    }
+
     public static void delete(String name) {
         try {
             MongoDBDriver md;
             MongoCollection<Document> collection;
             md = MongoDBDriver.getInstance();
             collection = md.getCollection("games");
+            Game game = new Game(Game.findByName(name));
+            for(Document reviewDoc: game.getReviews()){
+                Review review = new Review(reviewDoc);
+                review.delete(name, review.getAuthor());}
             collection.deleteOne(eq("name", name));
         } catch (Exception e) {
             e.printStackTrace();
