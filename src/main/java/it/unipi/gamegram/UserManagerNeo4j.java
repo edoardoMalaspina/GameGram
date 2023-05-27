@@ -5,8 +5,6 @@ import it.unipi.gamegram.Entities.Review;
 import it.unipi.gamegram.Entities.User;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
-
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -55,33 +53,6 @@ public class UserManagerNeo4j {
         }
         return listLikedGames;
     }
-
-    // auxiliary method used to retrieve the name of a liked game and the date of the like
-    private static ArrayList<Like> getLikedGameDated(User usr){
-        ArrayList<Like> listLikes = new ArrayList<>();
-        LocalDate today = LocalDate.now();
-        try (Session session = Neo4jDriver.getInstance().session()) {
-            session.readTransaction(tx -> {
-                Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
-                        "WHERE u.username = '" + usr.getNick() +
-                        "' RETURN liked.name, like.date");
-                while (result.hasNext()) {
-                    Record r = result.next();
-                    String dateLikeString = r.get("like.date").asString();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate dateLike = LocalDate.parse(dateLikeString, formatter);
-                    // convert the date of the like in a long representing the day passed since the like
-                    long dayPassed = ChronoUnit.DAYS.between(dateLike, today);
-                    listLikes.add(new Like(r.get("liked.name").asString(), dayPassed));
-                }
-                return listLikes;
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listLikes;
-    }
-
 
     // method to create a user node in neo4j
     public static void addUserNode(User usr){
@@ -225,53 +196,6 @@ public class UserManagerNeo4j {
         }
     }
 
-    /*
-    // method to suggest to a user a new person to follow based on user already followed
-    public static ArrayList<String> suggestWhoToFollowOld(User usr){
-        // take the list of already followed users
-        ArrayList<User> listFollowed = getListFollowedUsers(usr);
-        // larger list that will contain all the users followed by all the users that usr is following
-        ArrayList<User> totalFollowedByFollowed = new ArrayList<>();
-        // hashmap that will be used to assign a score to each potential suggested user
-        HashMap<String, Integer> mapUsers = new HashMap<>();
-        // for each followed user take the list of followed users
-        for(User tmp : listFollowed)
-            // add all those users to the larger list
-            totalFollowedByFollowed.addAll(getListFollowedUsers(tmp));
-        // put all those candidates in the hashmap
-        for (User tmp : totalFollowedByFollowed){
-            // the first time an user appears he gets a score equal to 1
-            if(!mapUsers.containsKey(tmp.getNick())){
-                mapUsers.put(tmp.getNick(), 1);
-            }
-            // if the user is already in the hashmap increase his score by 1
-            // this means that is followed by more than one user already followed
-            else{
-                int oldValue = mapUsers.get(tmp.getNick());
-                oldValue++;
-                mapUsers.remove(tmp.getNick());
-                mapUsers.put(tmp.getNick(), oldValue);
-            }
-        }
-        // remove from the candidates all the users already followed and yourself
-        for(User alreadyFollowed : listFollowed)
-            mapUsers.remove(alreadyFollowed.getNick());
-        mapUsers.remove(usr.getNick());
-        // sort the entries of the hashmap in descending order of value
-        ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<>(mapUsers.entrySet());
-        entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        // retrieve the top 5 users with higher score
-        ArrayList<String> top5 = new ArrayList<>();
-        for (int i = 0; i < Math.min(5, entries.size()); i++) {
-            top5.add(entries.get(0).getKey());
-            entries.remove(0);
-        }
-
-        return top5;
-    }
-     */
-
-
     public static ArrayList<String> suggestWhoToFollow(User usr){
         ArrayList<String> top5 = new ArrayList<>();
         try (Session session =  Neo4jDriver.getInstance().session()) {
@@ -291,82 +215,25 @@ public class UserManagerNeo4j {
         return top5;
     }
 
-
-    // auxiliary method that taken the list of followed users return the oldest like
-    // is exploited to calculate the score in the suggestTrendingNowAmongFollowed method
-    private static long getOldestLikeAmongFollowed(User usr){
-        ArrayList<User> listFollowed = getListFollowedUsers(usr);
-        long maximumDayPassed = 0;
-        // get the list of followed users
-        for (User tmp:listFollowed){
-            // get the list of likes of the followed users with the dates of the likes
-            // and put all of them in a list
-            ArrayList<Like> listLikes = getLikedGameDated(tmp);
-            // find the oldest like in the list
-            for(Like like:listLikes){
-                if (like.dayPassedSinceLike > maximumDayPassed)
-                    maximumDayPassed = like.dayPassedSinceLike;
-            }
-        }
-        return maximumDayPassed;
-    }
-
-    // auxiliary method to compute the score to assign to a like based on how old it is.
-    // is exploited in suggestTrendingNowAmongFollowed method
-    private static double calculateScoreLike(long maximumDayPassed, long daysSinceLike){
-        return Math.pow(2,(maximumDayPassed - daysSinceLike)/1000 );
-    }
-
-    /*
-    // method to suggest a game that an user should like based on likes of people the user follows.
-    // this method assigns different score based on how many users followed liked a game and on how
-    // old those likes are. The score tends to reward games that are receiving a lot of likes in last days.
-    public static ArrayList<String> suggestTrendingNowAmongFollowedOld(User usr){
-        // get the list of followed users
-        ArrayList<User> listFollowed = getListFollowedUsers(usr);
-        // create an hashmap with:
-        // keys: all the games a followed user liked
-        // value: the score associated with that game
-        HashMap<String, Double> mapScores = new HashMap<>();
-        // retrieve how old is the oldest like
-        long maximumDayPassed = getOldestLikeAmongFollowed(usr);
-        // retrieve all the likes of followed users with corresponding date
-        ArrayList<Like> listLikes = new ArrayList<>();
-        for (User tmp:listFollowed){
-            listLikes.addAll(getLikedGameDated(tmp));
-        }
-        // for each like update the partial score assigned to the game based on how old the like is
-        for (Like like:listLikes){
-            // if is the first time the game appears just compute and assign the score
-            if(!mapScores.containsKey(like.nameOfTheGame))
-                mapScores.put(like.nameOfTheGame, calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
-            // if the game already appeared compute the score of this like and increment the old value
-            else{
-                double oldScore = mapScores.get(like.nameOfTheGame);
-                mapScores.replace(like.nameOfTheGame, oldScore, oldScore + calculateScoreLike(maximumDayPassed, like.dayPassedSinceLike));
-            }
-        }
-        // remove from the candidates game for the suggestion all the games the user already likes:
-        // get the list of games the user already likes
-        ArrayList<Game> listLiked = getListLikedGames(usr);
-        // remove from the hashmap all the games already liked by the user
-        for(Game alreadyLiked : listLiked){
-            if(mapScores.containsKey(alreadyLiked.getName()))
-                mapScores.remove(alreadyLiked.getName());
-        }
-        ArrayList<Map.Entry<String, Double>> entries = new ArrayList<>(mapScores.entrySet());
-        // sort the hashmap in descending order of value
-        entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        // retrieve the games corresponding to the top 5 highest values
+    // method to find the top 5 active users among the followed.
+    // return the five users that have liked or reviewed more games
+    public static ArrayList<String> findMostActiveFollowed(User usr){
         ArrayList<String> top5 = new ArrayList<>();
-        for (int i = 0; i < Math.min(5, entries.size()); i++) {
-            top5.add(entries.get(0).getKey());
-            entries.remove(0);
+        try (Session session =  Neo4jDriver.getInstance().session()) {
+            String query = "MATCH (u:User {username: '" + usr.getNick() + "'})-[:FOLLOW]->(followed:User) " +
+                    "MATCH (followed)-[:LIKE|REVIEWED]->(game:Game) " +
+                    "WITH followed, count(*) as totalEdges " +
+                    "ORDER BY totalEdges DESC " +
+                    "LIMIT 5 " +
+                    "RETURN followed.username";
+            Result result = session.run(query);
+            for(Record r : result.list()){
+                String recommendedUser = r.get("followed.username").asString();
+                top5.add(recommendedUser);
+            }
         }
-        // return the list of the top 5 games
         return top5;
     }
-     */
 
     // method to suggest a game that a user should like based on likes of people the user follows.
     // this method assigns different score based on how many users followed liked a game and on how
@@ -379,7 +246,7 @@ public class UserManagerNeo4j {
                     "WITH g, l.date AS likeDate, u " +
                     "ORDER BY likeDate DESC " +
                     "WITH g, COLLECT(u) AS likedBy, COLLECT(likeDate) AS likeDates " +
-                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score + round((toFloat(datetime().epochSeconds - datetime(likeDates[i]).epochSeconds) / (3600 * 24))^2 * 100) / 100) AS partialScore " +
+                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score+round((toFloat(datetime().epochSeconds-datetime(likeDates[i]).epochSeconds)/(3600 * 24))^2 * 100)/100) AS partialScore " +
                     "RETURN g.name, SUM(partialScore) AS totalScore " +
                     "ORDER BY totalScore ASC " +
                     "LIMIT 5";
@@ -392,31 +259,6 @@ public class UserManagerNeo4j {
             }
         }
         return top5;
-    }
-
-
-
-    /* QUESTA FUNZIONA
-    String query = "MATCH (p:User {username: '"+usr.getNick()+"'})-[:FOLLOW]->(u:User)-[l:LIKE]->(g:Game) " +
-                    "WHERE NOT EXISTS((p)-[:LIKE]->(g)) " +
-                    "WITH g, l.date AS likeDate, u " +
-                    "ORDER BY likeDate DESC " +
-                    "WITH g, COLLECT(u) AS likedBy, COLLECT(likeDate) AS likeDates " +
-                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score + round((toFloat(datetime().epochSeconds - datetime(likeDates[i]).epochSeconds) / (3600 * 24))^2 * 100) / 100) AS partialScore " +
-                    "RETURN g.name, SUM(partialScore) AS totalScore " +
-                    "ORDER BY totalScore ASC " +
-                    "LIMIT 5";
-     */
-
-    // auxialiary class exploited in suggestTrendingNowAmongFollowed method
-    private static class Like{
-        String nameOfTheGame;
-        long dayPassedSinceLike;
-
-        private Like(String nameOfTheGame, long dayPassedSinceLike){
-            this.nameOfTheGame = nameOfTheGame;
-            this.dayPassedSinceLike = dayPassedSinceLike;
-        }
     }
 
     public static void main(String[] args){
@@ -520,17 +362,13 @@ public class UserManagerNeo4j {
         addDirectedLinkFollow(usr1, usr3);
         addDirectedLinkFollow(usr1, usr4);
         addDirectedLinkFollow(usr1, usr5);
-        addDirectedLinkFollow(usr5, usr6);
-        addDirectedLinkFollow(usr5,usr7);
-        addDirectedLinkFollow(usr5, usr8);
-        addDirectedLinkFollow(usr4, usr8);
-        addDirectedLinkFollow(usr4, usr9);
-        addDirectedLinkFollow(usr4, usr10);
-        addDirectedLinkFollow(usr4, usr11);
+        addDirectedLinkFollow(usr1, usr6);
+        addDirectedLinkFollow(usr1,usr7);
+        addDirectedLinkFollow(usr1, usr8);
+        addDirectedLinkFollow(usr1, usr9);
+        addDirectedLinkFollow(usr1, usr10);
+        addDirectedLinkFollow(usr1, usr11);
         addDirectedLinkFollow(usr1, usr12);
-        addDirectedLinkFollow(usr1, usr12);
-        addDirectedLinkFollow(usr2, usr4);
-        addDirectedLinkFollow(usr2, usr9);
 
 
 
@@ -560,6 +398,12 @@ public class UserManagerNeo4j {
         GameManagerNeo4j.addGameNode(k);
 
         addDirectedLinkLike(usr5, a);
+        addDirectedLinkLike(usr2, a);
+        addDirectedLinkLike(usr6, a);
+        addDirectedLinkLike(usr7, a);
+        addDirectedLinkLike(usr8, a);
+        addDirectedLinkLike(usr9, a);
+        addDirectedLinkLike(usr10, a);
         addDirectedLinkLike(usr2, a);
 
 
@@ -592,8 +436,11 @@ public class UserManagerNeo4j {
         Review rev = new Review("aaaaa", LocalDate.parse("2022-11-11"), "a", "a", "agg");
         ReviewManagerNeo4j.addReviewDirectedEdge(rev);
 
-        System.out.println(GameManagerNeo4j.countReviews("a"));
-
+        ArrayList<String> lst = findMostActiveFollowed(usr1);
+        System.out.println(lst.size());
+        for(String str:lst){
+            System.out.println(str);
+        }
 
 
 
