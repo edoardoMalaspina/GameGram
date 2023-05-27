@@ -8,14 +8,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
+<VBox alignment="CENTER" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserHomeController">
    <children>
       <HBox alignment="CENTER">
          <children>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="findUser" alignment="CENTER" mnemonicParsing="false" onAction="#findUser" prefHeight="26.0" prefWidth="206.0" text="Find user by nickname" textAlignment="CENTER">
+                  <Button fx:id="findUser" alignment="CENTER" mnemonicParsing="false" onAction="#findUser" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Find user by nickname" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -31,7 +30,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <Button fx:id="findGame" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#findGame" prefHeight="26.0" prefWidth="206.0" text="Find game by name" textAlignment="CENTER">
+                  <Button fx:id="findGame" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#findGame" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Find game by name" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -47,7 +46,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <Button fx:id="showFollowed" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showFollowed" prefHeight="26.0" prefWidth="206.0" text="Show followed users" textAlignment="CENTER">
+                  <Button fx:id="showFollowed" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showFollowed" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Show followed users" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -59,7 +58,7 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="showReviews" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="206.0" text="Show my reviews" textAlignment="CENTER">
+                  <Button fx:id="showReviews" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showReviews" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Show my reviews" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -67,7 +66,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="showLiked" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showLiked" prefHeight="26.0" prefWidth="206.0" text="Show liked games" textAlignment="CENTER">
+                  <Button fx:id="showLiked" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showLiked" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Show liked games" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -75,7 +74,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="trends" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#trends" prefHeight="26.0" prefWidth="206.0" text="Trends" textAlignment="CENTER">
+                  <Button fx:id="trends" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#trends" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Trends" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -83,7 +82,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertGame" prefHeight="26.0" prefWidth="206.0" text="Insert game" textAlignment="CENTER">
+                  <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertGame" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: CEB700;" text="Insert game" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -91,7 +90,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logout" text="Logout">
+                  <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logout" style="-fx-background-color: CEB700;" text="Logout" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -103,7 +102,7 @@
             </VBox>
          </children>
       </HBox>
-      <Label fx:id="errorMessage" alignment="CENTER" prefHeight="26.0" prefWidth="206.0">
+      <Label fx:id="errorMessage" alignment="CENTER" prefHeight="26.0" prefWidth="206.0" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>

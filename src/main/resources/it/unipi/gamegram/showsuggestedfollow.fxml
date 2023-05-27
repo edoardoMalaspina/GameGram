@@ -9,10 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ShowSuggestedFollowController">
+<VBox alignment="CENTER" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ShowSuggestedFollowController">
    <children>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="108.0" prefWidth="580.0" textAlignment="CENTER">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="108.0" prefWidth="580.0" textAlignment="CENTER" textFill="#ceb700">
          <font>
             <Font size="36.0" />
          </font>
@@ -20,7 +19,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="userTable" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="userTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: CEB700;">
          <contextMenu>
             <ContextMenu fx:id="cm">
               <items>
@@ -35,7 +34,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="back" alignment="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="111.0" text="Back">
+      <Button fx:id="back" alignment="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="111.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>

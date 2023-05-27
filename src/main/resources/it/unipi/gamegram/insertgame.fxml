@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="453.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.InsertGameController">
+<VBox alignment="CENTER" prefHeight="453.0" prefWidth="350.0" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.InsertGameController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="275.0" text="Name" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="275.0" text="Name" textAlignment="CENTER" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -23,7 +23,7 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="238.0" text="Date of Publication" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="238.0" text="Date of Publication" textAlignment="CENTER" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -36,7 +36,7 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </DatePicker>
-      <Label fx:id="nick" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="238.0" text="Developer">
+      <Label fx:id="nick" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="238.0" text="Developer" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -49,7 +49,7 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Publisher">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Publisher" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -62,7 +62,7 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Price">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Price" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -75,7 +75,7 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Short Description">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Short Description" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -88,7 +88,7 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="94.0" text="Insert" textAlignment="CENTER">
+      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: CEB700;" text="Insert" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -96,7 +96,7 @@
             <Insets bottom="4.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="95.0" text="Back">
+      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="95.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -104,7 +104,7 @@
             <Insets left="15.0" right="15.0" top="4.0" />
          </VBox.margin>
       </Button>
-      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="35.0" prefWidth="269.0">
+      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="35.0" prefWidth="269.0" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>

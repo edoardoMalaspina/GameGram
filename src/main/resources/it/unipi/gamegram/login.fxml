@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="318.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.LoginController">
+<VBox alignment="CENTER" prefHeight="318.0" prefWidth="359.0" style="-fx-background-color: FFFFD2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.LoginController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="88.0" text="Nick" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="88.0" text="Nick" textAlignment="CENTER" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -23,7 +23,7 @@
             <Insets bottom="15.0" left="110.0" right="110.0" />
          </VBox.margin>
       </TextField>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="104.0" text="Password" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="104.0" text="Password" textAlignment="CENTER" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>
@@ -36,7 +36,7 @@
             <Insets bottom="15.0" left="110.0" right="110.0" />
          </VBox.margin>
       </PasswordField>
-      <Button fx:id="login" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="88.0" text="Login">
+      <Button fx:id="login" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="88.0" style="-fx-background-color: CEB700;" text="Login" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -44,7 +44,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="back" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="88.0" text="Back" textAlignment="CENTER">
+      <Button fx:id="back" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="88.0" style="-fx-background-color: CEB700;" text="Back" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -52,7 +52,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </Button>
-      <Label fx:id="errorMessage" alignment="CENTER" prefHeight="46.0" prefWidth="270.0">
+      <Label fx:id="errorMessage" alignment="CENTER" prefHeight="46.0" prefWidth="270.0" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>

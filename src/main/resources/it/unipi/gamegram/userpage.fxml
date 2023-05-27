@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserPageController">
+<VBox alignment="CENTER" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserPageController">
    <children>
-      <Label fx:id="title" alignment="CENTER" prefHeight="102.0" prefWidth="535.0" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="title" alignment="CENTER" prefHeight="102.0" prefWidth="535.0" textAlignment="CENTER" textFill="#ceb700" wrapText="true">
          <font>
             <Font size="36.0" />
          </font>
@@ -21,22 +21,22 @@
          <children>
             <VBox alignment="CENTER" prefHeight="203.0" prefWidth="292.0">
                <children>
-                  <Label fx:id="nick" prefHeight="38.0" prefWidth="334.0">
+                  <Label fx:id="nick" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="name" prefHeight="38.0" prefWidth="334.0">
+                  <Label fx:id="name" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="lastName" prefHeight="38.0" prefWidth="334.0">
+                  <Label fx:id="lastName" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="isadmin" prefHeight="38.0" prefWidth="334.0">
+                  <Label fx:id="isadmin" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
@@ -48,7 +48,7 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="follow" mnemonicParsing="false" onAction="#follow" prefHeight="40.0" prefWidth="194.0" text="Follow">
+                  <Button fx:id="follow" mnemonicParsing="false" onAction="#follow" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: CEB700;" text="Follow" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -56,7 +56,7 @@
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="unfollow" mnemonicParsing="false" onAction="#unfollow" prefHeight="40.0" prefWidth="194.0" text="Unfollow">
+                  <Button fx:id="unfollow" mnemonicParsing="false" onAction="#unfollow" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: CEB700;" text="Unfollow" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -64,7 +64,7 @@
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="showLiked" mnemonicParsing="false" onAction="#showLiked" prefHeight="40.0" prefWidth="194.0" text="Show liked games">
+                  <Button fx:id="showLiked" mnemonicParsing="false" onAction="#showLiked" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: CEB700;" text="Show liked games" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -72,7 +72,7 @@
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="showReviews" mnemonicParsing="false" onAction="#showReviews" prefHeight="40.0" prefWidth="194.0" text="Show reviews">
+                  <Button fx:id="showReviews" mnemonicParsing="false" onAction="#showReviews" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: CEB700;" text="Show reviews" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -80,7 +80,7 @@
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="194.0" text="Delete User">
+                  <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: CEB700;" text="Delete User" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -88,7 +88,7 @@
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="194.0" text="Back">
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -106,7 +106,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="34.0" prefWidth="542.0">
+      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="34.0" prefWidth="542.0" textFill="#ceb700">
          <font>
             <Font size="18.0" />
          </font>

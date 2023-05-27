@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.StartController">
+<VBox alignment="CENTER" prefHeight="322.0" prefWidth="262.0" style="-fx-background-color: FFFFD2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.StartController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="170.0" fitWidth="212.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="C:\Users\pietr\IdeaProjects\GameGram\src\main\resources\images\instagram-png-instagram-logo-2-png-8-de-abril-de-2017-927-kb-3500-3393-3500-413x400.png" />
+            <Image url="C:\Users\pietr\IdeaProjects\GameGram\src\main\resources\images\gamegram-low-resolution-logo-color-on-transparent-background.png" />
          </image>
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </ImageView>
-      <Button fx:id="login" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="229.0" text="Login">
+      <Button fx:id="login" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="229.0" style="-fx-background-color: CEB700;" text="Login" textFill="WHITE">
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
@@ -25,7 +25,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="signup" mnemonicParsing="false" onAction="#signup" prefHeight="26.0" prefWidth="232.0" text="Signup">
+      <Button fx:id="signup" mnemonicParsing="false" onAction="#signup" prefHeight="26.0" prefWidth="232.0" style="-fx-background-color: CEB700; -fx-font: Poppins Regular;" text="Signup" textFill="WHITE">
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
