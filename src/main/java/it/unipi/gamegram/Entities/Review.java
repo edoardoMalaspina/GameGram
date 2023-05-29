@@ -2,10 +2,13 @@ package it.unipi.gamegram.Entities;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import it.unipi.gamegram.DateConverter;
 import it.unipi.gamegram.MongoDBDriver;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -142,51 +145,53 @@ public class Review {
     }
     public static void delete(String name, String author) {
         try {
-            MongoDBDriver md;
-            MongoCollection<Document> collection;
-            md = MongoDBDriver.getInstance();
-            collection = md.getCollection("users");
-            Document userDoc = collection.find(eq("nick", author)).first();
-            collection.updateOne(userDoc,deleteUserReview(name, author));
-            collection = md.getCollection("games");
-            Document gameDoc = collection.find(eq("name", name)).first();
-            collection.updateOne(gameDoc,deleteGameReview(name, author));
+            MongoDBDriver md = MongoDBDriver.getInstance();
+            MongoCollection<Document> userCollection = md.getCollection("users");
+            MongoCollection<Document> gameCollection = md.getCollection("games");
+
+            // Delete user review
+            Bson userFilter = Filters.eq("nick", author);
+            Bson userUpdate = Updates.pull("reviews", Filters.eq("game", name));
+            userCollection.updateOne(userFilter, userUpdate);
+
+            // Delete game review
+            Bson gameFilter = Filters.eq("name", name);
+            Bson gameUpdate = Updates.pull("reviews", Filters.eq("author", author));
+            gameCollection.updateOne(gameFilter, gameUpdate);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void insert(String author, LocalDate localDate, String title, String text,
-                              String game) {
+
+    public static void insert(String author, LocalDate localDate, String title, String text, String game) {
         try {
-            MongoDBDriver md;
-            MongoCollection<Document> collection;
-            Document review;
-            Date date;
+            MongoDBDriver md = MongoDBDriver.getInstance();
+            MongoCollection<Document> userCollection = md.getCollection("users");
+            MongoCollection<Document> gameCollection = md.getCollection("games");
 
-            date = DateConverter.convertLocalDateToDate(localDate);
+            Date date = DateConverter.convertLocalDateToDate(localDate);
 
-            review = new Document("author", author)
+            Document review = new Document("author", author)
                     .append("review_date", date)
                     .append("review_title", title)
                     .append("review_text", text)
                     .append("game", game);
 
-            md = MongoDBDriver.getInstance();
-            collection = md.getCollection("users");
-            Document userDoc = collection.find(eq("nick", author)).first();
-            List <Document> reviewsUser = userDoc.getList("reviews", Document.class);
-            reviewsUser.add(review);
-            collection.updateOne(userDoc,reviewsUser);
-            collection = md.getCollection("games");
-            Document gameDoc = collection.find(eq("name", game)).first();
-            List <Document> reviewsGame = userDoc.getList("reviews", Document.class);
-            reviewsGame.add(review);
-            collection.updateOne(userDoc,reviewsGame);
+            // Update user collection
+            Bson userFilter = Filters.eq("nick", author);
+            Bson userUpdate = Updates.push("reviews", review);
+            userCollection.updateOne(userFilter, userUpdate);
+
+            // Update game collection
+            Bson gameFilter = Filters.eq("name", game);
+            Bson gameUpdate = Updates.push("reviews", review);
+            gameCollection.updateOne(gameFilter, gameUpdate);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 
     public static List<Document> findByGame(String name) {

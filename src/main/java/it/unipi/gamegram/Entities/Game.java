@@ -6,6 +6,7 @@ import it.unipi.gamegram.MongoDBDriver;
 import org.bson.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Game {
         this.shortDescription = (document.get("shortDescription") == null) ? "" : document.getString("shortDescription");
         this.dateOfPublication = DateConverter.convertToLocalDate((document.get("dateOfPublication") == null) ? null :
                 document.getDate("dateOfPublication"));
-        this.reviews = (document.get("reviews") == null) ? null : document.getList("reviews", Document.class);
+        this.reviews = (document.get("reviews") == null) ? new ArrayList<Document>() : document.getList("reviews", Document.class);
     }
 
     public static Document findByName (String name) {

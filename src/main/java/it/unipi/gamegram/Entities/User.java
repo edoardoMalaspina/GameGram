@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCursor;
 import it.unipi.gamegram.*;
 import org.bson.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.and;
@@ -40,7 +41,7 @@ public class User {
         this.firstName = (document.get("name") == null) ? "" : document.getString("name");
         this.lastName = (document.get("lastname") == null) ? "" : document.getString("lastname");
         this.isAdmin = (document.get("isadmin") == null) ? "" : document.getString("isadmin");
-        this.reviews = (document.get("reviews") == null) ? null : document.getList("reviews", Document.class);
+        this.reviews = (document.get("reviews") == null) ? new ArrayList<Document>() : document.getList("reviews", Document.class);
     }
 
     public String getFirstName() {
@@ -162,7 +163,8 @@ public class User {
                     .append("password", password)
                     .append("name", name)
                     .append("surname", surname)
-                    .append("isadmin", "No");
+                    .append("isadmin", "No")
+                    .append("reviews",new ArrayList<Document>());
 
             md = MongoDBDriver.getInstance();
             collection = md.getCollection("users");
