@@ -14,7 +14,7 @@
             <Font size="36.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </VBox.margin>
       </Label>
       <HBox prefHeight="361.0" prefWidth="542.0">
@@ -58,47 +58,55 @@
                   </Label>
                </children>
                <HBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="5.0" />
                </HBox.margin>
             </VBox>
             <VBox alignment="CENTER" prefHeight="316.0" prefWidth="233.0">
                <children>
-                  <Button fx:id="like" mnemonicParsing="false" onAction="#like" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: CEB700;" text="Like" textFill="WHITE">
+                  <Button fx:id="like" mnemonicParsing="false" onAction="#like" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Like" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font size="18.0" />
                      </font></Button>
-                  <Button fx:id="unlike" mnemonicParsing="false" onAction="#unlike" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: CEB700;" text="Unlike" textFill="WHITE">
+                  <Button fx:id="unlike" mnemonicParsing="false" onAction="#unlike" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Unlike" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font size="18.0" />
                      </font></Button>
-                  <Button fx:id="showReviews" mnemonicParsing="false" onAction="#showReviews" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: CEB700;" text="Show Reviews" textFill="WHITE">
+                  <Button fx:id="showReviews" mnemonicParsing="false" onAction="#showReviews" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Show Reviews" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font size="18.0" />
                      </font></Button>
-                  <Button fx:id="writeReview" mnemonicParsing="false" onAction="#writeReview" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: CEB700;" text="Write Review" textFill="WHITE">
+                  <Button fx:id="writeReview" mnemonicParsing="false" onAction="#writeReview" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Write Review" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font size="18.0" />
                      </font></Button>
-                  <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: CEB700;" text="Delete Game" textFill="WHITE">
+                  <Button fx:id="showFullDescription" layoutX="37.0" layoutY="164.0" mnemonicParsing="false" onAction="#showFullDescription" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Show Full Desc" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Delete Game" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font size="18.0" />
                      </font></Button>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -112,12 +120,12 @@
             </VBox>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </VBox.margin>
       </HBox>
-      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="110.0" prefWidth="542.0" textFill="#ceb700" wrapText="true">
+      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="28.0" prefWidth="582.0" textAlignment="CENTER" textFill="#ceb700" wrapText="true">
          <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </VBox.margin>
          <font>
             <Font size="18.0" />

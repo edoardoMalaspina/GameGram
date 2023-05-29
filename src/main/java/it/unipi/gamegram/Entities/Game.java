@@ -19,6 +19,7 @@ public class Game {
     private LocalDate dateOfPublication;
     private double price;
     private String shortDescription;
+    private String fullDescription;
     private List<Document> reviews;
 
     public Game(String name){
@@ -42,9 +43,14 @@ public class Game {
         this.price = (document.get("price") == null) ? 0 : document.getDouble("price");
         this.publisher = (document.get("publisher") == null) ? "" : document.getString("publisher");
         this.shortDescription = (document.get("shortDescription") == null) ? "" : document.getString("shortDescription");
+        this.fullDescription = (document.get("fullDescription") == null) ? "" : document.getString("fullDescription");
         this.dateOfPublication = DateConverter.convertToLocalDate((document.get("dateOfPublication") == null) ? null :
                 document.getDate("dateOfPublication"));
         this.reviews = (document.get("reviews") == null) ? new ArrayList<Document>() : document.getList("reviews", Document.class);
+    }
+
+    public String getFullDescription() {
+        return fullDescription;
     }
 
     public static Document findByName (String name) {

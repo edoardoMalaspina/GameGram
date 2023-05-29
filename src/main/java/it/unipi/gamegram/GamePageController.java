@@ -42,6 +42,9 @@ public class GamePageController {
     private Button showReviews;
 
     @FXML
+    private Button showFullDescription;
+
+    @FXML
     private Button writeReview;
 
     @FXML
@@ -115,6 +118,10 @@ public class GamePageController {
     @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("userhome");}
+
+    @FXML
+    private void showFullDescription() throws IOException {
+        GameGramApplication.setRoot("showfulldescription");}
 
     @FXML
     private void delete() throws IOException {
