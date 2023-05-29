@@ -69,10 +69,9 @@ public class SignupController {
         }
 
         User.register(nick, password, name, surname);
-        UserManagerNeo4j.addUserNode(new User(nick));
+        UserManagerNeo4j.addUserNode(new User(name, surname, nick));
         outcomeMessage.setText("Successfully registered, go back to login.");
         return;
         //GameGramApplication.setRoot("start");
     }
-
 }

@@ -119,6 +119,7 @@ public class GamePageController {
     @FXML
     private void delete() throws IOException {
         Game.delete(GameSingleton.getName());
+        UserManagerNeo4j.deleteGameNode(GameSingleton.getName());
         GameSingleton.setNull();
         GameGramApplication.setRoot("userhome");}
 
