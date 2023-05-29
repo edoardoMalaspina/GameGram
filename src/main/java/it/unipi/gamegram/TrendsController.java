@@ -14,6 +14,9 @@ public class TrendsController {
     private Button suggestedFollows;
 
     @FXML
+    private Button showActiveFollowed;
+
+    @FXML
     private Button mongo1;
 
     @FXML
@@ -25,6 +28,11 @@ public class TrendsController {
     @FXML
     private void SuggestedLikes() throws IOException {
         GameGramApplication.setRoot("showsuggestedgames");
+    }
+
+    @FXML
+    private void ShowActiveFollowed() throws IOException {
+        GameGramApplication.setRoot("showactivefollowed");
     }
 
     @FXML

@@ -13,39 +13,47 @@
             <Font size="36.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="12.0" left="12.0" right="12.0" top="15.0" />
          </VBox.margin>
       </Label>
-      <Button fx:id="suggestedLikes" mnemonicParsing="false" onAction="#SuggestedLikes" prefHeight="40.0" prefWidth="181.0" style="-fx-background-color: CEB700;" text="Suggested games" textFill="WHITE">
+      <Button fx:id="suggestedLikes" mnemonicParsing="false" onAction="#SuggestedLikes" prefHeight="40.0" prefWidth="192.0" style="-fx-background-color: CEB700;" text="Suggested games" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="suggestedFollows" mnemonicParsing="false" onAction="#SuggestedFollows" prefHeight="40.0" prefWidth="181.0" style="-fx-background-color: CEB700;" text="Suggested users" textFill="WHITE">
+      <Button fx:id="suggestedFollows" mnemonicParsing="false" onAction="#SuggestedFollows" prefHeight="40.0" prefWidth="192.0" style="-fx-background-color: CEB700;" text="Suggested users" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="mongo1" mnemonicParsing="false" onAction="#mongo1" prefHeight="34.0" prefWidth="118.0" style="-fx-background-color: CEB700;" text="mongo1" textFill="WHITE">
+      <Button fx:id="showActiveFollowed" layoutX="214.0" layoutY="180.0" mnemonicParsing="false" onAction="#ShowActiveFollowed" prefHeight="40.0" prefWidth="192.0" style="-fx-background-color: CEB700;" text="Show active followed" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="mongo2" mnemonicParsing="false" onAction="#mongo2" prefHeight="34.0" prefWidth="118.0" style="-fx-background-color: CEB700;" text="mongo2" textFill="WHITE">
+      <Button fx:id="mongo1" mnemonicParsing="false" onAction="#mongo1" prefHeight="34.0" prefWidth="192.0" style="-fx-background-color: CEB700;" text="mongo1" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="mongo2" mnemonicParsing="false" onAction="#mongo2" prefHeight="34.0" prefWidth="192.0" style="-fx-background-color: CEB700;" text="mongo2" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
          </VBox.margin>
       </Button>
       <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="92.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
@@ -53,7 +61,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="15.0" left="12.0" right="12.0" top="12.0" />
          </VBox.margin>
       </Button>
    </children>

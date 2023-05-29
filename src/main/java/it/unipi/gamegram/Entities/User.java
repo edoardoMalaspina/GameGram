@@ -162,7 +162,7 @@ public class User {
             user = new Document("nick", nick)
                     .append("password", password)
                     .append("name", name)
-                    .append("surname", surname)
+                    .append("lastname", surname)
                     .append("isadmin", "No")
                     .append("reviews",new ArrayList<Document>());
 

@@ -59,7 +59,7 @@ public class UserPageController {
         nick.setText("Nick: " + nickTitle);
         name.setText("Name: " + user.getFirstName());
         lastName.setText("Last name: " + user.getLastName());
-        isadmin.setText(("Admin: " + user.getIsAdmin()));
+        isadmin.setText("Admin: " + user.getIsAdmin());
     }
 
     @FXML
