@@ -37,7 +37,7 @@ public class ReviewPageController {
     public void initialize() {
         delete.setVisible(false);
         delete.setDisable(true);
-        if(LoggedUser.getIsAdmin()) {
+        if(LoggedUser.getIsAdmin() || LoggedUser.getLoggedUser().getNick().equals(ReviewSingleton.getReview().getAuthor())) {
             delete.setVisible(true);
             delete.setDisable(false);
         }

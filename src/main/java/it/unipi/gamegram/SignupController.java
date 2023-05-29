@@ -53,8 +53,18 @@ public class SignupController {
             return;
         }
 
+        if(nick.contains("'")){
+            outcomeMessage.setText("Forbidden characters, retry.");
+            return;
+        }
+
         if(!User.checkNick(signUpNick.getText())){
             outcomeMessage.setText("Nick already exists. Choose another one.");
+            return;
+        }
+
+        if(password.length() < 8){
+            outcomeMessage.setText("Weak password (at least 8 characters).");
             return;
         }
 

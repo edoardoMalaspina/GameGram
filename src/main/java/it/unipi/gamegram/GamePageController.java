@@ -66,7 +66,7 @@ public class GamePageController {
         String name = GameSingleton.getName();
         title.setText(name + "'s game page");
         Game game = new Game(Game.findByName(name));
-        dateOfPublication.setText("Date of publication: " + game.getStringDateOfPublication());
+        dateOfPublication.setText("Date of publication: " + game.getDateOfPublication());
         developer.setText("Developer: " + game.getDeveloper());
         publisher.setText("Publisher: " + game.getPublisher());
         price.setText("Price: " + game.getPrice());

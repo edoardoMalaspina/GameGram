@@ -9,7 +9,7 @@
 
 <VBox prefHeight="451.0" prefWidth="562.0" spacing="5.0" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.GamePageController">
    <children>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="86.0" prefWidth="598.0" textAlignment="CENTER" textFill="#ceb700">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="86.0" prefWidth="598.0" textAlignment="CENTER" textFill="#ceb700" wrapText="true">
          <font>
             <Font size="36.0" />
          </font>
@@ -21,32 +21,32 @@
          <children>
             <VBox prefHeight="299.0" prefWidth="336.0">
                <children>
-                  <Label fx:id="price" prefHeight="22.0" prefWidth="508.0" textFill="#ceb700">
+                  <Label fx:id="price" prefHeight="22.0" prefWidth="508.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="dateOfPublication" prefHeight="23.0" prefWidth="510.0" textFill="#ceb700">
+                  <Label fx:id="dateOfPublication" prefHeight="23.0" prefWidth="510.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="developer" prefHeight="21.0" prefWidth="506.0" textFill="#ceb700">
+                  <Label fx:id="developer" prefHeight="21.0" prefWidth="506.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="publisher" prefHeight="20.0" prefWidth="508.0" textFill="#ceb700">
+                  <Label fx:id="publisher" prefHeight="20.0" prefWidth="508.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="numberOfLikes" prefHeight="22.0" prefWidth="506.0" textFill="#ceb700">
+                  <Label fx:id="numberOfLikes" prefHeight="22.0" prefWidth="506.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="numberOfReviews" prefHeight="22.0" prefWidth="517.0" textFill="#ceb700">
+                  <Label fx:id="numberOfReviews" prefHeight="22.0" prefWidth="517.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
@@ -115,7 +115,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="110.0" prefWidth="542.0" textFill="#ceb700">
+      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="110.0" prefWidth="542.0" textFill="#ceb700" wrapText="true">
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>

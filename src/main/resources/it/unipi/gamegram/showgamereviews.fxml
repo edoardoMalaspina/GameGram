@@ -11,7 +11,7 @@
 
 <VBox alignment="CENTER" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.ShowGameReviewsController">
    <children>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="108.0" prefWidth="580.0" textAlignment="CENTER" textFill="#ceb700">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="108.0" prefWidth="580.0" textAlignment="CENTER" textFill="#ceb700" wrapText="true">
          <font>
             <Font size="36.0" />
          </font>

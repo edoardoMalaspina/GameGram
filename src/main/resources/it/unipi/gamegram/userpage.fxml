@@ -21,22 +21,22 @@
          <children>
             <VBox alignment="CENTER" prefHeight="203.0" prefWidth="292.0">
                <children>
-                  <Label fx:id="nick" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
+                  <Label fx:id="nick" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="name" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
+                  <Label fx:id="name" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="lastName" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
+                  <Label fx:id="lastName" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="isadmin" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700">
+                  <Label fx:id="isadmin" prefHeight="38.0" prefWidth="334.0" textFill="#ceb700" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
@@ -106,7 +106,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="34.0" prefWidth="542.0" textFill="#ceb700">
+      <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="34.0" prefWidth="542.0" textFill="#ceb700" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>

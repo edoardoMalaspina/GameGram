@@ -120,11 +120,8 @@ public class Game {
         return false;
     }
 
-    public String getStringDateOfPublication() {
-        if(dateOfPublication == null){
-            return "Date is missing.";
-        }
-        return dateOfPublication.toString();
+    public LocalDate getDateOfPublication() {
+        return dateOfPublication;
     }
 
     public Double getPrice() {
