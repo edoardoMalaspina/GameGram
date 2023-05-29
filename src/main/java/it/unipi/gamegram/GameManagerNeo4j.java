@@ -47,7 +47,7 @@ public class GameManagerNeo4j {
     public static void addGameNode(Game game){
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("CREATE (:Game { name: '" + game.getName() + "', short_description: '" + game.getShortDescription() + "'})");
+                tx.run("CREATE (:Game { name: '" + game.getName() + "'})");
                 return null;
             });
         } catch (Exception e) {

@@ -30,6 +30,12 @@ public class Review {
         this.title = title;
     }
 
+    public Review(String author, LocalDate reviewDate, String gameOfReference){
+        this.author = author;
+        this.reviewDate = reviewDate;
+        this.gameOfReference = gameOfReference;
+    }
+
     public Review(Document document) {
         this.reviewText = (document.get("review_text") == null) ? "" : document.getString("review_text");
         this.author = (document.get("author") == null) ? "" : document.getString("author");
