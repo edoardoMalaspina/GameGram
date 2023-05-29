@@ -87,7 +87,7 @@ public class UserManagerNeo4j {
             // both name of the author and game of reference are taken from the Review fields
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
-                        "CREATE (n1)-[:REVIEWED {date: '"+ currentDate +"', title: '"+rev.getTitle()+"'}]->(n2)");
+                        "CREATE (n1)-[:REVIEWED {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
         }catch(Exception e){
