@@ -66,6 +66,18 @@ public class UserManagerNeo4j {
         }
     }
 
+    public static void deleteUserNode(User usr){
+        try(Session session= Neo4jDriver.getInstance().session()){
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run("MATCH (n {username: '"+usr.getNick()+"'})" +
+                        "DETACH DELETE n");
+                return null;
+            } );
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     // method to create a Follow relationship between follower and followed in neo4j
     public static void addDirectedLinkFollow(User follower, User followed){
         try(Session session= Neo4jDriver.getInstance().session()){
