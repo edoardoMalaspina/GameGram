@@ -69,7 +69,19 @@ public class UserManagerNeo4j {
     public static void deleteUserNode(String usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n {username: '"+usr+"'})" +
+                tx.run("MATCH (n {username: '" + usr + "'})" +
+                        "DETACH DELETE n");
+                return null;
+            } );
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteGameNode(String game){
+        try(Session session= Neo4jDriver.getInstance().session()){
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run("MATCH (n {name: '" + game + "'})" +
                         "DETACH DELETE n");
                 return null;
             } );
@@ -197,9 +209,9 @@ public class UserManagerNeo4j {
     }
 
     // method to delete Reviewed relationship in neo4j between an user and a game
-    public static boolean cancelReview(User usr, Game game){
+    public static boolean cancelReview(String usr, String game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[review:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
+            Result result = session.run("MATCH (n1 {username: '"+ usr +"'})-[review:REVIEWED]->(n2 {name: '"+ game +"'})" +
                     "DELETE review");
             return true;
         } catch (Exception e){
