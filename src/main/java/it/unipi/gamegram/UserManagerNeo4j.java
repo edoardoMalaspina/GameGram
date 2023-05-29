@@ -66,10 +66,10 @@ public class UserManagerNeo4j {
         }
     }
 
-    public static void deleteUserNode(User usr){
+    public static void deleteUserNode(String usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n {username: '"+usr.getNick()+"'})" +
+                tx.run("MATCH (n {username: '"+usr+"'})" +
                         "DETACH DELETE n");
                 return null;
             } );
