@@ -112,6 +112,7 @@ public class UserPageController {
             LoggedUser.logOut();
             GameGramApplication.setRoot("start");}
         User.delete(UserSingleton.getNick());
+        //UserManagerNeo4j.
         UserSingleton.setNull();
         GameGramApplication.setRoot("userhome");
     }
