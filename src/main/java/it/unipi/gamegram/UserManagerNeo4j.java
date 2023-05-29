@@ -55,10 +55,10 @@ public class UserManagerNeo4j {
     }
 
     // method to create a user node in neo4j
-    public static void addUserNode(User usr){
+    public static void addUserNode(String usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run ("CREATE (:User { username:'" + usr.getNick() + "', lastname:'" + usr.getLastName() + "', firstname:'" + usr.getFirstName() + "'})");
+                tx.run ("CREATE (:User { username:'" + usr + "'})");
                 return null;
             } );
         }catch(Exception e){
@@ -107,17 +107,18 @@ public class UserManagerNeo4j {
     // method to create a Reviewed relationship in neo4j
     public static void addDirectedLinkReviewed(Review rev){
         try(Session session= Neo4jDriver.getInstance().session()){
-            LocalDate currentDate = LocalDate.now();
             // both name of the author and game of reference are taken from the Review fields
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n1 {username: '"+rev.getAuthor()+"'}), (n2 {name: '"+rev.getGameOfReference()+"'})" +
-                        "CREATE (n1)-[:REVIEWED {date: '"+ currentDate +"'}]->(n2)");
+                tx.run("MATCH (n1:User {username: '"+rev.getAuthor()+"'}), (n2:Game {name: '"+rev.getGameOfReference()+"'})" +
+                        "CREATE (n1)-[:REVIEWED]->(n2)");
                 return null;
             } );
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
+
 
     // method to create a Like relationship between usr and game
     public static void addDirectedLinkLike(User usr, Game game){
@@ -229,7 +230,6 @@ public class UserManagerNeo4j {
                     "ORDER BY Followers DESC " +
                     "LIMIT 5";
             Result result = session.run(query);
-
             while (result.hasNext()) {
                 Record record = result.next();
                 String recommendedUser = record.get("RecommendedUser").asString();
@@ -354,119 +354,6 @@ public class UserManagerNeo4j {
 
         addDirectedLinkFollow(usr2, usr1);
         */
-
-        User usr1 = new User("a", "a", "a");
-        User usr2 = new User("b", "b","b");
-        User usr3 = new User("c", "c","c");
-        User usr4 = new User("d", "d", "d");
-        User usr5 = new User("e", "e", "e");
-        User usr6 = new User("f", "f", "f");
-        User usr7 = new User("g", "g", "g");
-        User usr8 = new User("h", "h", "h");
-        User usr9 = new User("i", "i", "i");
-        User usr10 = new User("l", "l", "l");
-        User usr11 = new User("m", "m", "m");
-        User usr12 = new User("n", "n", "n");
-
-        addUserNode(usr1);
-        addUserNode(usr2);
-        addUserNode(usr3);
-        addUserNode(usr4);
-        addUserNode(usr5);
-        addUserNode(usr6);
-        addUserNode(usr7);
-        addUserNode(usr8);
-        addUserNode(usr9);
-        addUserNode(usr10);
-        addUserNode(usr11);
-        addUserNode(usr12);
-
-
-        addDirectedLinkFollow(usr1, usr2);
-        addDirectedLinkFollow(usr1, usr3);
-        addDirectedLinkFollow(usr1, usr4);
-        addDirectedLinkFollow(usr1, usr5);
-        addDirectedLinkFollow(usr1, usr6);
-        addDirectedLinkFollow(usr1,usr7);
-        addDirectedLinkFollow(usr1, usr8);
-        addDirectedLinkFollow(usr1, usr9);
-        addDirectedLinkFollow(usr1, usr10);
-        addDirectedLinkFollow(usr1, usr11);
-        addDirectedLinkFollow(usr1, usr12);
-
-
-
-
-        Game a = new Game("a");
-        Game b = new Game("b");
-        Game c = new Game("c");
-        Game d = new Game("d");
-        Game e = new Game("e");
-        Game f = new Game("f");
-        Game g = new Game("g");
-        Game h = new Game("h");
-        Game i = new Game("i");
-        Game j = new Game("j");
-        Game k = new Game("k");
-
-        GameManagerNeo4j.addGameNode(a);
-        GameManagerNeo4j.addGameNode(b);
-        GameManagerNeo4j.addGameNode(c);
-        GameManagerNeo4j.addGameNode(d);
-        GameManagerNeo4j.addGameNode(e);
-        GameManagerNeo4j.addGameNode(f);
-        GameManagerNeo4j.addGameNode(g);
-        GameManagerNeo4j.addGameNode(h);
-        GameManagerNeo4j.addGameNode(i);
-        GameManagerNeo4j.addGameNode(j);
-        GameManagerNeo4j.addGameNode(k);
-
-        addDirectedLinkLike(usr5, a);
-        addDirectedLinkLike(usr2, a);
-        addDirectedLinkLike(usr6, a);
-        addDirectedLinkLike(usr7, a);
-        addDirectedLinkLike(usr8, a);
-        addDirectedLinkLike(usr9, a);
-        addDirectedLinkLike(usr10, a);
-        addDirectedLinkLike(usr2, a);
-
-
-
-        LocalDate d1 = LocalDate.parse("2014-10-10");
-        LocalDate d2 = LocalDate.parse("2022-10-19");
-        LocalDate d3 = LocalDate.parse("2022-10-12");
-        LocalDate d4 = LocalDate.parse("2022-10-13");
-        LocalDate d5 = LocalDate.parse("2019-10-14");
-        LocalDate d6 = LocalDate.parse("2022-10-15");
-        LocalDate d7 = LocalDate.parse("2022-10-16");
-        LocalDate d8 = LocalDate.parse("2022-10-11");
-        LocalDate d9 = LocalDate.parse("2023-01-01");
-        LocalDate d10 = LocalDate.parse("2022-10-19");
-
-        addDirectedLinkLikeWithDateByHand(usr2, j, d1);
-        addDirectedLinkLikeWithDateByHand(usr3, b, d2);
-        addDirectedLinkLikeWithDateByHand(usr4, c, d3);
-        addDirectedLinkLikeWithDateByHand(usr5, d, d4);
-        addDirectedLinkLikeWithDateByHand(usr6, e, d5);
-        addDirectedLinkLikeWithDateByHand(usr7, f, d6);
-        addDirectedLinkLikeWithDateByHand(usr8, g, d7);
-        addDirectedLinkLikeWithDateByHand(usr9, h, d8);
-        addDirectedLinkLikeWithDateByHand(usr10, i, d9);
-        addDirectedLinkLikeWithDateByHand(usr11, a, d10);
-
-       // String reviewText, LocalDate reviewDate, String author, String gameOfReference, String title;
-
-
-        Review rev = new Review("aaaaa", LocalDate.parse("2022-11-11"), "a", "a", "agg");
-        ReviewManagerNeo4j.addReviewDirectedEdge(rev);
-
-        ArrayList<String> lst = findMostActiveFollowed(usr1);
-        System.out.println(lst.size());
-        for(String str:lst){
-            System.out.println(str);
-        }
-
-
 
 
     }

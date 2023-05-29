@@ -51,6 +51,11 @@ public class Review {
         this.title = title;
     }
 
+    public Review(String author, String gameOfReference){
+        this.author = author;
+        this.gameOfReference = gameOfReference;
+    }
+
     public static Boolean findByGameAndAuthor(String game, String author) {
         try {
             MongoDBDriver md;

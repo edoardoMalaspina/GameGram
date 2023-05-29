@@ -38,13 +38,10 @@ public class ShowFollowedController {
         TableColumn nickCol = new TableColumn("nick");
         nickCol.setCellValueFactory(new PropertyValueFactory< >("nick"));
 
-        TableColumn firstNameCol = new TableColumn("first name");
-        firstNameCol.setCellValueFactory(new PropertyValueFactory < > ("firstName"));
 
-        TableColumn lastNameCol = new TableColumn("last name");
-        lastNameCol.setCellValueFactory(new PropertyValueFactory < > ("lastName"));
 
-        userTable.getColumns().addAll(nickCol, firstNameCol, lastNameCol);
+
+        userTable.getColumns().addAll(nickCol);
 
         olUsers = FXCollections.observableArrayList();
 
