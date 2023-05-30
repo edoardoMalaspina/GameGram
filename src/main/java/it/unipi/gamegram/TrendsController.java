@@ -23,6 +23,9 @@ public class TrendsController {
     private Button mongo2;
 
     @FXML
+    private Button mongo3;
+
+    @FXML
     private Button back;
 
     @FXML
@@ -49,6 +52,11 @@ public class TrendsController {
     private void mongo2() throws IOException {
         //GameGramApplication.setRoot("");
     }
+    @FXML
+    private void mongo3() throws IOException {
+        //GameGramApplication.setRoot("");
+    }
+
 
     @FXML
     private void back() throws IOException {

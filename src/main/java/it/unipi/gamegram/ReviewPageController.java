@@ -54,6 +54,7 @@ public class ReviewPageController {
     @FXML
     private void delete() throws IOException {
         Review.delete(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
+        UserManagerNeo4j.cancelReview(ReviewSingleton.getReview().getAuthor(),ReviewSingleton.getReview().getGameOfReference());
         ReviewSingleton.setNull();
         if (ReviewSingleton.getFlag())
             GameGramApplication.setRoot("showgamereviews");
