@@ -32,7 +32,7 @@ public class MongoDBDriver {
             return driver.database.getCollection(collection);
     }
 
-    public void close() {
+    public static void close() {
         if(driver == null)
             throw new RuntimeException("No driver instance.");
         else

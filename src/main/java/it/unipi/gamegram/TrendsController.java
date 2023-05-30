@@ -17,13 +17,13 @@ public class TrendsController {
     private Button showActiveFollowed;
 
     @FXML
-    private Button mongo1;
+    private Button priceTrend;
 
     @FXML
-    private Button mongo2;
+    private Button userReviewsTrend;
 
     @FXML
-    private Button mongo3;
+    private Button mostReviewedTrend;
 
     @FXML
     private Button back;
@@ -44,19 +44,19 @@ public class TrendsController {
     }
 
     @FXML
-    private void mongo1() throws IOException {
-        //GameGramApplication.setRoot("");
+    private void priceTrend() throws IOException {
+        GameGramApplication.setRoot("pricetrend");
     }
 
     @FXML
-    private void mongo2() throws IOException {
-        //GameGramApplication.setRoot("");
-    }
-    @FXML
-    private void mongo3() throws IOException {
-        //GameGramApplication.setRoot("");
+    private void userReviewsTrend() throws IOException {
+        GameGramApplication.setRoot("userreviewstrend");
     }
 
+    @FXML
+    private void mostReviewedTrend() throws IOException {
+        GameGramApplication.setRoot("mostreviewedtrend");
+    }
 
     @FXML
     private void back() throws IOException {

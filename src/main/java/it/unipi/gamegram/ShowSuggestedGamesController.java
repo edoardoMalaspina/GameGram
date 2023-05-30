@@ -48,7 +48,6 @@ public class ShowSuggestedGamesController {
 
         for(String g:games){
             olGames.add(new Game(g));
-            System.out.println(olGames.get(0).getName());
         }
     }
 

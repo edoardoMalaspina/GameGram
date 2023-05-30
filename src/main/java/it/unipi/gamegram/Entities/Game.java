@@ -88,7 +88,7 @@ public class Game {
     }
 
     public static void insert(String name, LocalDate dateOfPublication, String developer, String publisher,
-                              double price, String shortDescription) {
+                              double price, String shortDescription, String fullDescription) {
         try {
             MongoDBDriver md;
             MongoCollection<Document> collection;
@@ -102,7 +102,8 @@ public class Game {
                     .append("developer", developer)
                     .append("publisher", publisher)
                     .append("price", price)
-                    .append("shortDescription", shortDescription);
+                    .append("shortDescription", shortDescription)
+                    .append("fullDescription", fullDescription);
 
             md = MongoDBDriver.getInstance();
             collection = md.getCollection("games");

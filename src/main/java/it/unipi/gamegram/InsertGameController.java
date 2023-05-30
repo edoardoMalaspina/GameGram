@@ -36,6 +36,9 @@ public class InsertGameController {
     private TextField gameShortDescription;
 
     @FXML
+    private TextField gameFullDescription;
+
+    @FXML
     private Label outcomeMessage;
 
     @FXML
@@ -50,6 +53,7 @@ public class InsertGameController {
         String publisher;
         double price;
         String shortDescription;
+        String fullDescription;
 
 
         name = gameName.getText();
@@ -61,6 +65,7 @@ public class InsertGameController {
         else
             price = Double.parseDouble(gamePrice.getText());
         shortDescription = gameShortDescription.getText();
+        fullDescription = gameFullDescription.getText();
 
         if(name.isEmpty()){
             outcomeMessage.setText("Insert at least the name.");
@@ -72,7 +77,7 @@ public class InsertGameController {
             return;
         }
 
-        Game.insert(name, dateOfPublication, developer, publisher, price, shortDescription);
+        Game.insert(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
         GameManagerNeo4j.addGameNode(new Game(name));
         outcomeMessage.setText("Successfully added.");
         return;

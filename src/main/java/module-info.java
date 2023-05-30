@@ -5,6 +5,9 @@ module it.unipi.gamegram {
     requires org.mongodb.bson;
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.driver.core;
+    requires org.jfree.jfreechart;
+    requires org.jfree.chart.fx;
+    requires java.desktop;
 
 
     opens it.unipi.gamegram to javafx.fxml;

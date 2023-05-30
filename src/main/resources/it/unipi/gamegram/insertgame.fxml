@@ -12,7 +12,7 @@
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="275.0" text="Name" textAlignment="CENTER" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="2.0" />
@@ -25,7 +25,7 @@
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="238.0" text="Date of Publication" textAlignment="CENTER" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="2.0" />
@@ -38,7 +38,7 @@
       </DatePicker>
       <Label fx:id="nick" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="238.0" text="Developer" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="2.0" />
@@ -51,7 +51,7 @@
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Publisher" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="2.0" />
@@ -64,7 +64,7 @@
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Price" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="2.0" />
@@ -77,7 +77,7 @@
       </TextField>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="270.0" text="Short Description" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
             <Insets left="15.0" right="15.0" top="2.0" />
@@ -88,20 +88,33 @@
             <Insets left="100.0" right="100.0" />
          </VBox.margin>
       </TextField>
-      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insert" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: CEB700;" text="Insert" textAlignment="CENTER" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="288.0" prefHeight="35.0" prefWidth="270.0" text="Full Description" textFill="#ceb700">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="4.0" left="15.0" right="15.0" top="15.0" />
+            <Insets left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
-      </Button>
-      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="95.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
+      </Label>
+      <TextField fx:id="gameFullDescription" layoutX="110.0" layoutY="316.0" prefHeight="26.0" prefWidth="270.0">
+         <VBox.margin>
+            <Insets bottom="2.0" left="100.0" right="100.0" />
+         </VBox.margin>
+      </TextField>
+      <Button fx:id="insert" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insert" prefHeight="15.0" prefWidth="95.0" style="-fx-background-color: CEB700;" text="Insert" textAlignment="CENTER" textFill="WHITE">
+         <VBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </VBox.margin>
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="14.0" prefWidth="95.0" style="-fx-background-color: CEB700;" text="Back" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
          </font>
          <VBox.margin>
-            <Insets left="15.0" right="15.0" top="4.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </VBox.margin>
       </Button>
       <Label fx:id="outcomeMessage" alignment="CENTER" prefHeight="35.0" prefWidth="269.0" textFill="#ceb700">
@@ -109,7 +122,7 @@
             <Font size="18.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="5.0" left="15.0" right="15.0" top="2.0" />
+            <Insets bottom="2.0" left="15.0" right="15.0" top="2.0" />
          </VBox.margin>
       </Label>
    </children>
