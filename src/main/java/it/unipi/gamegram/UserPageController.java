@@ -41,6 +41,9 @@ public class UserPageController {
     private Button showReviews;
 
     @FXML
+    private Button promoteAdmin;
+
+    @FXML
     private Button back;
 
     @FXML
@@ -49,9 +52,13 @@ public class UserPageController {
     public void initialize() {
         delete.setVisible(false);
         delete.setDisable(true);
+        promoteAdmin.setVisible(false);
+        promoteAdmin.setDisable(true);
         if(LoggedUser.getIsAdmin()) {
             delete.setVisible(true);
             delete.setDisable(false);
+            promoteAdmin.setVisible(true);
+            promoteAdmin.setDisable(false);
         }
         String nickTitle = UserSingleton.getNick();
         User user = new User(User.findByNick(nickTitle));
@@ -116,6 +123,18 @@ public class UserPageController {
         UserSingleton.setNull();
         GameGramApplication.setRoot("userhome");
     }
+
+    @FXML
+    private void promoteAdmin() throws IOException {
+        User user = new User(User.findByNick(UserSingleton.getNick()));
+        if(user.getIsAdmin().equals("Yes")){
+            outcomeMessage.setText("User already admin.");
+            return;}
+        user.promoteAdmin();
+        user.setIsAdmin("Yes");
+        isadmin.setText("Admin: " + user.getIsAdmin());
+        outcomeMessage.setText("Successfully promoted.");
+        }
 
     @FXML
     private void back() throws IOException {

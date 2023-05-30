@@ -1,8 +1,11 @@
 package it.unipi.gamegram.Entities;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import it.unipi.gamegram.*;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +156,21 @@ public class User {
         }
     }
 
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public void promoteAdmin() {
+        try {
+            MongoDBDriver md = MongoDBDriver.getInstance();
+            MongoCollection<Document> userCollection = md.getCollection("users");
+            Bson userFilter = Filters.eq("nick", this.getNick());
+            Bson userUpdate = Updates.set("isadmin", "Yes");
+            userCollection.updateOne(userFilter, userUpdate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void register(String nick, String password, String name, String surname) {
         try {
             MongoDBDriver md;
