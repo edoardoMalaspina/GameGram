@@ -82,9 +82,9 @@ public class PopulatingGraph {
 
     // main di prova di Edo
     public static void main(String[] args){
-        PopulatingGraph.addListOfUsers("C:\\Users\\pietr\\OneDrive\\Documenti\\Uni\\Large Scale\\datasetProgettoGiusti\\users.csv");
-        addListOfGames("C:\\Users\\pietr\\OneDrive\\Documenti\\Uni\\Large Scale\\datasetProgettoGiusti\\datasetFinalePulitoRemovedWhitespaces.csv");
-       addListReview("C:\\Users\\pietr\\OneDrive\\Documenti\\Uni\\Large Scale\\datasetProgettoGiusti\\reviewWithAuthor.csv");
+        PopulatingGraph.addListOfUsers("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\users.csv");
+        addListOfGames("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\datasetFinalePulitoRemovedWhitespaces.csv");
+        addListReview("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\reviewWithAuthor.csv");
     }
 
 }
