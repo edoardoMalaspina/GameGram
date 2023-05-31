@@ -42,27 +42,28 @@ public class MostReviewedTrendController {
             MongoDBDriver driver = MongoDBDriver.getInstance();
             MongoCollection<Document> collection = driver.getCollection("games");
 
-            // Construct the aggregation pipeline
             List<Document> pipeline = Arrays.asList(
                     new Document("$unwind", "$reviews"),
                     new Document("$addFields", new Document("reviewYear", new Document("$year", "$reviews.review_date"))),
-                    new Document("$group", new Document("_id", new Document("year", "$reviewYear"))
-                            .append("game", new Document("$first", "$name"))
+                    new Document("$group", new Document("_id", new Document("year", "$reviewYear")
+                            .append("game", "$name"))
                             .append("reviewCount", new Document("$sum", 1))),
-                    new Document("$sort", new Document("_id.year", 1))
+                    new Document("$sort", new Document("_id.year", 1).append("reviewCount", -1)),
+                    new Document("$group", new Document("_id", "$_id.year")
+                            .append("mostReviewedGame", new Document("$first", "$_id.game"))
+                            .append("maxReviewCount", new Document("$first", "$reviewCount"))),
+                    new Document("$sort", new Document("_id", 1))
             );
 
-            // Execute the aggregation pipeline
             AggregateIterable<Document> result = collection.aggregate(pipeline);
 
             // Create the dataset for the bar chart
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
             for (Document doc : result) {
-                Document yearObj = doc.get("_id", Document.class);
-                int year = yearObj.getInteger("year");
-                String gameName = doc.getString("game");
-                int reviewCount = doc.getInteger("reviewCount");
+                int year = doc.getInteger("_id");
+                String gameName = doc.getString("mostReviewedGame");
+                int reviewCount = doc.getInteger("maxReviewCount");
 
                 dataset.addValue(reviewCount, gameName, String.valueOf(year));
             }
@@ -96,6 +97,7 @@ public class MostReviewedTrendController {
             pane.getChildren().add(imageView);
 
             tempFile.deleteOnExit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

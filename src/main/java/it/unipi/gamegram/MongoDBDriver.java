@@ -14,7 +14,7 @@ public class MongoDBDriver {
     private MongoDatabase database;
 
     private MongoDBDriver() {
-        client = MongoClients.create("mongodb://10.1.1.14:27017/");
+        client = MongoClients.create("mongodb://localhost:27017/");
         database = client.getDatabase("GameGram");
     }
 
