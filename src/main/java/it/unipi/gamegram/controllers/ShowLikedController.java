@@ -11,13 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.io.IOException;
 import java.util.List;
 
 public class ShowLikedController {
     @FXML
-    TableView <Game> gameTable = new TableView< >();
+    TableView<Game> gameTable = new TableView<>();
 
     @FXML
     ContextMenu cm = new ContextMenu();
@@ -31,32 +30,27 @@ public class ShowLikedController {
     @FXML
     private Label title;
 
-    private ObservableList< Game > olGames;
-
     @FXML
     public void initialize() {
         User user = new User(UserSingleton.getNick());
         title.setText(user.getNick() + "'s liked games");
 
         TableColumn nameCol = new TableColumn("name");
-        nameCol.setCellValueFactory(new PropertyValueFactory< >("name"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         gameTable.getColumns().addAll(nameCol);
 
-        olGames = FXCollections.observableArrayList();
+        ObservableList<Game> olGames = FXCollections.observableArrayList();
 
         gameTable.setItems(olGames);
 
-
         List<Game> games = UserManagerNeo4j.getListLikedGames(user);
 
-        for(Game g:games){
-            olGames.add(g);
-        }
+        olGames.addAll(games);
     }
 
     @FXML
-    public void showGamePage() throws IOException{
+    public void showGamePage() throws IOException {
         GameSingleton.setNull();
         GameSingleton.getInstance(gameTable.getSelectionModel().getSelectedItem().getName());
         GameGramApplication.setRoot("gamepage");
@@ -64,7 +58,7 @@ public class ShowLikedController {
 
     @FXML
     private void back() throws IOException {
-        if(UserSingleton.getFlag())
+        if (UserSingleton.getFlag())
             GameGramApplication.setRoot("userhome");
         else
             GameGramApplication.setRoot("userpage");

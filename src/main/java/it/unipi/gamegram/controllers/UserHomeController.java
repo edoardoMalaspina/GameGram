@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 
 public class UserHomeController {
@@ -30,7 +29,7 @@ public class UserHomeController {
     private Button showReviews;
 
     @FXML
-    private Button showLikes;
+    private Button showLiked;
 
     @FXML
     private Button trends;
@@ -50,7 +49,7 @@ public class UserHomeController {
     public void initialize() {
         insert.setVisible(false);
         insert.setDisable(true);
-        if(LoggedUser.getIsAdmin()) {
+        if (LoggedUser.getIsAdmin()) {
             insert.setVisible(true);
             insert.setDisable(false);
         }
@@ -59,16 +58,16 @@ public class UserHomeController {
 
     @FXML
     private void findUser() throws IOException {
-
         UserSingleton.setNull();
         String nick = userNick.getText();
 
+        // Check field
         if (nick.isEmpty()) {
             errorMessage.setText("Nick is missing.");
             errorMessage.setVisible(true);
             return;
         }
-        if(UserManagerMongoDB.checkNick(nick)){
+        if (UserManagerMongoDB.checkNick(nick)) {
             errorMessage.setText("No such user.");
             errorMessage.setVisible(true);
             return;
@@ -79,16 +78,16 @@ public class UserHomeController {
 
     @FXML
     private void findGame() throws IOException {
-
         GameSingleton.setNull();
         String name = gameName.getText();
 
+        // Check field
         if (name.isEmpty()) {
             errorMessage.setText("Name is missing.");
             errorMessage.setVisible(true);
             return;
         }
-        if(GameManagerMongoDB.checkGameName(name)){
+        if (GameManagerMongoDB.checkGameName(name)) {
             errorMessage.setText("No such game.");
             errorMessage.setVisible(true);
             return;
@@ -104,6 +103,7 @@ public class UserHomeController {
         UserSingleton.setFlag(true);
         GameGramApplication.setRoot("showuserreviews");
     }
+
     @FXML
     private void showFollowed() throws IOException {
         GameGramApplication.setRoot("showfollowed");
@@ -116,7 +116,6 @@ public class UserHomeController {
         UserSingleton.setFlag(true);
         GameGramApplication.setRoot("showliked");
     }
-
 
     @FXML
     private void insertGame() throws IOException {
@@ -133,5 +132,4 @@ public class UserHomeController {
         LoggedUser.logOut();
         GameGramApplication.setRoot("start");
     }
-
 }

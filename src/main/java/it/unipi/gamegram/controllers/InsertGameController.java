@@ -6,7 +6,6 @@ import it.unipi.gamegram.managersMongoDB.GameManagerMongoDB;
 import it.unipi.gamegram.managersNeo4j.GameManagerNeo4j;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -46,8 +45,9 @@ public class InsertGameController {
     private void back() throws IOException {
         GameGramApplication.setRoot("userhome");
     }
+
     @FXML
-    private void insert() throws IOException {
+    private void insert() {
         String name;
         LocalDate dateOfPublication;
         String developer;
@@ -56,32 +56,36 @@ public class InsertGameController {
         String shortDescription;
         String fullDescription;
 
-
+        // Retrieve input values from the UI elements
         name = gameName.getText();
         dateOfPublication = gameDateOfPublication.getValue();
         developer = gameDeveloper.getText();
         publisher = gamePublisher.getText();
-        if(gamePrice.getText().isEmpty())
+
+        // Parse the price value, set to 0 if empty
+        if (gamePrice.getText().isEmpty())
             price = 0;
         else
             price = Double.parseDouble(gamePrice.getText());
+
         shortDescription = gameShortDescription.getText();
         fullDescription = gameFullDescription.getText();
 
-        if(name.isEmpty()){
+        // Validate the input
+        if (name.isEmpty()) {
             outcomeMessage.setText("Insert at least the name.");
             return;
         }
 
-        if(!GameManagerMongoDB.checkGameName(name)){
+        // Check if the game name already exists
+        if (!GameManagerMongoDB.checkGameName(name)) {
             outcomeMessage.setText("Game already exists.");
             return;
         }
 
+        // Insert the game into the database
         GameManagerMongoDB.insertGame(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
         GameManagerNeo4j.addGameNode(new Game(name));
         outcomeMessage.setText("Successfully added.");
-        return;
     }
-
 }

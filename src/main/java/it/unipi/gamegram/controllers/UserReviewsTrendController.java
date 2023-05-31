@@ -18,7 +18,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,21 +29,20 @@ import java.util.List;
 
 public class UserReviewsTrendController {
 
-
     @FXML
     private Button back;
 
     @FXML
     private AnchorPane pane;
 
-
     @FXML
     public void initialize() {
-        try{
+        try {
             MongoDBDriver driver = MongoDBDriver.getInstance();
-            MongoCollection collection = driver.getCollection("users");
+            MongoCollection<Document> collection = driver.getCollection("users");
 
-            User loggedUser = LoggedUser.getInstance().getLoggedUser();
+            LoggedUser.getInstance();
+            User loggedUser = LoggedUser.getLoggedUser();
 
             // Construct the aggregation pipeline
             List<Document> pipeline = Arrays.asList(
@@ -71,6 +69,7 @@ public class UserReviewsTrendController {
                 dataset.addValue(reviewCount, "Review Count", year);
             }
 
+            // Make a  plot
             JFreeChart chart = ChartFactory.createBarChart("", "Year",
                     "Review Count", dataset, PlotOrientation.VERTICAL, false, false, false);
 
@@ -84,6 +83,7 @@ public class UserReviewsTrendController {
             Color backgroundColor = Color.decode("#FDFBE2"); // Light gray color using HTML code
             plot.setBackgroundPaint(backgroundColor);
 
+            // Making an ImageView of the plot for visualization
             BufferedImage chartImage = chart.createBufferedImage(600, 300);
 
             File tempFile;
@@ -103,10 +103,11 @@ public class UserReviewsTrendController {
 
             tempFile.deleteOnExit();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void back() throws IOException {
         GameGramApplication.setRoot("trends");

@@ -20,7 +20,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 
 public class MostReviewedTrendController {
 
@@ -44,6 +42,7 @@ public class MostReviewedTrendController {
             MongoDBDriver driver = MongoDBDriver.getInstance();
             MongoCollection<Document> collection = driver.getCollection("games");
 
+            // MongoDB Pipeline
             List<Document> pipeline = Arrays.asList(
                     new Document("$unwind", "$reviews"),
                     new Document("$addFields", new Document("reviewYear", new Document("$year", "$reviews.review_date"))),
@@ -57,6 +56,7 @@ public class MostReviewedTrendController {
                     new Document("$sort", new Document("_id", 1))
             );
 
+            // Execution
             AggregateIterable<Document> result = collection.aggregate(pipeline);
 
             // Create the dataset for the bar chart
@@ -70,6 +70,7 @@ public class MostReviewedTrendController {
                 dataset.addValue(reviewCount, gameName, String.valueOf(year));
             }
 
+            // Making a plot
             JFreeChart chart = ChartFactory.createBarChart("", "Year", "Review Count",
                     dataset, PlotOrientation.VERTICAL, true, true, false);
 
@@ -82,6 +83,7 @@ public class MostReviewedTrendController {
             renderer.setDefaultPositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_LEFT));
             plot.setBackgroundPaint(Color.decode("#FDFBE2"));
 
+            // Putting it into an ImageView for visualization
             BufferedImage chartImage = chart.createBufferedImage(600, 300);
 
             File tempFile;
@@ -107,8 +109,6 @@ public class MostReviewedTrendController {
 
     @FXML
     public void back() throws IOException {
-        // Navigate back to the previous scene
         GameGramApplication.setRoot("trends");
     }
 }
-

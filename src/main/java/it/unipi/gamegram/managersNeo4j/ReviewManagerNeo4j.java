@@ -6,13 +6,13 @@ import org.neo4j.driver.Session;
 
 public class ReviewManagerNeo4j {
 
-    // method to delete Reviewed relationship in neo4j between an user and a game
-    public static boolean cancelReview(String usr, String game){
-        try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '"+ usr +"'})-[review:REVIEWED]->(n2 {name: '"+ game +"'})" +
+    // method to delete Reviewed relationship in neo4j between a user and a game
+    public static boolean cancelReview(String usr, String game) {
+        try (Session session = Neo4jDriver.getInstance().session()) {
+            Result result = session.run("MATCH (n1 {username: '" + usr + "'})-[review:REVIEWED]->(n2 {name: '" + game + "'})" +
                     "DELETE review");
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

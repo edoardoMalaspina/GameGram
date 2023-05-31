@@ -11,13 +11,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.bson.Document;
-
 import java.io.IOException;
 import java.util.List;
 
 public class ShowUserReviewsController {
     @FXML
-    TableView <Review> reviewTable = new TableView< >();
+    TableView<Review> reviewTable = new TableView<>();
 
     @FXML
     ContextMenu cm = new ContextMenu();
@@ -31,38 +30,38 @@ public class ShowUserReviewsController {
     @FXML
     private Label title;
 
-    private ObservableList< Review > olReviews;
-
     @FXML
     public void initialize() {
         String nickTitle = UserSingleton.getNick();
         title.setText(nickTitle + "'s reviews");
 
         TableColumn gameCol = new TableColumn("game");
-        gameCol.setCellValueFactory(new PropertyValueFactory< >("gameOfReference"));
+        gameCol.setCellValueFactory(new PropertyValueFactory<>("gameOfReference"));
 
         TableColumn dateCol = new TableColumn("date");
-        dateCol.setCellValueFactory(new PropertyValueFactory < > ("reviewDate"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("reviewDate"));
 
         TableColumn titleCol = new TableColumn("title");
-        titleCol.setCellValueFactory(new PropertyValueFactory < > ("title"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         reviewTable.getColumns().addAll(gameCol, dateCol, titleCol);
 
-        olReviews = FXCollections.observableArrayList();
+        ObservableList<Review> olReviews = FXCollections.observableArrayList();
 
         reviewTable.setItems(olReviews);
 
         List<Document> reviews = ReviewManagerMongoDB.findReviewByAuthor(nickTitle);
 
-        for(Document d:reviews){
-            Review r = new Review(d);
-            olReviews.add(r);
+        if (reviews != null) {
+            for (Document d : reviews) {
+                Review r = new Review(d);
+                olReviews.add(r);
+            }
         }
     }
 
     @FXML
-    public void showReview() throws IOException{
+    public void showReview() throws IOException {
         ReviewSingleton.setNull();
         ReviewSingleton.getInstance(reviewTable.getSelectionModel().getSelectedItem());
         ReviewSingleton.setFlag(false);
@@ -71,7 +70,7 @@ public class ShowUserReviewsController {
 
     @FXML
     private void back() throws IOException {
-        if(UserSingleton.getFlag())
+        if (UserSingleton.getFlag())
             GameGramApplication.setRoot("userhome");
         else
             GameGramApplication.setRoot("userpage");
