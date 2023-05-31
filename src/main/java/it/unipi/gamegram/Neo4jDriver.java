@@ -1,5 +1,4 @@
 package it.unipi.gamegram;
-
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -13,19 +12,8 @@ public class Neo4jDriver{
     private String user;
     private String password;
 
-    /*
-    public Neo4jDriver(int toglielo){
-        try {
-            driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password)); //authentication without encryption
-        }catch (Exception e){
-            System.out.println("Error occurred opening Neo4j connection");
-            e.printStackTrace();
-        }
-    }
-    */
-
     private Neo4jDriver(){
-        uri = "bolt://localhost:7687";
+        uri = "neo4j://10.1.1.12:7687";
         user = "neo4j";
         password = "password";
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
@@ -38,10 +26,6 @@ public class Neo4jDriver{
         return driver;
     }
 
-
-
-
-
     public void closeNeo4J() throws Exception {
         try{
             driver.close();
@@ -50,12 +34,5 @@ public class Neo4jDriver{
             e.printStackTrace();
         }
     }
-
-    /*
-    public static Driver getDriver() {
-        return driver;
-    }
-    */
-
 
 }
