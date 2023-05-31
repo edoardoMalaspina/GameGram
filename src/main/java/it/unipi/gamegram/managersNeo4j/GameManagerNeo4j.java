@@ -6,6 +6,7 @@ import org.neo4j.driver.TransactionWork;
 
 public class GameManagerNeo4j {
 
+    // method to delete a game node from the
     public static void deleteGameNode(String game){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {

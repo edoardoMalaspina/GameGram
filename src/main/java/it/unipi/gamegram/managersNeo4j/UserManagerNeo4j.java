@@ -65,6 +65,7 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to delete a user node in neo4j
     public static void deleteUserNode(String usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
@@ -132,7 +133,7 @@ public class UserManagerNeo4j {
         }
     }
 
-    // method to chech if an user is already following another user
+    // method to check if a user is already following another user
     public static boolean checkIfAlreadyFollowed(User follower, User followed){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
@@ -144,7 +145,7 @@ public class UserManagerNeo4j {
         }
     }
 
-    // method to check if an user already likes a game
+    // method to check if a user already likes a game
     public static boolean checkIfAlreadyLiked(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
@@ -156,7 +157,7 @@ public class UserManagerNeo4j {
         }
     }
 
-    // method to check if an user already wrote a review for a game
+    // method to check if a user already wrote a review for a game
     private static boolean checkIfAlreadyReviewed(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
             Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
@@ -193,8 +194,10 @@ public class UserManagerNeo4j {
         }
     }
 
+    // method to suggest to a user five new users to follow considering the users already followed.
     public static ArrayList<String> suggestWhoToFollow(User usr){
         ArrayList<String> top5 = new ArrayList<>();
+        // find the users more followed by users followed by usr
         try (Session session =  Neo4jDriver.getInstance().session()) {
             String query = "MATCH (u1:User {username: '"+ usr.getNick() +"'})-[:FOLLOW]->(:User)-[:FOLLOW]->(u2:User) " +
                     "WHERE NOT EXISTS((u1)-[:FOLLOW]->(u2)) " +
@@ -202,6 +205,7 @@ public class UserManagerNeo4j {
                     "ORDER BY Followers DESC " +
                     "LIMIT 5";
             Result result = session.run(query);
+            // put the 5 returned users in a list
             while (result.hasNext()) {
                 Record record = result.next();
                 String recommendedUser = record.get("RecommendedUser").asString();
@@ -223,6 +227,7 @@ public class UserManagerNeo4j {
                     "LIMIT 5 " +
                     "RETURN followed.username";
             Result result = session.run(query);
+            // put the five returned users in a lost
             for(Record r : result.list()){
                 String recommendedUser = r.get("followed.username").asString();
                 top5.add(recommendedUser);
@@ -257,7 +262,7 @@ public class UserManagerNeo4j {
         return top5;
     }
 
-    // method to count exploiting neo4j the number of likes a game received
+    // method to count the number of likes a game received exploiting neo4j
     public static int countLikes(String game) {
         try (Session session = Neo4jDriver.getInstance().session()) {
             return session.readTransaction(tx -> {
@@ -273,7 +278,7 @@ public class UserManagerNeo4j {
         return 0;
     }
 
-    // method to count exploiting neo4j the number of reviews a game received
+    // method to count the number of reviews a game received exploiting neo4j
     public static int countReviews(String game) {
         try (Session session = Neo4jDriver.getInstance().session()) {
             return session.readTransaction(tx -> {
