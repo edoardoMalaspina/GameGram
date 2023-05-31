@@ -70,7 +70,7 @@ public class PopulatingGraph {
                     String gameOfReference = riga.split(",")[0];
                     Review newReview = new Review(author, gameOfReference);
                     // add Reviewed relationship to the graph
-                    UserManagerNeo4j.addDirectedLinkReviewed(newReview);
+                    UserManagerNeo4j.addReviewLink(newReview);
                 }
             }
         } catch (IOException e) {
@@ -83,7 +83,7 @@ public class PopulatingGraph {
 
     public static void main(String[] args){
         PopulatingGraph.addListOfUsers("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\users.csv");
-        addListOfGames("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\datasetFinalePulitoRemovedWhitespaces.csv");
+        addListOfGames("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\datasetFinalePulitoRemovedWhitespacesSingleCopy.csv");
         addListReview("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\reviewWithAuthor.csv");
     }
 

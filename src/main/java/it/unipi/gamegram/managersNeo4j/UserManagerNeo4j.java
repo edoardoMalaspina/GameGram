@@ -17,12 +17,12 @@ public class UserManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[:FOLLOW]->(followed:User) " +
-                        "WHERE u.username = '" + usr.getNick() +
-                        "' RETURN followed.firstname, followed.lastname, followed.username");
+                        "WHERE u.nick = '" + usr.getNick() +
+                        "' RETURN followed.nick");
                 // add to the list to return all the record in the result set of the query
                 while (result.hasNext()) {
                     Record r = result.next();
-                    listFollowedUsers.add(new User( r.get("followed.firstname").asString(), r.get("followed.lastname").asString(), r.get("followed.username").asString()));
+                    listFollowedUsers.add(new User( r.get("followed.nick").asString()) );
                 }
                 return listFollowedUsers;
             });
@@ -38,7 +38,7 @@ public class UserManagerNeo4j {
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (u:User)-[like:LIKE]->(liked:Game) " +
-                        "WHERE u.username = '" + usr.getNick() +
+                        "WHERE u.nick = '" + usr.getNick() +
                         "' RETURN liked.name");
                 // add to the list to return all the record in the result set of the query
                 while (result.hasNext()) {
@@ -57,7 +57,7 @@ public class UserManagerNeo4j {
     public static void addUserNode(String usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run ("CREATE (:User { username:'" + usr + "'})");
+                tx.run ("CREATE (:User { nick:'" + usr + "'})");
                 return null;
             } );
         }catch(Exception e){
@@ -69,7 +69,7 @@ public class UserManagerNeo4j {
     public static void deleteUserNode(String usr){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n {username: '" + usr + "'})" +
+                tx.run("MATCH (n {nick: '" + usr + "'})" +
                         "DETACH DELETE n");
                 return null;
             } );
@@ -79,11 +79,11 @@ public class UserManagerNeo4j {
     }
 
     // method to create a Follow relationship between follower and followed in neo4j
-    public static void addDirectedLinkFollow(User follower, User followed){
+    public static void follow(User follower, User followed){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n1 {username: '"+follower.getNick()+"'}), (n2 {username: '"+followed.getNick()+"'})" +
+                tx.run("MATCH (n1 {nick: '"+follower.getNick()+"'}), (n2 {nick: '"+followed.getNick()+"'})" +
                         "CREATE (n1)-[:FOLLOW {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
@@ -93,11 +93,11 @@ public class UserManagerNeo4j {
     }
 
     // method to create a Reviewed relationship in neo4j
-    public static void addDirectedLinkReviewed(Review rev){
+    public static void addReviewLink(Review rev){
         try(Session session= Neo4jDriver.getInstance().session()){
             // both name of the author and game of reference are taken from the Review fields
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n1:User {username: '"+rev.getAuthor()+"'}), (n2:Game {name: '"+rev.getGameOfReference()+"'})" +
+                tx.run("MATCH (n1:User {nick: '"+rev.getAuthor()+"'}), (n2:Game {name: '"+rev.getGameOfReference()+"'})" +
                         "CREATE (n1)-[:REVIEWED]->(n2)");
                 return null;
             } );
@@ -107,11 +107,11 @@ public class UserManagerNeo4j {
     }
 
     // method to create a Like relationship between usr and game
-    public static void addDirectedLinkLike(User usr, Game game){
+    public static void like(User usr, Game game){
         try(Session session= Neo4jDriver.getInstance().session()){
             LocalDate currentDate = LocalDate.now();
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n1 {username: '"+usr.getNick()+"'}), (n2 {name: '"+game.getName()+"'})" +
+                tx.run("MATCH (n1 {nick: '"+usr.getNick()+"'}), (n2 {name: '"+game.getName()+"'})" +
                         "CREATE (n1)-[:LIKE {date: '"+ currentDate +"'}]->(n2)");
                 return null;
             } );
@@ -124,7 +124,7 @@ public class UserManagerNeo4j {
     public static void addDirectedLinkLikeWithDateByHand(User usr, Game game, LocalDate dataScelta){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n1 {username: '"+usr.getNick()+"'}), (n2 {name: '"+game.getName()+"'})" +
+                tx.run("MATCH (n1 {nick: '"+usr.getNick()+"'}), (n2 {name: '"+game.getName()+"'})" +
                         "CREATE (n1)-[:LIKE {date: '"+ dataScelta +"'}]->(n2)");
                 return null;
             } );
@@ -136,7 +136,7 @@ public class UserManagerNeo4j {
     // method to check if a user is already following another user
     public static boolean checkIfAlreadyFollowed(User follower, User followed){
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
+            Result result = session.run("MATCH (n1 {nick: '"+ follower.getNick() +"'})-[:FOLLOW]->(n2 {nick: '"+ followed.getNick() +"'})" +
                     "RETURN COUNT(*) > 0 as followExists");
             return result.single().get("followExists").asBoolean();
         } catch (Exception e){
@@ -148,7 +148,7 @@ public class UserManagerNeo4j {
     // method to check if a user already likes a game
     public static boolean checkIfAlreadyLiked(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
+            Result result = session.run("MATCH (n1 {nick: '"+ usr.getNick() +"'})-[:LIKE]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as likeExists");
             return result.single().get("likeExists").asBoolean();
         } catch (Exception e){
@@ -160,7 +160,7 @@ public class UserManagerNeo4j {
     // method to check if a user already wrote a review for a game
     private static boolean checkIfAlreadyReviewed(User usr, Game game){
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
+            Result result = session.run("MATCH (n1 {nick: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
                     "RETURN COUNT(*) > 0 as reviewExists");
             return result.single().get("reviewExists").asBoolean();
         } catch (Exception e){
@@ -173,7 +173,7 @@ public class UserManagerNeo4j {
     // method to delete Follow relationship in neo4j between two users
     public static boolean unfollow(User follower, User followed){
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '"+ follower.getNick() +"'})-[follow:FOLLOW]->(n2 {username: '"+ followed.getNick() +"'})" +
+            Result result = session.run("MATCH (n1 {nick: '"+ follower.getNick() +"'})-[follow:FOLLOW]->(n2 {nick: '"+ followed.getNick() +"'})" +
                     "DELETE follow");
             return true;
         } catch (Exception e){
@@ -185,7 +185,7 @@ public class UserManagerNeo4j {
     // method to delete Like relationship in neo4j between an user and a game
     public static boolean unlike(User usr, Game game){
         try (Session session = Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {username: '" + usr.getNick() + "'})-[like:LIKE]->(n2 {name: '" + game.getName() + "'})" +
+            Result result = session.run("MATCH (n1 {nick: '" + usr.getNick() + "'})-[like:LIKE]->(n2 {name: '" + game.getName() + "'})" +
                     "DELETE like");
             return true;
         } catch (Exception e) {
@@ -199,9 +199,9 @@ public class UserManagerNeo4j {
         ArrayList<String> top5 = new ArrayList<>();
         // find the users more followed by users followed by usr
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            String query = "MATCH (u1:User {username: '"+ usr.getNick() +"'})-[:FOLLOW]->(:User)-[:FOLLOW]->(u2:User) " +
+            String query = "MATCH (u1:User {nick: '"+ usr.getNick() +"'})-[:FOLLOW]->(:User)-[:FOLLOW]->(u2:User) " +
                     "WHERE NOT EXISTS((u1)-[:FOLLOW]->(u2)) " +
-                    "RETURN u2.username AS RecommendedUser, COUNT(*) AS Followers " +
+                    "RETURN u2.nick AS RecommendedUser, COUNT(*) AS Followers " +
                     "ORDER BY Followers DESC " +
                     "LIMIT 5";
             Result result = session.run(query);
@@ -220,16 +220,16 @@ public class UserManagerNeo4j {
     public static ArrayList<String> findMostActiveFollowed(User usr){
         ArrayList<String> top5 = new ArrayList<>();
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            String query = "MATCH (u:User {username: '" + usr.getNick() + "'})-[:FOLLOW]->(followed:User) " +
+            String query = "MATCH (u:User {nick: '" + usr.getNick() + "'})-[:FOLLOW]->(followed:User) " +
                     "MATCH (followed)-[:LIKE|REVIEWED]->(game:Game) " +
                     "WITH followed, count(*) as totalEdges " +
                     "ORDER BY totalEdges DESC " +
                     "LIMIT 5 " +
-                    "RETURN followed.username";
+                    "RETURN followed.nick";
             Result result = session.run(query);
             // put the five returned users in a lost
             for(Record r : result.list()){
-                String recommendedUser = r.get("followed.username").asString();
+                String recommendedUser = r.get("followed.nick").asString();
                 top5.add(recommendedUser);
             }
         }
@@ -242,7 +242,7 @@ public class UserManagerNeo4j {
     public static ArrayList<String> suggestTrendingNowAmongFollowed(User usr){
         ArrayList<String> top5 = new ArrayList<>();
         try (Session session =  Neo4jDriver.getInstance().session()) {
-            String query = "MATCH (p:User {username: '"+usr.getNick()+"'})-[:FOLLOW]->(u:User)-[l:LIKE]->(g:Game) " +
+            String query = "MATCH (p:User {nick: '"+usr.getNick()+"'})-[:FOLLOW]->(u:User)-[l:LIKE]->(g:Game) " +
                     "WHERE NOT EXISTS((p)-[:LIKE]->(g)) " +
                     "WITH g, l.date AS likeDate, u " +
                     "ORDER BY likeDate DESC " +

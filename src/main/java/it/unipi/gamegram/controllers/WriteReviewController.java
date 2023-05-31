@@ -46,7 +46,7 @@ public class WriteReviewController {
             return;
         }
         ReviewManagerMongoDB.insertReview(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
-        UserManagerNeo4j.addDirectedLinkReviewed(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
+        UserManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
         outcomeMessage.setText("Review submitted. Go back to game's page.");
         submit.setDisable(true);
     }
