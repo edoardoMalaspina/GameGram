@@ -7,7 +7,6 @@ public class Neo4jDriver{
 
     private static Neo4jDriver neo4j = null;
     private static Driver driver = null;
-   // private final String uri = "neo4j://localhost:7687"; // original database
     private String uri; // personal new connection to test functions
     private String user;
     private String password;
@@ -25,14 +24,5 @@ public class Neo4jDriver{
         }
         return driver;
     }
-
-    public void closeNeo4J() throws Exception {
-        try{
-            driver.close();
-        }catch (Exception e){
-            System.out.println("Error occurred opening Neo4j connection");
-            e.printStackTrace();
-        }
-    }
-
+    
 }

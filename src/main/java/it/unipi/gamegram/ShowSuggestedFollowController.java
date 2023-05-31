@@ -1,6 +1,5 @@
 package it.unipi.gamegram;
 
-import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,7 +43,7 @@ public class ShowSuggestedFollowController {
         userTable.setItems(olUsers);
 
 
-        List<String> users = UserManagerNeo4j.suggestWhoToFollow(user);
+        List<String> users = ManagerNeo4j.suggestWhoToFollow(user);
 
         for(String n:users){
             olUsers.add(new User(n));

@@ -1,13 +1,11 @@
 package it.unipi.gamegram;
 
-import it.unipi.gamegram.Entities.Review;
 import it.unipi.gamegram.Entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,7 +46,7 @@ public class ShowFollowedController {
         userTable.setItems(olUsers);
 
 
-        List<User> users = UserManagerNeo4j.getListFollowedUsers(user);
+        List<User> users = ManagerNeo4j.getListFollowedUsers(user);
 
         for(User d:users){
             olUsers.add(d);

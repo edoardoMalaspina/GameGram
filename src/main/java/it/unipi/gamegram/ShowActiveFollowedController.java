@@ -43,7 +43,7 @@ public class ShowActiveFollowedController {
         userTable.setItems(olUsers);
 
 
-        List<String> users = UserManagerNeo4j.findMostActiveFollowed(user);
+        List<String> users = ManagerNeo4j.findMostActiveFollowed(user);
 
         for(String n:users){
             olUsers.add(new User(n));

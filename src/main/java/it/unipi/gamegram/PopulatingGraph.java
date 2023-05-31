@@ -2,14 +2,10 @@ package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.Review;
-import it.unipi.gamegram.Entities.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class PopulatingGraph {
 
@@ -22,7 +18,7 @@ public class PopulatingGraph {
                 usr = reader.readLine(); // questo sta all'inizio così al primo giro scartiamo l'header
                 if(usr != null) {
                     String nick = usr.split(",")[4];
-                    UserManagerNeo4j.addUserNode(nick);
+                    ManagerNeo4j.addUserNode(nick);
                 }
             }
         } catch (IOException e) {
@@ -43,7 +39,7 @@ public class PopulatingGraph {
                 if (game != null && game.split(",").length>1) {
                     String name = game.split(",")[0];
                     Game newGame = new Game(name);
-                    GameManagerNeo4j.addGameNode(newGame);
+                    ManagerNeo4j.addGameNode(newGame);
                     count++;
                 }
             }
@@ -69,7 +65,7 @@ public class PopulatingGraph {
                     String author = riga.split(",")[4];
                     String gameOfReference = riga.split(",")[0];
                     Review newReview = new Review(author, gameOfReference);
-                    UserManagerNeo4j.addDirectedLinkReviewed(newReview);
+                    ManagerNeo4j.addDirectedLinkReviewed(newReview);
                 }
             }
         } catch (IOException e) {

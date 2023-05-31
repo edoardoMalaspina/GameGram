@@ -44,7 +44,7 @@ public class ShowSuggestedGamesController {
         gameTable.setItems(olGames);
 
 
-        List<String> games = UserManagerNeo4j.suggestTrendingNowAmongFollowed(user);
+        List<String> games = ManagerNeo4j.suggestTrendingNowAmongFollowed(user);
 
         for(String g:games){
             olGames.add(new Game(g));

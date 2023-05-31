@@ -44,7 +44,7 @@ public class ShowLikedController {
         gameTable.setItems(olGames);
 
 
-        List<Game> games = UserManagerNeo4j.getListLikedGames(user);
+        List<Game> games = ManagerNeo4j.getListLikedGames(user);
 
         for(Game g:games){
             olGames.add(g);

@@ -78,7 +78,7 @@ public class InsertGameController {
         }
 
         Game.insert(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
-        GameManagerNeo4j.addGameNode(new Game(name));
+        ManagerNeo4j.addGameNode(new Game(name));
         outcomeMessage.setText("Successfully added.");
         return;
     }

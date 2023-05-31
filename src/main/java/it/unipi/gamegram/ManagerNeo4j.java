@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class UserManagerNeo4j {
+public class ManagerNeo4j {
 
     // method to retrieve from neo4j the list of users followed by usr
     public static ArrayList<User> getListFollowedUsers(User usr) {
@@ -284,6 +284,53 @@ public class UserManagerNeo4j {
         }
         return top5;
     }
+
+    // method to count exploiting neo4j the number of likes a game received
+    public static int countLikes(String game) {
+        try (Session session = Neo4jDriver.getInstance().session()) {
+            return session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (:User)-[:LIKE]->(game:Game) " +
+                        "WHERE game.name = '" + game + "' " +
+                        "RETURN COUNT(*) AS likeCount");
+                Record record = result.next();
+                return record.get("likeCount").asInt();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // method to count exploiting neo4j the number of reviews a game received
+    public static int countReviews(String game) {
+        try (Session session = Neo4jDriver.getInstance().session()) {
+            return session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (:User)-[:REVIEWED]->(game:Game) " +
+                        "WHERE game.name = '" + game + "' " +
+                        "RETURN COUNT(*) AS reviewCount");
+                Record record = result.next();
+                return record.get("reviewCount").asInt();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    // method to add in the neo4j graph a node corresponding to a game
+    public static void addGameNode(Game game){
+        try (Session session = Neo4jDriver.getInstance().session()) {
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run("CREATE (:Game { name: '" + game.getName() + "'})");
+                return null;
+            });
+        } catch (Exception e) {
+            System.err.println("Failed to create game node: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
 
     public static void main(String[] args){
 

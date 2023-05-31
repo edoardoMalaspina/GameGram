@@ -1,7 +1,6 @@
 package it.unipi.gamegram;
 
 import it.unipi.gamegram.Entities.Review;
-import it.unipi.gamegram.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -42,7 +41,7 @@ public class WriteReviewController {
             return;
         }
         Review.insert(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
-        UserManagerNeo4j.addDirectedLinkReviewed(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
+        ManagerNeo4j.addDirectedLinkReviewed(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
         outcomeMessage.setText("Review submitted. Go back to game's page.");
         submit.setDisable(true);
     }

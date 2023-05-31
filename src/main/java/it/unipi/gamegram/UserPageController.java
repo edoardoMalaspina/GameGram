@@ -1,6 +1,5 @@
 package it.unipi.gamegram;
 
-import it.unipi.gamegram.Entities.Review;
 import it.unipi.gamegram.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -88,11 +87,11 @@ public class UserPageController {
             return;
         }
         User user = new User(UserSingleton.getNick());
-        if(UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
+        if(ManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
             outcomeMessage.setText("User already followed.");
             return;
         }
-        UserManagerNeo4j.addDirectedLinkFollow(LoggedUser.getLoggedUser(), user);
+        ManagerNeo4j.addDirectedLinkFollow(LoggedUser.getLoggedUser(), user);
         outcomeMessage.setText("User successfully followed.");
     }
 
@@ -103,11 +102,11 @@ public class UserPageController {
             return;
         }
         User user = new User(UserSingleton.getNick());
-        if(!UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
+        if(!ManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
             outcomeMessage.setText("You don't follow this user yet.");
         return;
         }
-        UserManagerNeo4j.unfollow(LoggedUser.getLoggedUser(), user);
+        ManagerNeo4j.unfollow(LoggedUser.getLoggedUser(), user);
         outcomeMessage.setText("User successfully unfollowed.");
     }
 
@@ -119,7 +118,7 @@ public class UserPageController {
             LoggedUser.logOut();
             GameGramApplication.setRoot("start");}
         User.delete(UserSingleton.getNick());
-        UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
+        ManagerNeo4j.deleteUserNode(UserSingleton.getNick());
         UserSingleton.setNull();
         GameGramApplication.setRoot("userhome");
     }

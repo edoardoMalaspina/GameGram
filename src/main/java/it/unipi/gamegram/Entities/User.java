@@ -194,6 +194,8 @@ public class User {
         }
     }
 
+
+
     /*
     query neo4j creare nodo user: (da pensare se nick ci va anche come proprietà o no)
     CREATE (nick:User { firstname: "firstname", lastname: "lastname", nick: "nick"})

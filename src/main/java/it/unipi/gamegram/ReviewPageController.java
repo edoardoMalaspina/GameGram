@@ -1,8 +1,6 @@
 package it.unipi.gamegram;
 
-import it.unipi.gamegram.Entities.Game;
 import it.unipi.gamegram.Entities.Review;
-import it.unipi.gamegram.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -54,7 +52,7 @@ public class ReviewPageController {
     @FXML
     private void delete() throws IOException {
         Review.delete(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
-        UserManagerNeo4j.cancelReview(ReviewSingleton.getReview().getAuthor(),ReviewSingleton.getReview().getGameOfReference());
+        ManagerNeo4j.cancelReview(ReviewSingleton.getReview().getAuthor(),ReviewSingleton.getReview().getGameOfReference());
         ReviewSingleton.setNull();
         if (ReviewSingleton.getFlag())
             GameGramApplication.setRoot("showgamereviews");
