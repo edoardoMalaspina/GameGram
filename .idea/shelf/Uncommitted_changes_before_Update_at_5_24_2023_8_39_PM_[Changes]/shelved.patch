@@ -1,0 +1,136 @@
+Index: src/main/java/it/unipi/gamegram/GamePageController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.unipi.gamegram;\r\n\r\nimport it.unipi.gamegram.Entities.Game;\r\nimport it.unipi.gamegram.Entities.Review;\r\nimport it.unipi.gamegram.Entities.User;\r\nimport javafx.fxml.FXML;\r\nimport javafx.scene.control.Button;\r\nimport javafx.scene.control.Label;\r\n\r\nimport java.io.IOException;\r\n\r\npublic class GamePageController {\r\n\r\n    @FXML\r\n    private Label title;\r\n\r\n    @FXML\r\n    private Label dateOfPublication;\r\n\r\n    @FXML\r\n    private Label developer;\r\n\r\n    @FXML\r\n    private Label publisher;\r\n\r\n    @FXML\r\n    private Label price;\r\n\r\n    @FXML\r\n    private Label shortDescription;\r\n\r\n    @FXML\r\n    private Label outcomeMessage;\r\n\r\n    @FXML\r\n    private Button like;\r\n\r\n    @FXML\r\n    private Button unlike;\r\n\r\n    @FXML\r\n    private Button showReviews;\r\n\r\n    @FXML\r\n    private Button writeReview;\r\n\r\n    @FXML\r\n    private Button back;\r\n\r\n    @FXML\r\n    private Label numberOfLikes;\r\n\r\n    @FXML\r\n    private Button delete;\r\n    \r\n    public void initialize() {\r\n        delete.setVisible(false);\r\n        delete.setDisable(true);\r\n        if(LoggedUser.getIsAdmin()) {\r\n            delete.setVisible(true);\r\n            delete.setDisable(false);\r\n        }\r\n        String name = GameSingleton.getName();\r\n        title.setText(name + \"'s game page\");\r\n        Game game = new Game(Game.findByName(name));\r\n        dateOfPublication.setText(\"Date of publication: \" + game.getStringDateOfPublication());\r\n        developer.setText(\"Developer: \" + game.getDeveloper());\r\n        publisher.setText(\"Publisher: \" + game.getPublisher());\r\n        price.setText(\"Price: \" + game.getPrice());\r\n        shortDescription.setText(\"Short description: \" + game.getShortDescription());\r\n        numberOfLikes.setText(\"Number of likes: \" + GameManagerNeo4j.countLikes(GameSingleton.getName()));\r\n    }\r\n\r\n    @FXML\r\n    private void showReviews() throws IOException {\r\n        GameGramApplication.setRoot(\"showgamereviews\");\r\n    }\r\n\r\n    @FXML\r\n    private void writeReview() throws IOException {\r\n        if(Review.findByGameAndAuthor(GameSingleton.getName(), LoggedUser.getLoggedUser().getNick())){\r\n            outcomeMessage.setText(\"You already wrote a review for this game.\");\r\n            return;\r\n        }\r\n        GameGramApplication.setRoot(\"writereview\");\r\n    }\r\n\r\n    @FXML\r\n    private void like() throws IOException {\r\n        Game game = new Game(GameSingleton.getName());\r\n        if(UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)){\r\n            outcomeMessage.setText(\"Game already liked.\");\r\n            return;\r\n        }\r\n        UserManagerNeo4j.addDirectedLinkLike(LoggedUser.getLoggedUser(), game);\r\n        outcomeMessage.setText(\"Game successfully liked.\");\r\n    }\r\n\r\n    @FXML\r\n    private void unlike() throws IOException {\r\n        Game game = new Game(GameSingleton.getName());\r\n        if(!UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)){\r\n            outcomeMessage.setText(\"Game not liked yet.\");\r\n            return;\r\n        }\r\n        UserManagerNeo4j.unlike(LoggedUser.getLoggedUser(), game);\r\n        outcomeMessage.setText(\"Game successfully unliked.\");\r\n    }\r\n    @FXML\r\n    private void back() throws IOException {\r\n        GameGramApplication.setRoot(\"userhome\");}\r\n\r\n    @FXML\r\n    private void delete() throws IOException {\r\n        Game.delete(GameSingleton.getName());\r\n        GameSingleton.setNull();\r\n        GameGramApplication.setRoot(\"userhome\");}\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/unipi/gamegram/GamePageController.java b/src/main/java/it/unipi/gamegram/GamePageController.java
+--- a/src/main/java/it/unipi/gamegram/GamePageController.java	(revision 476a6178aa918ba54d1893d2ddd33dfbd84f51c8)
++++ b/src/main/java/it/unipi/gamegram/GamePageController.java	(date 1684953580015)
+@@ -50,6 +50,9 @@
+     @FXML
+     private Label numberOfLikes;
+ 
++    @FXML
++    private Label numberOfReviews;
++
+     @FXML
+     private Button delete;
+     
+@@ -69,6 +72,7 @@
+         price.setText("Price: " + game.getPrice());
+         shortDescription.setText("Short description: " + game.getShortDescription());
+         numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
++        numberOfReviews.setText("Number of reviews: " + GameManagerNeo4j.countReviews(GameSingleton.getName()));
+     }
+ 
+     @FXML
+@@ -93,6 +97,7 @@
+             return;
+         }
+         UserManagerNeo4j.addDirectedLinkLike(LoggedUser.getLoggedUser(), game);
++        numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
+         outcomeMessage.setText("Game successfully liked.");
+     }
+ 
+@@ -104,6 +109,7 @@
+             return;
+         }
+         UserManagerNeo4j.unlike(LoggedUser.getLoggedUser(), game);
++        numberOfLikes.setText("Number of likes: " + GameManagerNeo4j.countLikes(GameSingleton.getName()));
+         outcomeMessage.setText("Game successfully unliked.");
+     }
+     @FXML
+Index: src/main/java/it/unipi/gamegram/GameManagerNeo4j.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.unipi.gamegram;\r\n\r\nimport it.unipi.gamegram.Entities.Game;\r\nimport it.unipi.gamegram.Entities.User;\r\nimport org.neo4j.driver.*;\r\nimport org.neo4j.driver.Record;\r\n\r\nimport java.util.ArrayList;\r\n\r\n\r\npublic class GameManagerNeo4j {\r\n\r\n    public static int countLikes(String game) {\r\n        try (Session session = Neo4jDriver.getInstance().session()) {\r\n            return session.readTransaction(tx -> {\r\n                Result result = tx.run(\"MATCH (:User)-[:LIKE]->(game:Game) \" +\r\n                                \"WHERE game.name = '\"+game+\"' \" +\r\n                                \"RETURN COUNT(*) AS likeCount\");\r\n                        //Values.parameters(\"gameName\", game));\r\n                Record record = result.next();\r\n                return record.get(\"likeCount\").asInt();\r\n            });\r\n        } catch (Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n        return 0;\r\n    }\r\n\r\n    public static int countReviews(String game) {\r\n        try (Session session = Neo4jDriver.getInstance().session()) {\r\n            return session.readTransaction(tx -> {\r\n                Result result = tx.run(\"MATCH (:User)-[:REVIEWED]->(game:Game) \" +\r\n                                \"WHERE game.name = $gameName \" +\r\n                                \"RETURN COUNT(*) AS reviewCount\",\r\n                        Values.parameters(\"gameName\", game));\r\n                Record record = result.next();\r\n                return record.get(\"reviewCount\").asInt();\r\n            });\r\n        } catch (Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n        return 0;\r\n    }\r\n\r\n\r\n\r\n\r\n    public static void addGameNode(Game game){\r\n        try (Session session = Neo4jDriver.getInstance().session()) {\r\n            session.writeTransaction((TransactionWork<Void>) tx -> {\r\n                tx.run(\"CREATE (:Game { name: '\" + game.getName() + \"', short_description: '\" + game.getShortDescription() + \"'})\");\r\n                return null;\r\n            });\r\n        } catch (Exception e) {\r\n            System.err.println(\"Failed to create game node: \" + e.getMessage());\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    public static void main(String[] args){\r\n       // Neo4jDriver dbManager = new Neo4jDriver();\r\n        Game game1 = new Game(\"among us\", \"fanno ueueue faccio gnie gnie gnie\");\r\n        addGameNode(game1);\r\n    }\r\n}\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/unipi/gamegram/GameManagerNeo4j.java b/src/main/java/it/unipi/gamegram/GameManagerNeo4j.java
+--- a/src/main/java/it/unipi/gamegram/GameManagerNeo4j.java	(revision 476a6178aa918ba54d1893d2ddd33dfbd84f51c8)
++++ b/src/main/java/it/unipi/gamegram/GameManagerNeo4j.java	(date 1684946441399)
+@@ -43,8 +43,6 @@
+     }
+ 
+ 
+-
+-
+     public static void addGameNode(Game game){
+         try (Session session = Neo4jDriver.getInstance().session()) {
+             session.writeTransaction((TransactionWork<Void>) tx -> {
+Index: src/main/java/it/unipi/gamegram/Neo4jDriver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.unipi.gamegram;\r\n\r\nimport org.neo4j.driver.AuthTokens;\r\nimport org.neo4j.driver.Driver;\r\nimport org.neo4j.driver.GraphDatabase;\r\n\r\npublic class Neo4jDriver{\r\n\r\n    private static Neo4jDriver neo4j = null;\r\n    private static Driver driver = null;\r\n   // private final String uri = \"neo4j://localhost:7687\"; // original database\r\n    private String uri; // personal new connection to test functions\r\n    private String user;\r\n    private String password;\r\n\r\n    /*\r\n    public Neo4jDriver(int toglielo){\r\n        try {\r\n            driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password)); //authentication without encryption\r\n        }catch (Exception e){\r\n            System.out.println(\"Error occurred opening Neo4j connection\");\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n    */\r\n\r\n    private Neo4jDriver(){\r\n        uri = \"bolt://localhost:7687\";\r\n        user = \"neo4j\";\r\n        password = \"password\";\r\n        driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));\r\n    }\r\n\r\n    public static Driver getInstance() {\r\n        if(driver == null) {\r\n            neo4j = new Neo4jDriver();\r\n        }\r\n        return driver;\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n    public void closeNeo4J() throws Exception {\r\n        try{\r\n            driver.close();\r\n        }catch (Exception e){\r\n            System.out.println(\"Error occurred opening Neo4j connection\");\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    /*\r\n    public static Driver getDriver() {\r\n        return driver;\r\n    }\r\n    */\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/unipi/gamegram/Neo4jDriver.java b/src/main/java/it/unipi/gamegram/Neo4jDriver.java
+--- a/src/main/java/it/unipi/gamegram/Neo4jDriver.java	(revision 476a6178aa918ba54d1893d2ddd33dfbd84f51c8)
++++ b/src/main/java/it/unipi/gamegram/Neo4jDriver.java	(date 1684946441406)
+@@ -27,7 +27,7 @@
+     private Neo4jDriver(){
+         uri = "bolt://localhost:7687";
+         user = "neo4j";
+-        password = "password";
++        password = "romeo123";
+         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
+     }
+ 
+Index: src/main/resources/it/unipi/gamegram/start.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.Button?>\r\n<?import javafx.scene.image.Image?>\r\n<?import javafx.scene.image.ImageView?>\r\n<?import javafx.scene.layout.AnchorPane?>\r\n\r\n<AnchorPane maxHeight=\"-Infinity\" maxWidth=\"-Infinity\" minHeight=\"-Infinity\" minWidth=\"-Infinity\" prefHeight=\"400.0\" prefWidth=\"600.0\" xmlns=\"http://javafx.com/javafx/19\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"it.unipi.gamegram.StartController\">\r\n   <children>\r\n      <Button fx:id=\"login\" layoutX=\"153.0\" layoutY=\"246.0\" mnemonicParsing=\"false\" onAction=\"#login\" prefHeight=\"26.0\" prefWidth=\"293.0\" text=\"Login\" />\r\n      <Button fx:id=\"signup\" layoutX=\"153.0\" layoutY=\"305.0\" mnemonicParsing=\"false\" onAction=\"#signup\" prefHeight=\"26.0\" prefWidth=\"293.0\" text=\"Signup\" />\r\n      <ImageView fitHeight=\"150.0\" fitWidth=\"200.0\" layoutX=\"222.0\" layoutY=\"50.0\" pickOnBounds=\"true\" preserveRatio=\"true\">\r\n         <image>\r\n            <Image url=\"C:\\Users\\edoar\\Documents\\Università\\Large scale and Multistructured database\\GameGram\\src\\main\\resources\\images\\instagram-png-instagram-logo-2-png-8-de-abril-de-2017-927-kb-3500-3393-3500-413x400.png\" />\r\n         </image>\r\n      </ImageView>\r\n   </children>\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/it/unipi/gamegram/start.fxml b/src/main/resources/it/unipi/gamegram/start.fxml
+--- a/src/main/resources/it/unipi/gamegram/start.fxml	(revision 476a6178aa918ba54d1893d2ddd33dfbd84f51c8)
++++ b/src/main/resources/it/unipi/gamegram/start.fxml	(date 1684946441412)
+@@ -11,7 +11,7 @@
+       <Button fx:id="signup" layoutX="153.0" layoutY="305.0" mnemonicParsing="false" onAction="#signup" prefHeight="26.0" prefWidth="293.0" text="Signup" />
+       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="222.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+-            <Image url="C:\Users\edoar\Documents\Università\Large scale and Multistructured database\GameGram\src\main\resources\images\instagram-png-instagram-logo-2-png-8-de-abril-de-2017-927-kb-3500-3393-3500-413x400.png" />
++            <Image url="C:\Users\pietr\IdeaProjects\GameGram\src\main\resources\images\instagram-png-instagram-logo-2-png-8-de-abril-de-2017-927-kb-3500-3393-3500-413x400.png" />
+          </image>
+       </ImageView>
+    </children>
+Index: src/main/resources/it/unipi/gamegram/gamepage.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.Button?>\r\n<?import javafx.scene.control.Label?>\r\n<?import javafx.scene.control.ListView?>\r\n<?import javafx.scene.effect.DropShadow?>\r\n<?import javafx.scene.layout.AnchorPane?>\r\n<?import javafx.scene.text.Font?>\r\n\r\n<AnchorPane prefHeight=\"455.0\" prefWidth=\"600.0\" xmlns=\"http://javafx.com/javafx/19\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"it.unipi.gamegram.GamePageController\">\r\n   <children>\r\n      <Label fx:id=\"title\" layoutX=\"31.0\" layoutY=\"5.0\" prefHeight=\"102.0\" prefWidth=\"535.0\">\r\n         <font>\r\n            <Font size=\"24.0\" />\r\n         </font>\r\n      </Label>\r\n      <Button fx:id=\"like\" layoutX=\"452.0\" layoutY=\"113.0\" mnemonicParsing=\"false\" onAction=\"#like\" prefHeight=\"33.0\" prefWidth=\"114.0\" text=\"Like\" />\r\n      <Button fx:id=\"unlike\" layoutX=\"452.0\" layoutY=\"162.0\" mnemonicParsing=\"false\" onAction=\"#unlike\" prefHeight=\"34.0\" prefWidth=\"114.0\" text=\"Unlike\" />\r\n      <Button fx:id=\"showReviews\" layoutX=\"451.0\" layoutY=\"212.0\" mnemonicParsing=\"false\" onAction=\"#showReviews\" prefHeight=\"34.0\" prefWidth=\"114.0\" text=\"Show Reviews\" />\r\n      <Button fx:id=\"back\" layoutX=\"451.0\" layoutY=\"351.0\" mnemonicParsing=\"false\" onAction=\"#back\" prefHeight=\"34.0\" prefWidth=\"114.0\" text=\"Back\" />\r\n      <ListView layoutX=\"31.0\" layoutY=\"113.0\" prefHeight=\"270.0\" prefWidth=\"398.0\" />\r\n      <Label fx:id=\"shortDescription\" layoutX=\"48.0\" layoutY=\"229.0\" prefHeight=\"135.0\" prefWidth=\"363.0\" wrapText=\"true\" />\r\n      <Label fx:id=\"publisher\" layoutX=\"48.0\" layoutY=\"199.0\" prefHeight=\"26.0\" prefWidth=\"363.0\" />\r\n      <Label fx:id=\"price\" layoutX=\"49.0\" layoutY=\"175.0\" prefHeight=\"26.0\" prefWidth=\"363.0\" />\r\n      <Label fx:id=\"developer\" layoutX=\"48.0\" layoutY=\"149.0\" prefHeight=\"26.0\" prefWidth=\"363.0\" />\r\n      <Label fx:id=\"dateOfPublication\" layoutX=\"48.0\" layoutY=\"122.0\" prefHeight=\"26.0\" prefWidth=\"363.0\" />\r\n      <Button fx:id=\"writeReview\" layoutX=\"452.0\" layoutY=\"258.0\" mnemonicParsing=\"false\" onAction=\"#writeReview\" prefHeight=\"34.0\" prefWidth=\"114.0\" text=\"Write Review\" />\r\n      <Button fx:id=\"delete\" layoutX=\"452.0\" layoutY=\"304.0\" mnemonicParsing=\"false\" onAction=\"#delete\" prefHeight=\"34.0\" prefWidth=\"114.0\" text=\"Delete Game\" />\r\n      <Label fx:id=\"outcomeMessage\" layoutX=\"32.0\" layoutY=\"391.0\" prefHeight=\"52.0\" prefWidth=\"398.0\" />\r\n   </children>\r\n   <effect>\r\n      <DropShadow />\r\n   </effect>\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/it/unipi/gamegram/gamepage.fxml b/src/main/resources/it/unipi/gamegram/gamepage.fxml
+--- a/src/main/resources/it/unipi/gamegram/gamepage.fxml	(revision 476a6178aa918ba54d1893d2ddd33dfbd84f51c8)
++++ b/src/main/resources/it/unipi/gamegram/gamepage.fxml	(date 1684953260247)
+@@ -18,15 +18,17 @@
+       <Button fx:id="unlike" layoutX="452.0" layoutY="162.0" mnemonicParsing="false" onAction="#unlike" prefHeight="34.0" prefWidth="114.0" text="Unlike" />
+       <Button fx:id="showReviews" layoutX="451.0" layoutY="212.0" mnemonicParsing="false" onAction="#showReviews" prefHeight="34.0" prefWidth="114.0" text="Show Reviews" />
+       <Button fx:id="back" layoutX="451.0" layoutY="351.0" mnemonicParsing="false" onAction="#back" prefHeight="34.0" prefWidth="114.0" text="Back" />
+-      <ListView layoutX="31.0" layoutY="113.0" prefHeight="270.0" prefWidth="398.0" />
+-      <Label fx:id="shortDescription" layoutX="48.0" layoutY="229.0" prefHeight="135.0" prefWidth="363.0" wrapText="true" />
+-      <Label fx:id="publisher" layoutX="48.0" layoutY="199.0" prefHeight="26.0" prefWidth="363.0" />
+-      <Label fx:id="price" layoutX="49.0" layoutY="175.0" prefHeight="26.0" prefWidth="363.0" />
+-      <Label fx:id="developer" layoutX="48.0" layoutY="149.0" prefHeight="26.0" prefWidth="363.0" />
+-      <Label fx:id="dateOfPublication" layoutX="48.0" layoutY="122.0" prefHeight="26.0" prefWidth="363.0" />
++      <ListView layoutX="31.0" layoutY="113.0" prefHeight="291.0" prefWidth="398.0" />
++      <Label fx:id="shortDescription" layoutX="48.0" layoutY="292.0" prefHeight="102.0" prefWidth="363.0" wrapText="true" />
++      <Label fx:id="publisher" layoutX="48.0" layoutY="214.0" prefHeight="26.0" prefWidth="363.0" text="g" />
++      <Label fx:id="price" layoutX="49.0" layoutY="183.0" prefHeight="26.0" prefWidth="363.0" />
++      <Label fx:id="developer" layoutX="49.0" layoutY="149.0" prefHeight="26.0" prefWidth="363.0" />
++      <Label fx:id="dateOfPublication" layoutX="49.0" layoutY="116.0" prefHeight="26.0" prefWidth="363.0" />
+       <Button fx:id="writeReview" layoutX="452.0" layoutY="258.0" mnemonicParsing="false" onAction="#writeReview" prefHeight="34.0" prefWidth="114.0" text="Write Review" />
+       <Button fx:id="delete" layoutX="452.0" layoutY="304.0" mnemonicParsing="false" onAction="#delete" prefHeight="34.0" prefWidth="114.0" text="Delete Game" />
+-      <Label fx:id="outcomeMessage" layoutX="32.0" layoutY="391.0" prefHeight="52.0" prefWidth="398.0" />
++      <Label fx:id="outcomeMessage" layoutX="32.0" layoutY="409.0" prefHeight="34.0" prefWidth="398.0" />
++      <Label fx:id="numberOfLikes" layoutX="48.0" layoutY="233.0" prefHeight="26.0" prefWidth="363.0" />
++      <Label fx:id="numberOfReviews" layoutX="48.0" layoutY="265.0" prefHeight="26.0" prefWidth="363.0" />
+    </children>
+    <effect>
+       <DropShadow />
