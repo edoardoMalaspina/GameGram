@@ -247,10 +247,18 @@ public class UserManagerNeo4j {
                     "WITH g, l.date AS likeDate, u " +
                     "ORDER BY likeDate DESC " +
                     "WITH g, COLLECT(u) AS likedBy, COLLECT(likeDate) AS likeDates " +
-                    "WITH g, likedBy, REDUCE(score = 0.0, i IN RANGE(0, SIZE(likedBy)-1) | score+round((toFloat(datetime().epochSeconds-datetime(likeDates[i]).epochSeconds)/(3600 * 24))^2 * 100)/100) AS partialScore " +
-                    "RETURN g.name, SUM(partialScore) AS totalScore " +
-                    "ORDER BY totalScore ASC " +
+                    "WITH g, likedBy, likeDates, [i IN RANGE(0, SIZE(likedBy)-1) | CASE WHEN duration.inSeconds(datetime(), datetime(likeDates[i])).days > 0 THEN (1.0 / duration.inSeconds(datetime(), datetime(likeDates[i])).days) ELSE 0 END] AS partialScores " +
+                    "WITH g, likedBy, REDUCE(score = 0.0, x IN partialScores | score + x) AS totalScore " +
+                    "WITH g, totalScore, SIZE(likedBy) AS likedByCount " +
+                    "RETURN g.name, totalScore, likedByCount " +
+                    "ORDER BY likedByCount DESC, totalScore ASC " +
                     "LIMIT 5";
+
+
+
+
+
+
             Result result = session.run(query);
 
             while (result.hasNext()) {
