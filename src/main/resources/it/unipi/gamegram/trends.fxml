@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="589.0" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.TrendsController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="589.0" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.controllers.TrendsController">
    <children>
       <Label alignment="CENTER" prefHeight="47.0" prefWidth="558.0" text="Trends for you" textAlignment="CENTER" textFill="#ceb700">
          <font>

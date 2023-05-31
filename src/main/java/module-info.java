@@ -12,6 +12,18 @@ module it.unipi.gamegram {
 
     opens it.unipi.gamegram to javafx.fxml;
     exports it.unipi.gamegram;
-    exports it.unipi.gamegram.Entities;
-    opens it.unipi.gamegram.Entities to javafx.fxml;
+    exports it.unipi.gamegram.entities;
+    opens it.unipi.gamegram.entities to javafx.fxml;
+    exports it.unipi.gamegram.drivers;
+    opens it.unipi.gamegram.drivers to javafx.fxml;
+    exports it.unipi.gamegram.managersMongoDB;
+    opens it.unipi.gamegram.managersMongoDB to javafx.fxml;
+    exports it.unipi.gamegram.managersNeo4j;
+    opens it.unipi.gamegram.managersNeo4j to javafx.fxml;
+    exports it.unipi.gamegram.singletons;
+    opens it.unipi.gamegram.singletons to javafx.fxml;
+    exports it.unipi.gamegram.controllers;
+    opens it.unipi.gamegram.controllers to javafx.fxml;
+    exports it.unipi.gamegram.utility;
+    opens it.unipi.gamegram.utility to javafx.fxml;
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="451.0" prefWidth="562.0" spacing="5.0" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.GamePageController">
+<VBox prefHeight="451.0" prefWidth="562.0" spacing="5.0" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.controllers.GamePageController">
    <children>
       <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="86.0" prefWidth="598.0" textAlignment="CENTER" textFill="#ceb700" wrapText="true">
          <font>
