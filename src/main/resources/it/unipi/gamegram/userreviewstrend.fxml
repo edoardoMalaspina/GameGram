@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="chartContainer" alignment="CENTER" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.UserReviewsTrendController">
+<VBox fx:id="chartContainer" alignment="CENTER" style="-fx-background-color: FDFBE2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.gamegram.controllers.UserReviewsTrendController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="108.0" prefWidth="580.0" text="My reviews trend over time" textAlignment="CENTER" textFill="#ceb700">
          <font>
