@@ -120,7 +120,11 @@ public class UserManagerNeo4j {
         }
     }
 
-    //questa è solo per testare DA TOGLEIRE
+    // method to create a like relationship in neo4j imposing the date of the like,
+    // in the method like() the date is taken when user likes a game.
+    // This method is not used in the app, is exploited just for testing purposes
+    // in class TestComplexMethodsNeo4j to simulate different score for recent like and
+    // old likes in recommendation system (suggestTrendingNowAmongFollowed  method)
     public static void addDirectedLinkLikeWithDateByHand(User usr, Game game, LocalDate dataScelta){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
@@ -253,14 +257,7 @@ public class UserManagerNeo4j {
                     "RETURN g.name, totalScore, likedByCount " +
                     "ORDER BY likedByCount DESC, totalScore ASC " +
                     "LIMIT 5";
-
-
-
-
-
-
             Result result = session.run(query);
-
             while (result.hasNext()) {
                 Record record = result.next();
                 String recommendedGame= record.get("g.name").asString();
