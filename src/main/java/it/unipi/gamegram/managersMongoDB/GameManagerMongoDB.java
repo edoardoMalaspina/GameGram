@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+
 public class GameManagerMongoDB {
 
     // Method to retrieve a game in the collection by its unique name
