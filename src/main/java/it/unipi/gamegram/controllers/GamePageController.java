@@ -103,7 +103,7 @@ public class GamePageController {
             outcomeMessage.setText("Game already liked.");
             return;
         }
-        UserManagerNeo4j.addDirectedLinkLike(LoggedUser.getLoggedUser(), game);
+        UserManagerNeo4j.like(LoggedUser.getLoggedUser(), game);
         numberOfLikes.setText("Number of likes: " + UserManagerNeo4j.countLikes(GameSingleton.getName()));
         outcomeMessage.setText("Game successfully liked.");
     }
