@@ -57,7 +57,7 @@ public class WriteReviewController {
                 GameSingleton.getName()
         );
 
-        UserManagerNeo4j.addDirectedLinkReviewed(
+        UserManagerNeo4j.addReviewLink(
                 new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title)
         );
 

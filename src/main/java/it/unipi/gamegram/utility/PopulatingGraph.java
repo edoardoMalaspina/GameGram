@@ -61,7 +61,7 @@ public class PopulatingGraph {
                     String author = riga.split(",")[4];
                     String gameOfReference = riga.split(",")[0];
                     Review newReview = new Review(author, gameOfReference);
-                    UserManagerNeo4j.addDirectedLinkReviewed(newReview);
+                    UserManagerNeo4j.addReviewLink(newReview);
                 }
             }
         } catch (IOException e) {

@@ -64,7 +64,7 @@ public class UserPageController {
             promoteAdmin.setVisible(true);
             promoteAdmin.setDisable(false);
         }
-        if (LoggedUser.getLoggedUser().equals(new User(UserManagerMongoDB.findUserByNick(UserSingleton.getNick())))){
+        if (LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())){
             delete.setVisible(true);
             delete.setDisable(false);
         }

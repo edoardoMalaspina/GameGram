@@ -26,4 +26,6 @@ module it.unipi.gamegram {
     opens it.unipi.gamegram.controllers to javafx.fxml;
     exports it.unipi.gamegram.utility;
     opens it.unipi.gamegram.utility to javafx.fxml;
+    exports it.unipi.gamegram.test;
+    opens it.unipi.gamegram.test to javafx.fxml;
 }
