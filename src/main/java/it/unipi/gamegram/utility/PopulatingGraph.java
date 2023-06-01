@@ -2,6 +2,7 @@ package it.unipi.gamegram.utility;
 import it.unipi.gamegram.entities.Game;
 import it.unipi.gamegram.entities.Review;
 import it.unipi.gamegram.managersNeo4j.GameManagerNeo4j;
+import it.unipi.gamegram.managersNeo4j.ReviewManagerNeo4j;
 import it.unipi.gamegram.managersNeo4j.UserManagerNeo4j;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -70,7 +71,7 @@ public class PopulatingGraph {
                     String gameOfReference = riga.split(",")[0];
                     Review newReview = new Review(author, gameOfReference);
                     // add Reviewed relationship to the graph
-                    UserManagerNeo4j.addReviewLink(newReview);
+                    ReviewManagerNeo4j.addReviewLink(newReview);
                 }
             }
         } catch (IOException e) {

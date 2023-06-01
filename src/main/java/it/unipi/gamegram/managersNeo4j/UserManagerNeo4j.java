@@ -92,20 +92,6 @@ public class UserManagerNeo4j {
         }
     }
 
-    // method to create a Reviewed relationship in neo4j
-    public static void addReviewLink(Review rev){
-        try(Session session= Neo4jDriver.getInstance().session()){
-            // both name of the author and game of reference are taken from the Review fields
-            session.writeTransaction((TransactionWork<Void>) tx -> {
-                tx.run("MATCH (n1:User {nick: '"+rev.getAuthor()+"'}), (n2:Game {name: '"+rev.getGameOfReference()+"'})" +
-                        "CREATE (n1)-[:REVIEWED]->(n2)");
-                return null;
-            } );
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
     // method to create a Like relationship between usr and game
     public static void like(User usr, Game game){
         try(Session session= Neo4jDriver.getInstance().session()){

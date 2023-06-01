@@ -8,6 +8,7 @@ import org.bson.Document;
 import java.time.LocalDate;
 import java.util.Date;
 import static com.mongodb.client.model.Filters.eq;
+
 public class GameManagerMongoDB {
 
     public static Document findGameByName(String name) {

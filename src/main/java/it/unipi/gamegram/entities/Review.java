@@ -6,9 +6,9 @@ import java.time.LocalDate;
 public class Review {
 
     private String reviewText;
-    private LocalDate reviewDate; // valutare se mettera come tipo Date invece di String
+    private LocalDate reviewDate;
     private String author;
-    private String gameOfReference; // valutare se mettere come tipo Game invece di String
+    private String gameOfReference;
     private String title;
 
     public Review(String reviewText, LocalDate reviewDate, String author, String gameOfReference, String title){

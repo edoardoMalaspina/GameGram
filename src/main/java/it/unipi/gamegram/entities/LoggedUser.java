@@ -6,6 +6,7 @@ public class LoggedUser {
 
     private static LoggedUser user = null;
     private static User logged = null;
+
     private LoggedUser(){};
 
     public static LoggedUser getInstance(){

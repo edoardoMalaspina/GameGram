@@ -4,6 +4,7 @@ import it.unipi.gamegram.GameGramApplication;
 import it.unipi.gamegram.entities.LoggedUser;
 import it.unipi.gamegram.entities.Review;
 import it.unipi.gamegram.managersMongoDB.ReviewManagerMongoDB;
+import it.unipi.gamegram.managersNeo4j.ReviewManagerNeo4j;
 import it.unipi.gamegram.managersNeo4j.UserManagerNeo4j;
 import it.unipi.gamegram.singletons.GameSingleton;
 import javafx.fxml.FXML;
@@ -46,7 +47,7 @@ public class WriteReviewController {
             return;
         }
         ReviewManagerMongoDB.insertReview(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
-        UserManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
+        ReviewManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
         outcomeMessage.setText("Review submitted. Go back to game's page.");
         submit.setDisable(true);
     }
