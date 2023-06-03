@@ -7,20 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bfc43d0-3776-4566-aed6-ebf3c7ce98ef" name="Changes" comment="Finished cleaning and comments">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/test/TestPipelinesMongoDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_24_2023_8_39_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_24_2023_8_39_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="5bfc43d0-3776-4566-aed6-ebf3c7ce98ef" name="Changes" comment="mongo pipelines tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/MostReviewedTrendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/MostReviewedTrendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/PriceTrendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/PriceTrendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/UserPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/UserPageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/UserReviewsTrendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/UserReviewsTrendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/WriteReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/controllers/WriteReviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/managersMongoDB/GameManagerMongoDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/managersMongoDB/GameManagerMongoDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/managersMongoDB/UserManagerMongoDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/managersMongoDB/UserManagerMongoDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/utility/PopulatingGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/utility/PopulatingGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/managersNeo4j/UserManagerNeo4j.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/gamegram/managersNeo4j/UserManagerNeo4j.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +89,7 @@
       <recent name="it.unipi.gamegram" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestPipelinesMongoDB">
+  <component name="RunManager" selected="Application.GameGramApplication">
     <configuration name="GameGramApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.unipi.gamegram.GameGramApplication" />
       <module name="GameGram" />
@@ -168,8 +157,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestPipelinesMongoDB" />
         <item itemvalue="Application.GameGramApplication" />
+        <item itemvalue="Application.TestPipelinesMongoDB" />
         <item itemvalue="Application.TestSimpleMethodsNeo4j" />
         <item itemvalue="Application.PopulatingGraph" />
         <item itemvalue="Application.UserManagerNeo4j" />
@@ -486,7 +475,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685558532089</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="mongo pipelines tests">
+      <created>1685625592834</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1685625592834</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -501,7 +497,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added show reviews option for every user (not only the logged one) and created classes to show reviews starting from a game, not an user." />
     <MESSAGE value="Solved some singleton bugs, deleted the admincontroller class (wont be necessary)." />
     <MESSAGE value="Implemented all of the admin's functions (add/delete game, delete review, delete user). Implemented the write review function. Solved some bugs. Put the date converter in a dedicated class (Needed them for reviews, not only games)." />
     <MESSAGE value="Corrected a bug that brought you back to the wrong page after opening a review page from a user page. Corrected a bug that prevented an admin to add a game without price or date of publication, due to typing stuff." />
@@ -526,7 +521,8 @@
     <MESSAGE value="Mega Push un sacco di cose (mongo db query, full description implemented, un sacco)" />
     <MESSAGE value="Fixed 3rd query" />
     <MESSAGE value="Finished cleaning and comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished cleaning and comments" />
+    <MESSAGE value="mongo pipelines tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="mongo pipelines tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
