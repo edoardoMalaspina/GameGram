@@ -123,13 +123,23 @@ public class UserPageController {
     @FXML
     private void delete() throws IOException {
         if (UserSingleton.getNick().equals(LoggedUser.getLoggedUser().getNick())) {
-            UserManagerMongoDB.deleteUser(UserSingleton.getNick());
+            try {
+                UserManagerMongoDB.deleteUser(UserSingleton.getNick());
+                UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
+            } catch (Exception e){
+                outcomeMessage.setText("Error while deleting user's profile");
+            }
             UserSingleton.setNull();
             LoggedUser.logOut();
             GameGramApplication.setRoot("start");
+            return;
         }
-        UserManagerMongoDB.deleteUser(UserSingleton.getNick());
-        UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
+        try {
+            UserManagerMongoDB.deleteUser(UserSingleton.getNick());
+            UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
+        } catch (Exception e){
+            outcomeMessage.setText("Error while deleting user's profile");
+        }
         UserSingleton.setNull();
         GameGramApplication.setRoot("userhome");
     }

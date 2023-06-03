@@ -84,8 +84,12 @@ public class InsertGameController {
         }
 
         // Insert the game into the database
-        GameManagerMongoDB.insertGame(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
-        GameManagerNeo4j.addGameNode(new Game(name));
+        try {
+            GameManagerMongoDB.insertGame(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
+            GameManagerNeo4j.addGameNode(new Game(name));
+        } catch(Exception e){
+            outcomeMessage.setText("Error while inserting new game");
+        }
         outcomeMessage.setText("Successfully added.");
     }
 }

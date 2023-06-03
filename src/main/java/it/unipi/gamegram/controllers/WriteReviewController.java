@@ -46,8 +46,12 @@ public class WriteReviewController {
             outcomeMessage.setText("Fill all the fields.");
             return;
         }
-        ReviewManagerMongoDB.insertReview(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
-        ReviewManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
+        try {
+            ReviewManagerMongoDB.insertReview(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
+            ReviewManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
+        } catch (Exception e){
+            outcomeMessage.setText("Error while adding review.");
+        }
         outcomeMessage.setText("Review submitted. Go back to game's page.");
         submit.setDisable(true);
     }

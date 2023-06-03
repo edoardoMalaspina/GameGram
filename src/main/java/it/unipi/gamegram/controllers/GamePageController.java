@@ -127,8 +127,12 @@ public class GamePageController {
 
     @FXML
     private void delete() throws IOException {
-        GameManagerMongoDB.deleteGame(GameSingleton.getName());
-        GameManagerNeo4j.deleteGameNode(GameSingleton.getName());
+        try {
+            GameManagerMongoDB.deleteGame(GameSingleton.getName());
+            GameManagerNeo4j.deleteGameNode(GameSingleton.getName());
+        } catch(Exception e){
+            outcomeMessage.setText("Error while deleting game");
+        }
         GameSingleton.setNull();
         GameGramApplication.setRoot("userhome");
     }
