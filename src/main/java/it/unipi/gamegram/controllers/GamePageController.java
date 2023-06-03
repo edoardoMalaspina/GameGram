@@ -1,7 +1,8 @@
 package it.unipi.gamegram.controllers;
+
 import it.unipi.gamegram.GameGramApplication;
-import it.unipi.gamegram.entities.LoggedUser;
 import it.unipi.gamegram.entities.Game;
+import it.unipi.gamegram.entities.LoggedUser;
 import it.unipi.gamegram.managersMongoDB.GameManagerMongoDB;
 import it.unipi.gamegram.managersMongoDB.ReviewManagerMongoDB;
 import it.unipi.gamegram.managersNeo4j.GameManagerNeo4j;
@@ -61,11 +62,11 @@ public class GamePageController {
 
     @FXML
     private Button delete;
-    
+
     public void initialize() {
         delete.setVisible(false);
         delete.setDisable(true);
-        if(LoggedUser.getIsAdmin()) {
+        if (LoggedUser.getIsAdmin()) {
             delete.setVisible(true);
             delete.setDisable(false);
         }
@@ -88,7 +89,7 @@ public class GamePageController {
 
     @FXML
     private void writeReview() throws IOException {
-        if(ReviewManagerMongoDB.findReviewByGameAndAuthor(GameSingleton.getName(), LoggedUser.getLoggedUser().getNick())){
+        if (ReviewManagerMongoDB.findReviewByGameAndAuthor(GameSingleton.getName(), LoggedUser.getLoggedUser().getNick())) {
             outcomeMessage.setText("You already wrote a review for this game.");
             return;
         }
@@ -96,9 +97,9 @@ public class GamePageController {
     }
 
     @FXML
-    private void like() throws IOException {
+    private void like() {
         Game game = new Game(GameSingleton.getName());
-        if(UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)){
+        if (UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)) {
             outcomeMessage.setText("Game already liked.");
             return;
         }
@@ -108,9 +109,9 @@ public class GamePageController {
     }
 
     @FXML
-    private void unlike() throws IOException {
+    private void unlike() {
         Game game = new Game(GameSingleton.getName());
-        if(!UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)){
+        if (!UserManagerNeo4j.checkIfAlreadyLiked(LoggedUser.getLoggedUser(), game)) {
             outcomeMessage.setText("Game not liked yet.");
             return;
         }
@@ -118,19 +119,22 @@ public class GamePageController {
         numberOfLikes.setText("Number of likes: " + UserManagerNeo4j.countLikes(GameSingleton.getName()));
         outcomeMessage.setText("Game successfully unliked.");
     }
-    @FXML
-    private void back() throws IOException {
-        GameGramApplication.setRoot("userhome");}
 
     @FXML
     private void showFullDescription() throws IOException {
-        GameGramApplication.setRoot("showfulldescription");}
+        GameGramApplication.setRoot("showfulldescription");
+    }
 
     @FXML
     private void delete() throws IOException {
         GameManagerMongoDB.deleteGame(GameSingleton.getName());
         GameManagerNeo4j.deleteGameNode(GameSingleton.getName());
         GameSingleton.setNull();
-        GameGramApplication.setRoot("userhome");}
+        GameGramApplication.setRoot("userhome");
+    }
 
+    @FXML
+    private void back() throws IOException {
+        GameGramApplication.setRoot("userhome");
+    }
 }

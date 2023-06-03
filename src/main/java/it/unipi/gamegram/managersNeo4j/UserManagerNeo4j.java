@@ -2,12 +2,14 @@ package it.unipi.gamegram.managersNeo4j;
 
 import it.unipi.gamegram.drivers.Neo4jDriver;
 import it.unipi.gamegram.entities.Game;
-import it.unipi.gamegram.entities.Review;
 import it.unipi.gamegram.entities.User;
-import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.TransactionWork;
+
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
 
 public class UserManagerNeo4j {
 
@@ -146,19 +148,6 @@ public class UserManagerNeo4j {
             return false;
         }
     }
-
-    // method to check if a user already wrote a review for a game
-    private static boolean checkIfAlreadyReviewed(User usr, Game game){
-        try (Session session =  Neo4jDriver.getInstance().session()) {
-            Result result = session.run("MATCH (n1 {nick: '"+ usr.getNick() +"'})-[:REVIEWED]->(n2 {name: '"+ game.getName() +"'})" +
-                    "RETURN COUNT(*) > 0 as reviewExists");
-            return result.single().get("reviewExists").asBoolean();
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 
     // method to delete Follow relationship in neo4j between two users
     public static boolean unfollow(User follower, User followed){

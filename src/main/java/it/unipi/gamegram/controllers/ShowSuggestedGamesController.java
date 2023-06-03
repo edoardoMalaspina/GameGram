@@ -11,13 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.io.IOException;
 import java.util.List;
 
 public class ShowSuggestedGamesController {
     @FXML
-    TableView <Game> gameTable = new TableView< >();
+    TableView<Game> gameTable = new TableView<>();
 
     @FXML
     ContextMenu cm = new ContextMenu();
@@ -31,32 +30,29 @@ public class ShowSuggestedGamesController {
     @FXML
     private Label title;
 
-    private ObservableList< Game > olGames;
-
     @FXML
     public void initialize() {
         User user = LoggedUser.getLoggedUser();
         title.setText("Games you might like");
 
         TableColumn nameCol = new TableColumn("name");
-        nameCol.setCellValueFactory(new PropertyValueFactory< >("name"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         gameTable.getColumns().addAll(nameCol);
 
-        olGames = FXCollections.observableArrayList();
+        ObservableList<Game> olGames = FXCollections.observableArrayList();
 
         gameTable.setItems(olGames);
 
-
         List<String> games = UserManagerNeo4j.suggestTrendingNowAmongFollowed(user);
 
-        for(String g:games){
+        for (String g : games) {
             olGames.add(new Game(g));
         }
     }
 
     @FXML
-    public void showGamePage() throws IOException{
+    public void showGamePage() throws IOException {
         GameSingleton.setNull();
         GameSingleton.getInstance(gameTable.getSelectionModel().getSelectedItem().getName());
         GameGramApplication.setRoot("gamepage");

@@ -3,7 +3,6 @@ package it.unipi.gamegram.controllers;
 import it.unipi.gamegram.GameGramApplication;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
 import java.io.IOException;
 
 public class StartController {

@@ -9,7 +9,6 @@ import it.unipi.gamegram.singletons.UserSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-
 import java.io.IOException;
 
 public class UserPageController {
@@ -54,15 +53,20 @@ public class UserPageController {
     private Button delete;
 
     public void initialize() {
+        // Check what to display
         delete.setVisible(false);
         delete.setDisable(true);
         promoteAdmin.setVisible(false);
         promoteAdmin.setDisable(true);
-        if(LoggedUser.getIsAdmin()) {
+        if (LoggedUser.getIsAdmin()) {
             delete.setVisible(true);
             delete.setDisable(false);
             promoteAdmin.setVisible(true);
             promoteAdmin.setDisable(false);
+        }
+        if (LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())){
+            delete.setVisible(true);
+            delete.setDisable(false);
         }
         String nickTitle = UserSingleton.getNick();
         User user = new User(UserManagerMongoDB.findUserByNick(nickTitle));
@@ -86,13 +90,14 @@ public class UserPageController {
     }
 
     @FXML
-    private void follow() throws IOException {
-        if(LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())){
+    private void follow() {
+        // Check if logged user is on his own page
+        if (LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())) {
             outcomeMessage.setText("You can't follow yourself.");
             return;
         }
         User user = new User(UserSingleton.getNick());
-        if(UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
+        if (UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)) {
             outcomeMessage.setText("User already followed.");
             return;
         }
@@ -101,15 +106,15 @@ public class UserPageController {
     }
 
     @FXML
-    private void unfollow() throws IOException {
-        if(LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())){
+    private void unfollow() {
+        if (LoggedUser.getLoggedUser().getNick().equals(UserSingleton.getNick())) {
             outcomeMessage.setText("You can't unfollow yourself.");
             return;
         }
         User user = new User(UserSingleton.getNick());
-        if(!UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)){
+        if (!UserManagerNeo4j.checkIfAlreadyFollowed(LoggedUser.getLoggedUser(), user)) {
             outcomeMessage.setText("You don't follow this user yet.");
-        return;
+            return;
         }
         UserManagerNeo4j.unfollow(LoggedUser.getLoggedUser(), user);
         outcomeMessage.setText("User successfully unfollowed.");
@@ -117,11 +122,12 @@ public class UserPageController {
 
     @FXML
     private void delete() throws IOException {
-        if(UserSingleton.getNick().equals(LoggedUser.getLoggedUser().getNick())){
+        if (UserSingleton.getNick().equals(LoggedUser.getLoggedUser().getNick())) {
             UserManagerMongoDB.deleteUser(UserSingleton.getNick());
             UserSingleton.setNull();
             LoggedUser.logOut();
-            GameGramApplication.setRoot("start");}
+            GameGramApplication.setRoot("start");
+        }
         UserManagerMongoDB.deleteUser(UserSingleton.getNick());
         UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
         UserSingleton.setNull();
@@ -129,20 +135,20 @@ public class UserPageController {
     }
 
     @FXML
-    private void promoteAdmin() throws IOException {
+    private void promoteAdmin() {
         User user = new User(UserManagerMongoDB.findUserByNick(UserSingleton.getNick()));
-        if(user.getIsAdmin().equals("Yes")){
+        if (user.getIsAdmin().equals("Yes")) {
             outcomeMessage.setText("User already admin.");
-            return;}
+            return;
+        }
         user.promoteAdmin();
         user.setIsAdmin("Yes");
         isadmin.setText("Admin: " + user.getIsAdmin());
         outcomeMessage.setText("Successfully promoted.");
-        }
+    }
 
     @FXML
     private void back() throws IOException {
         GameGramApplication.setRoot("userhome");
     }
-
 }

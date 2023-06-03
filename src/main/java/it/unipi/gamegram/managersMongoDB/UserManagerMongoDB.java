@@ -1,15 +1,22 @@
 package it.unipi.gamegram.managersMongoDB;
+
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import it.unipi.gamegram.drivers.MongoDBDriver;
+import it.unipi.gamegram.entities.User;
 import org.bson.Document;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import java.util.ArrayList;
-import static com.mongodb.client.model.Filters.and;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.eq;
 
 public class UserManagerMongoDB {
 
-    public static boolean checkCredentials (String nick, String password) {
+    // Check if credentials provided for logging in are correct
+    public static boolean checkCredentials(String nick, String password) {
         try {
             MongoDBDriver md = MongoDBDriver.getInstance();
             MongoCollection<Document> collection = md.getCollection("users");
@@ -22,7 +29,8 @@ public class UserManagerMongoDB {
         return false;
     }
 
-    public static boolean checkNick (String nick) {
+    // Checks if a nick is present in the collection
+    public static boolean checkNick(String nick) {
         try {
             MongoDBDriver md = MongoDBDriver.getInstance();
             MongoCollection<Document> collection = md.getCollection("users");
@@ -35,34 +43,21 @@ public class UserManagerMongoDB {
         return false;
     }
 
+    // Finds a user by its unique nickname
     public static Document findUserByNick(String nick) {
-        MongoDBDriver driver = null;
-        MongoCollection<Document> collection = null;
+        MongoDBDriver driver;
+        MongoCollection<Document> collection;
         try {
             driver = MongoDBDriver.getInstance();
             collection = driver.getCollection("users");
-            Document user = collection.find(eq("nick", nick)).first();
-            return user;
+            return collection.find(eq("nick", nick)).first();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static boolean isAdmin(String nick) {
-        MongoDBDriver driver = null;
-        MongoCollection<Document> collection = null;
-        try {
-            driver = MongoDBDriver.getInstance();
-            collection = driver.getCollection("users");
-            MongoCursor<Document> cursor = collection.find(and(eq("nick", nick),eq("isadmin", "Yes"))).iterator();
-            return(cursor.hasNext());
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
+    // Delete a user from MongoDB's collection
     public static void deleteUser(String nick) {
         try {
             MongoDBDriver md;
@@ -75,6 +70,7 @@ public class UserManagerMongoDB {
         }
     }
 
+    // Add a user into the MongoDB collections from the signup form
     public static void register(String nick, String password, String name, String surname) {
         try {
             MongoDBDriver md;
@@ -85,7 +81,7 @@ public class UserManagerMongoDB {
                     .append("name", name)
                     .append("lastname", surname)
                     .append("isadmin", "No")
-                    .append("reviews",new ArrayList<Document>());
+                    .append("reviews", new ArrayList<Document>());
             md = MongoDBDriver.getInstance();
             collection = md.getCollection("users");
             collection.insertOne(user);
@@ -94,8 +90,40 @@ public class UserManagerMongoDB {
         }
     }
 
+    public static DefaultCategoryDataset userReviewsTrend(User user) {
+        try {
+            MongoDBDriver driver = MongoDBDriver.getInstance();
+            MongoCollection<Document> collection = driver.getCollection("users");
 
+            // Construct the aggregation pipeline
+            List<Document> pipeline = Arrays.asList(
+                    new Document("$match", new Document("nick", user.getNick())),
+                    new Document("$unwind", "$reviews"),
+                    new Document("$group", new Document("_id", new Document("year",
+                            new Document("$dateToString", new Document("format", "%Y").append("date", "$reviews.review_date"))))
+                            .append("reviewCount", new Document("$sum", 1))),
+                    new Document("$sort", new Document("_id.year", 1))
+            );
 
+            // Execute the aggregation pipeline
+            AggregateIterable<Document> result = collection.aggregate(pipeline);
 
+            // Create the dataset for the histogram
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+            for (Document document : result) {
+                Document yearObj = document.get("_id", Document.class);
+                String year = yearObj.getString("year");
+                int reviewCount = document.getInteger("reviewCount");
+
+                // Add data to the dataset
+                dataset.addValue(reviewCount, "Review Count", year);
+            }
+            return dataset;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
