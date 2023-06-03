@@ -56,6 +56,7 @@ public class InsertGameController {
         String shortDescription;
         String fullDescription;
 
+
         name = gameName.getText();
         dateOfPublication = gameDateOfPublication.getValue();
         developer = gameDeveloper.getText();
@@ -77,14 +78,10 @@ public class InsertGameController {
             return;
         }
 
-        try {
-            GameManagerMongoDB.insertGame(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
-            GameManagerNeo4j.addGameNode(new Game(name));
-            outcomeMessage.setText("Successfully added.");
-            return;
-        } catch (Exception e){
-            outcomeMessage.setText("there is a problem, insertion aborted");
-        }
+        GameManagerMongoDB.insertGame(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
+        GameManagerNeo4j.addGameNode(new Game(name));
+        outcomeMessage.setText("Successfully added.");
+        return;
     }
 
 }

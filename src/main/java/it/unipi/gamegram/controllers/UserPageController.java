@@ -122,12 +122,8 @@ public class UserPageController {
             UserSingleton.setNull();
             LoggedUser.logOut();
             GameGramApplication.setRoot("start");}
-        try {
-            UserManagerMongoDB.deleteUser(UserSingleton.getNick());
-            UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
-        } catch(Exception e){
-            outcomeMessage.setText("Error while deleting user");
-        }
+        UserManagerMongoDB.deleteUser(UserSingleton.getNick());
+        UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
         UserSingleton.setNull();
         GameGramApplication.setRoot("userhome");
     }

@@ -46,14 +46,10 @@ public class WriteReviewController {
             outcomeMessage.setText("Fill all the fields.");
             return;
         }
-        try {
-            ReviewManagerMongoDB.insertReview(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
-            ReviewManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
-            outcomeMessage.setText("Review submitted. Go back to game's page.");
-            submit.setDisable(true);
-        } catch (Exception e){
-            outcomeMessage.setText("Problem occurred, try to write again your review");
-        }
+        ReviewManagerMongoDB.insertReview(LoggedUser.getLoggedUser().getNick(), LocalDate.now(), title, text, GameSingleton.getName());
+        ReviewManagerNeo4j.addReviewLink(new Review(text, LocalDate.now(), LoggedUser.getLoggedUser().getNick(), GameSingleton.getName(), title));
+        outcomeMessage.setText("Review submitted. Go back to game's page.");
+        submit.setDisable(true);
     }
 
 }
