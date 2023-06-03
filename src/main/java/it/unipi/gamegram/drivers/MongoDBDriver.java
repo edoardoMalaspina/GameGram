@@ -1,5 +1,4 @@
 package it.unipi.gamegram.drivers;
-
 import org.bson.Document;
 
 import com.mongodb.client.MongoClient;
@@ -17,7 +16,7 @@ public class MongoDBDriver {
         client = MongoClients.create("mongodb://10.1.1.14:27017," +
         "10.1.1.13:27017," +
                 "10.1.1.12:27017" +
-                "/?retryWrites=true&w=2&wtimeoutMS=5000&readPreference=nearest");
+                "/?retryWrites=true&w=1&wtimeoutMS=5000&readPreference=nearest");
         database = client.getDatabase("GameGram");
     }
 

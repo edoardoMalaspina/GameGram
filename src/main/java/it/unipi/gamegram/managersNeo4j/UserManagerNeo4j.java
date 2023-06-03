@@ -7,6 +7,7 @@ import it.unipi.gamegram.entities.User;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserManagerNeo4j {
@@ -290,75 +291,6 @@ public class UserManagerNeo4j {
 
 
     public static void main(String[] args){
-
-       // Neo4jDriver dbManager = new Neo4jDriver();
-/*
-        User usr1 = new User("a", "b", "d_rowe2583");
-        User usr2 = new User("c", "d","m_linda3865");
-        User usr3 = new User("e", "f","pluto");
-        User usr4 = new User("g", "h", "niko_pandetta");
-        User usr5 = new User("i", "l", "gennaro");
-
-
-        addUserNode(usr1);
-        addUserNode(usr2);
-        addUserNode(usr3);
-        addUserNode(usr4);
-        addUserNode(usr5);
-
-        LocalDate data = LocalDate.now();
-
-        LocalDate dataa = LocalDate.now();
-        Game pippo = new Game("paperino", "developer", dataa, 50);
-
-        GameManagerNeo4j.addGameNode(pippo);
-        addDirectedLinkLike(usr4, pippo);
-
-        Review review = new Review(dataa, "niko_pandetta", "paperino", "aaaaaaaa");
-        addDirectedLinkReviewed(review);
-
-        addDirectedLinkFollow(usr4, usr3);
-        addDirectedLinkFollow(usr4, usr1);
-        addDirectedLinkFollow(usr2, usr1);
-        addDirectedLinkFollow(usr5, usr2);
-        addDirectedLinkFollow(usr5, usr4);
-
-        /*
-        User suggested = suggestFriend(usr5);
-        System.out.println(suggested.getNick());
-         */
-        /*
-        cancelReview(usr4, pippo);
-        unfollow(usr4, usr3);
-        */
-        /*
-        ArrayList<Game> list = getListLikedGames(usr4);
-        for (Game game:list){
-            System.out.println(game.getName());
-        }
-
-        ArrayList<Like> lista = getLikedGameDated(usr4);
-        for (Like like:lista){
-            System.out.println(like.nameOfTheGame + " " + like.dayPassedSinceLike);
-        }
-
-        unlike(usr4, pippo);
-
-
-        User usr1 = new User("edoardo", "edoardo", "edoardo");
-        User usr2 = new User("i", "l","gennaro");
-
-        addUserNode(usr1);
-        addUserNode(usr2);
-        GameManagerNeo4j.addGameNode(pippo);
-        GameManagerNeo4j.addGameNode(pluto);
-
-        addDirectedLinkLike(usr2, pippo);
-        addDirectedLinkLike(usr2, pluto);
-
-        addDirectedLinkFollow(usr2, usr1);
-        */
-
 
     }
 

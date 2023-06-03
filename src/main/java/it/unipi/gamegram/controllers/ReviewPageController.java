@@ -56,9 +56,14 @@ public class ReviewPageController {
 
     @FXML
     private void delete() throws IOException {
-        ReviewManagerMongoDB.deleteReview(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
-        ReviewManagerNeo4j.cancelReview(ReviewSingleton.getReview().getAuthor(),ReviewSingleton.getReview().getGameOfReference());
-        ReviewSingleton.setNull();
+        try {
+            ReviewManagerMongoDB.deleteReview(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
+            ReviewManagerNeo4j.cancelReview(ReviewSingleton.getReview().getAuthor(), ReviewSingleton.getReview().getGameOfReference());
+            ReviewSingleton.setNull();
+        } catch (Exception e){
+            System.out.println("Error occurred while deleting review: ");
+            e.printStackTrace();
+        }
         if (ReviewSingleton.getFlag())
             GameGramApplication.setRoot("showgamereviews");
         else

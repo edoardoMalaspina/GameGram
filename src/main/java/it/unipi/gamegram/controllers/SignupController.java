@@ -70,8 +70,12 @@ public class SignupController {
             return;
         }
 
-        UserManagerMongoDB.register(nick, password, name, surname);
-        UserManagerNeo4j.addUserNode(nick);
+        try {
+            UserManagerMongoDB.register(nick, password, name, surname);
+            UserManagerNeo4j.addUserNode(nick);
+        } catch (Exception e){
+            outcomeMessage.setText("Error while registering user");
+        }
         outcomeMessage.setText("Successfully registered, go back to login.");
         return;
     }

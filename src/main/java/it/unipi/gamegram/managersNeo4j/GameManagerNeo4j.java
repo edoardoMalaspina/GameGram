@@ -6,7 +6,7 @@ import org.neo4j.driver.TransactionWork;
 
 public class GameManagerNeo4j {
 
-    // method to delete a game node from the
+    // method to delete a game node in the neo4j graph
     public static void deleteGameNode(String game){
         try(Session session= Neo4jDriver.getInstance().session()){
             session.writeTransaction((TransactionWork<Void>) tx -> {
@@ -19,7 +19,7 @@ public class GameManagerNeo4j {
         }
     }
 
-    // method to add in the neo4j graph a node corresponding to a game
+    // method to add a node corresponding to a game in the neo4j graph
     public static void addGameNode(Game game){
         try (Session session = Neo4jDriver.getInstance().session()) {
             session.writeTransaction((TransactionWork<Void>) tx -> {

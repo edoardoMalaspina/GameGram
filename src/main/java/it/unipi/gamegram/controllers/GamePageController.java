@@ -127,10 +127,15 @@ public class GamePageController {
         GameGramApplication.setRoot("showfulldescription");}
 
     @FXML
-    private void delete() throws IOException {
-        GameManagerMongoDB.deleteGame(GameSingleton.getName());
-        GameManagerNeo4j.deleteGameNode(GameSingleton.getName());
-        GameSingleton.setNull();
-        GameGramApplication.setRoot("userhome");}
+    private void delete() {
+        try {
+            GameManagerMongoDB.deleteGame(GameSingleton.getName());
+            GameManagerNeo4j.deleteGameNode(GameSingleton.getName());
+            GameSingleton.setNull();
+            GameGramApplication.setRoot("userhome");
+        } catch(Exception e){
+            outcomeMessage.setText("Error while deleting game");
+        }
+    }
 
 }
