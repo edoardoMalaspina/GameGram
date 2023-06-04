@@ -127,10 +127,22 @@ public class GamePageController {
 
     @FXML
     private void delete() throws IOException {
+        // save a copy in case it has to be inserted again
+        Game tmp = new Game(GameManagerMongoDB.findGameByName(GameSingleton.getName()));
+        // flag to know which database has problem
+        boolean flag = true;
         try {
             GameManagerMongoDB.deleteGame(GameSingleton.getName());
+            // MongoDB's operation successfully completed
+            flag = false;
             GameManagerNeo4j.deleteGameNode(GameSingleton.getName());
         } catch(Exception e){
+            if(!flag) {
+                // if enters here the database with a problem was Noe4j
+                // add again the Game in MongoDB for consistency
+                GameManagerMongoDB.insertGame(tmp.getName(), tmp.getDateOfPublication(), tmp.getDeveloper(),
+                        tmp.getPublisher(), tmp.getPrice(), tmp.getShortDescription(), tmp.getFullDescription());
+            }
             outcomeMessage.setText("Error while deleting game");
         }
         GameSingleton.setNull();

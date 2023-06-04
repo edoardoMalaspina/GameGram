@@ -83,11 +83,19 @@ public class InsertGameController {
             return;
         }
 
+        // flag to check which database encountered problems
+        boolean flag = true;
         // Insert the game into the database
         try {
             GameManagerMongoDB.insertGame(name, dateOfPublication, developer, publisher, price, shortDescription, fullDescription);
+            // MongoDB's operation successfully completed
+            flag = false;
             GameManagerNeo4j.addGameNode(new Game(name));
         } catch(Exception e){
+            if(!flag)
+                // if enters here the database which has problem was Neo4j
+                // proceed to delete the game also in MongoDB for consistency
+                GameManagerMongoDB.deleteGame(name);
             outcomeMessage.setText("Error while inserting new game");
         }
         outcomeMessage.setText("Successfully added.");

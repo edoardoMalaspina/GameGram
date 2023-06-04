@@ -83,9 +83,9 @@ public class PopulatingGraph {
 
 
     public static void main(String[] args){
-        PopulatingGraph.addListOfUsers("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\users.csv");
-        addListOfGames("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\datasetFinalePulitoRemovedWhitespacesSingleCopy.csv");
-        addListReview("C:\\Users\\edoar\\Desktop\\datasetProgettoGiusti\\reviewWithAuthor.csv");
+        PopulatingGraph.addListOfUsers("users.csv");
+        addListOfGames("games.csv");
+        addListReview("reviewWithAuthor.csv");
     }
 
 }

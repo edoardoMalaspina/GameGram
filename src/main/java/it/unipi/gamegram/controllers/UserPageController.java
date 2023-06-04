@@ -122,11 +122,19 @@ public class UserPageController {
 
     @FXML
     private void delete() throws IOException {
+        // flag to check if a problem occurs in MongoDB or in Neo4j
+        boolean flag = true;
+        User tmp = new User( UserManagerMongoDB.findUserByNick( UserSingleton.getNick() ) );
         if (UserSingleton.getNick().equals(LoggedUser.getLoggedUser().getNick())) {
             try {
                 UserManagerMongoDB.deleteUser(UserSingleton.getNick());
+                flag = false;
                 UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
             } catch (Exception e){
+                if(!flag)
+                    // if enters here the problem has been in Neo4j
+                    // add again the user in MongoDB for consistency
+                    UserManagerMongoDB.register(tmp.getNick(), tmp.getPassword(), tmp.getFirstName(), tmp.getLastName());
                 outcomeMessage.setText("Error while deleting user's profile");
             }
             UserSingleton.setNull();
@@ -134,10 +142,14 @@ public class UserPageController {
             GameGramApplication.setRoot("start");
             return;
         }
+        flag = true;
         try {
             UserManagerMongoDB.deleteUser(UserSingleton.getNick());
+            flag = false;
             UserManagerNeo4j.deleteUserNode(UserSingleton.getNick());
         } catch (Exception e){
+            if(!flag)
+                UserManagerMongoDB.register(tmp.getNick(), tmp.getPassword(), tmp.getFirstName(), tmp.getLastName());
             outcomeMessage.setText("Error while deleting user's profile");
         }
         UserSingleton.setNull();

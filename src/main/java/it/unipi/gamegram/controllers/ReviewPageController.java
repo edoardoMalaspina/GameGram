@@ -58,11 +58,20 @@ public class ReviewPageController {
 
     @FXML
     private void delete() throws IOException {
+        Review tmp = ReviewSingleton.getReview();
+        // flag to check which database has problem
+        boolean flag = true;
         // Delete the review from MongoDB and Neo4j
         try {
             ReviewManagerMongoDB.deleteReview(ReviewSingleton.getReview().getGameOfReference(), ReviewSingleton.getReview().getAuthor());
+            flag = false;
             ReviewManagerNeo4j.cancelReview(ReviewSingleton.getReview().getAuthor(), ReviewSingleton.getReview().getGameOfReference());
         } catch(Exception e){
+            if (!flag)
+                // if enters here the database which has problems is Neo4j
+                // insert the deleted review in MongoDB for consistency
+                ReviewManagerMongoDB.insertReview(tmp.getAuthor(), tmp.getReviewDate(), tmp.getTitle(),
+                        tmp.getReviewText(), tmp.getGameOfReference());
             System.out.println("Error while deleting review.");
             e.printStackTrace();
         }
