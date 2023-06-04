@@ -12,7 +12,7 @@ public class Neo4jDriver{
     private String password;
 
     private Neo4jDriver(){
-        uri = "neo4j://10.1.1.12:7687";
+        uri = "neo4j://localhost:7687";
         user = "neo4j";
         password = "password";
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));

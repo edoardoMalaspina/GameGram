@@ -18,7 +18,7 @@ public class TestPipelinesMongoDB {
     public static void main(String[] args) {
         priceTrendTest();
         mostReviewedPerYearTest();
-        userReviewsTrend();
+        userReviewsTrendTest();
     }
 
     public static void priceTrendTest() {
@@ -118,7 +118,7 @@ public class TestPipelinesMongoDB {
         }
     }
 
-    public static void userReviewsTrend() {
+    public static void userReviewsTrendTest() {
         try {
             MongoDBDriver driver = MongoDBDriver.getInstance();
             MongoCollection < Document > collection = driver.getCollection("users");
