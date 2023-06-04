@@ -3,6 +3,7 @@ package it.unipi.gamegram.managersMongoDB;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import it.unipi.gamegram.drivers.MongoDBDriver;
+import it.unipi.gamegram.entities.Review;
 import it.unipi.gamegram.entities.User;
 import org.bson.Document;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -64,6 +65,11 @@ public class UserManagerMongoDB {
             MongoCollection<Document> collection;
             md = MongoDBDriver.getInstance();
             collection = md.getCollection("users");
+            User user = new User(UserManagerMongoDB.findUserByNick(nick));
+            for (Document reviewDoc: user.getReviews()) {
+                Review review = new Review(reviewDoc);
+                ReviewManagerMongoDB.deleteReview(review.getGameOfReference(), nick);
+            }
             collection.deleteOne(eq("nick", nick));
         } catch (Exception e) {
             e.printStackTrace();

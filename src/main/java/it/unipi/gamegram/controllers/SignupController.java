@@ -70,11 +70,18 @@ public class SignupController {
             outcomeMessage.setText("Weak password (at least 8 characters).");
             return;
         }
-
+        // flag to check which database has a problem
+        boolean flag = true;
         try {
             UserManagerMongoDB.register(nick, password, name, surname);
+            // MongoDB correctly inserted the user
+            flag = false;
             UserManagerNeo4j.addUserNode(nick);
         } catch(Exception e){
+            // means that the problem was Neo4j
+            if(!flag)
+                // remove from MongoDB for consistency
+                UserManagerMongoDB.deleteUser(nick);
             outcomeMessage.setText("Error while signing up");
         }
         outcomeMessage.setText("Successfully registered, go back to login.");

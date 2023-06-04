@@ -17,6 +17,7 @@ public class User {
     private String nick;
     private String isAdmin;
     private List < Document > reviews;
+    private String password;
 
     // Constructors
     public User(String firstName, String lastName, String nick, String password) {
@@ -41,11 +42,18 @@ public class User {
         this.lastName = (document.get("lastname") == null) ? "" : document.getString("lastname");
         this.isAdmin = (document.get("isadmin") == null) ? "" : document.getString("isadmin");
         this.reviews = (document.get("reviews") == null) ? new ArrayList<>() : document.getList("reviews", Document.class);
+        this.password = (document.get("password") == null) ? "" : document.getString("password");
     }
+
+
 
     // Getters
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getLastName() {
