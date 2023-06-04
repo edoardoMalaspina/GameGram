@@ -2,7 +2,9 @@ package it.unipi.gamegram.controllers;
 
 import it.unipi.gamegram.GameGramApplication;
 import it.unipi.gamegram.entities.LoggedUser;
+import it.unipi.gamegram.entities.Review;
 import it.unipi.gamegram.entities.User;
+import it.unipi.gamegram.managersMongoDB.ReviewManagerMongoDB;
 import it.unipi.gamegram.managersMongoDB.UserManagerMongoDB;
 import it.unipi.gamegram.managersNeo4j.UserManagerNeo4j;
 import it.unipi.gamegram.singletons.UserSingleton;
@@ -135,6 +137,11 @@ public class UserPageController {
                     // if enters here the problem has been in Neo4j
                     // add again the user in MongoDB for consistency
                     UserManagerMongoDB.register(tmp.getNick(), tmp.getPassword(), tmp.getFirstName(), tmp.getLastName());
+                    for(int i = 0; i < tmp.getReviews().size(); i++){
+                        Review review = new Review(tmp.getReviews().get(i));
+                        ReviewManagerMongoDB.insertReview(review.getAuthor(), review.getReviewDate(),
+                                review.getTitle(), review.getReviewText(), review.getGameOfReference() );
+                    }
                 outcomeMessage.setText("Error while deleting user's profile");
             }
             UserSingleton.setNull();

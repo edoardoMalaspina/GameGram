@@ -3,6 +3,7 @@ package it.unipi.gamegram.controllers;
 import it.unipi.gamegram.GameGramApplication;
 import it.unipi.gamegram.entities.Game;
 import it.unipi.gamegram.entities.LoggedUser;
+import it.unipi.gamegram.entities.Review;
 import it.unipi.gamegram.managersMongoDB.GameManagerMongoDB;
 import it.unipi.gamegram.managersMongoDB.ReviewManagerMongoDB;
 import it.unipi.gamegram.managersNeo4j.GameManagerNeo4j;
@@ -11,6 +12,7 @@ import it.unipi.gamegram.singletons.GameSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
 import java.io.IOException;
 
 public class GamePageController {
@@ -142,6 +144,11 @@ public class GamePageController {
                 // add again the Game in MongoDB for consistency
                 GameManagerMongoDB.insertGame(tmp.getName(), tmp.getDateOfPublication(), tmp.getDeveloper(),
                         tmp.getPublisher(), tmp.getPrice(), tmp.getShortDescription(), tmp.getFullDescription());
+                for(int i = 0; i < tmp.getReviews().size(); i++){
+                    Review review = new Review(tmp.getReviews().get(i));
+                    ReviewManagerMongoDB.insertReview(review.getAuthor(), review.getReviewDate(),
+                            review.getTitle(), review.getReviewText(), review.getGameOfReference() );
+                }
             }
             outcomeMessage.setText("Error while deleting game");
         }
